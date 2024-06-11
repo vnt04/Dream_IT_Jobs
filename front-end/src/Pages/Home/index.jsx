@@ -1,15 +1,17 @@
-import SlideShow from "./SlideShow";
+import BestCompany from "./BestCompany";
+import BlogHome from "./BlogHome";
+import NewJobs from "./NewJobs";
+import QuickSearch from "./QuickSearch";
 
 function Home() {
-    const ImageSlider = [
-        "/src/assets/ImageSlider/ImageSlider1.png",
-        "/src/assets/ImageSlider/ImageSlider2.jpg",
-        "/src/assets/ImageSlider/ImageSlider3.jpg",
-        "/src/assets/ImageSlider/ImageSlider4.jpg",
-        "/src/assets/ImageSlider/ImageSlider5.png",
-    ]
+
     return (  
-        <SlideShow images={ImageSlider}/>
+       <div>
+           <QuickSearch/>
+           <NewJobs/>
+           <BestCompany/>
+           <BlogHome/>
+       </div> 
     );
 }
 

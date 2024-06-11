@@ -7,13 +7,14 @@ import Footer from './components/Footer'
 function App() {
 
   return (
+
     <>
-    <Navbar/>
-    <div className='under-header'>
-      <Outlet/>
-    </div>
-    <Footer/>
+      <Navbar/>
+      <Outlet/> 
+      <Footer/>
     </>
+    
+    
   )
 }
 

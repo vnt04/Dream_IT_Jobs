@@ -1,26 +1,6 @@
-:root {
-  --background-color: #33afa9;
-  --main_color_1: #feffff;
-  --main_color_2: #17252a;
-}
-
-body {
-  background-color: var(--background-color);
-}
 
 .active {
   color: red;
   font-weight: 500;
 }
-.custom-slider {
-  height: 440px;
-  margin-top: 97px;
-}
 
-.custom-top-button-slider {
-  top: 310px;
-}
-.under-header {
-  /* margin-top: 97px;
-  z-index: 1; */
-}

@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --base_color: #33afa9;
+  --background: #ffffff;
+  --main_color_1: #feffff;
+  --main_color_2: #17252a;
+}
+
+html {
+  
+}
+body {
+  background-color: var(--background);
+  line-height: 1.5;
+  height: 100vh;
+  text-rendering: optimizeSpeed;
+  
+}
