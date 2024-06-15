@@ -1,7 +1,7 @@
 import { FaSearch } from "react-icons/fa";
 import { IoCheckmarkCircle } from "react-icons/io5";
-import { MdOutlineArrowDropDown,MdRadioButtonUnchecked  } from "react-icons/md";
 import { FaFilterCircleXmark } from "react-icons/fa6";
+import { MdOutlineArrowDropDown } from "react-icons/md";
 
 function Search() {
     return (  
@@ -72,7 +72,7 @@ function Search() {
                     </div>
                     
                 </div>
-                <div className="flex gap-4 py-2">
+                {/* <div className="flex gap-4 py-2">
                     <button className="h-10 w-36 p-3 flex items-center justify-between rounded-2xl bg-[#c2c2c2]">
                         <span className="font-semibold text-gray-600">Java</span>
                         <span className= "w-12 rounded-xl text-white bg-background">214</span>
@@ -101,27 +101,7 @@ function Search() {
                         <span className="font-semibold text-gray-600">Khác</span>
                         <span className= "w-12 rounded-xl text-white bg-background">20</span>
                     </button>
-                </div>
-
-                <h1 className="font-semibold mb-2">
-                    Tìm thấy <span className="font-bold text-background"> 3217 </span> công việc phù hợp với bạn
-                </h1>
-
-                <div className="flex border-x-0 border-y py-2">
-                    <h1 className="w-1/6 text-gray-500">Ưu tiên hiển thị:</h1>
-                    <div className="w-1/6 flex items-center gap-2">
-                        <MdRadioButtonUnchecked />
-                        <span>Tin mới nhất</span>
-                    </div>
-                    <div className="w-1/6 flex items-center gap-2">
-                        <MdRadioButtonUnchecked />
-                        <span>Cần tuyển gấp</span>
-                    </div>
-                    <div className="w-1/6 flex items-center gap-2">
-                        <MdRadioButtonUnchecked />
-                        <span>Lương cao nhất</span>
-                    </div>
-                </div>
+                </div> */}
             </div>
         </div>
     );

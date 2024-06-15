@@ -9,13 +9,13 @@ function Footer() {
             <div className="h-96 flex gap-8 py-14">
                 <div className="h-full w-2/6 grid gap-2">
                     <a href="/">
-                        <img src="./src/assets/logo_gray.jpg" alt="logo" className="w-40 h-20" />
+                        <img src="/src/assets/logo_gray.jpg" alt="logo" className="w-40 h-20" />
                     </a>
                     <div >Địa chỉ: QTSC Building 1, Khu Công viên phần mềm Quang Trung, P. Tân Chánh Hiệp, Q.12, TP.HCM, Việt Nam</div>
                     <div >Liên hệ: 028 6273 3496 - contact@dreamitjobs.vn</div>
                     <div>
                         <h1 className="font-bold">Chứng nhận bởi</h1>
-                        <img src="./src/assets/logo_bocongthuong.jpg" alt="logo" className="w-40 h-16 py-2" />
+                        <img src="/src/assets/logo_bocongthuong.jpg" alt="logo" className="w-40 h-16 py-2" />
                     </div>
                 </div>
                 <div className="h-full w-1/6">

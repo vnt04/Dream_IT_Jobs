@@ -51,7 +51,7 @@ function Navbar() {
       {/* Navbar for fullscreen desktop */}
         {/* navbar left - Logo */}
         <a href="/">
-          <img src="./src/assets/logo.jpg" alt="logo" className="w-40 h-20" />
+          <img src="/src/assets/logo.jpg" alt="logo" className="w-40 h-20" />
         </a>
         
         {/* navbar center - MAIN TOOLS */}
