@@ -122,7 +122,7 @@ function ListJobs() {
               >
                 <div className="w-1/3">
                   <img
-                    src={`./src/assets/img-company/${jobData.img}`}
+                    src={`/src/assets/img-company/${jobData.img}`}
                     alt=""
                     className="w-full h-full p-5"
                   />
