@@ -7,6 +7,7 @@ import Forum from "../Pages/Forum";
 import ProfileCV from "../Pages/ProfileCV";
 import Home from "../Pages/Home";
 import JobDetail from "../Pages/JobDetail";
+import Login from "../components/Login";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
       {
         path: "/ho-so-CV",
         element: <ProfileCV />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
       },
     ],
   },
