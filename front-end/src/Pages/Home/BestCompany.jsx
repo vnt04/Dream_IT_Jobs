@@ -24,7 +24,7 @@ function BestCompany() {
                 <div className="flex items-center gap-4 py-3">
                     <div className="h-64 w-1/3 p-4 border-[2px] rounded-xl bg-white">
                         <div className="h-36 w-full flex ">
-                            <img src='./src/assets/img-company/ct1.png' alt="" className="w-full h-full p-5"/>
+                            <img src='./src/assets/img-company/samsung.png' alt="" className="w-full h-full p-5"/>
                             <CiBookmark className="size-8" />
                         </div>
                         <div className=" font-bold text-[14px]">
@@ -40,7 +40,7 @@ function BestCompany() {
                     </div>
                     <div className="h-64 w-1/3 p-4 border-[2px] rounded-xl bg-white">
                         <div className="h-36 w-full flex ">
-                            <img src='./src/assets/img-company/ct1.png' alt="" className="w-full h-full p-5"/>
+                            <img src='./src/assets/img-company/cybozu.jpg' alt="" className="w-full h-full p-5"/>
                             <CiBookmark className="size-8" />
                         </div>
                         <div className=" font-bold text-[14px]">
@@ -56,7 +56,7 @@ function BestCompany() {
                     </div>
                     <div className="h-64 w-1/3 p-4 border-[2px] rounded-xl bg-white">
                         <div className="h-36 w-full flex ">
-                            <img src='./src/assets/img-company/ct1.png' alt="" className="w-full h-full p-5"/>
+                            <img src='./src/assets/img-company/emesoft.jpg' alt="" className="w-full h-full p-5"/>
                             <CiBookmark className="size-8" />
                         </div>
                         <div className=" font-bold text-[14px]">
@@ -75,7 +75,7 @@ function BestCompany() {
                 <div className="flex items-center gap-4 py-3">
                     <div className="h-64 w-1/3 p-4 border-[2px] rounded-xl bg-white">
                         <div className="h-36 w-full flex ">
-                            <img src='./src/assets/img-company/ct1.png' alt="" className="w-full h-full p-5"/>
+                            <img src='./src/assets/img-company/fpt.png' alt="" className="w-full h-full p-5"/>
                             <CiBookmark className="size-8" />
                         </div>
                         <div className=" font-bold text-[14px]">
@@ -91,7 +91,7 @@ function BestCompany() {
                     </div>
                     <div className="h-64 w-1/3 p-4 border-[2px] rounded-xl bg-white">
                         <div className="h-36 w-full flex ">
-                            <img src='./src/assets/img-company/ct1.png' alt="" className="w-full h-full p-5"/>
+                            <img src='./src/assets/img-company/laidon.png' alt="" className="w-full h-full p-5"/>
                             <CiBookmark className="size-8" />
                         </div>
                         <div className=" font-bold text-[14px]">
@@ -107,7 +107,7 @@ function BestCompany() {
                     </div>
                     <div className="h-64 w-1/3 p-4 border-[2px] rounded-xl bg-white">
                         <div className="h-36 w-full flex ">
-                            <img src='./src/assets/img-company/ct1.png' alt="" className="w-full h-full p-5"/>
+                            <img src='./src/assets/img-company/samsung.png' alt="" className="w-full h-full p-5"/>
                             <CiBookmark className="size-8" />
                         </div>
                         <div className=" font-bold text-[14px]">
@@ -127,7 +127,7 @@ function BestCompany() {
                 <div className="flex items-center gap-4 py-3">
                     <div className="h-64 w-1/3 p-4 border-[2px] rounded-xl bg-white">
                         <div className="h-36 w-full flex ">
-                            <img src='./src/assets/img-company/ct1.png' alt="" className="w-full h-full p-5"/>
+                            <img src='./src/assets/img-company/eaera.png' alt="" className="w-full h-full p-5"/>
                             <CiBookmark className="size-8" />
                         </div>
                         <div className=" font-bold text-[14px]">
@@ -143,7 +143,7 @@ function BestCompany() {
                     </div>
                     <div className="h-64 w-1/3 p-4 border-[2px] rounded-xl bg-white">
                         <div className="h-36 w-full flex ">
-                            <img src='./src/assets/img-company/ct1.png' alt="" className="w-full h-full p-5"/>
+                            <img src='./src/assets/img-company/fpt.png' alt="" className="w-full h-full p-5"/>
                             <CiBookmark className="size-8" />
                         </div>
                         <div className=" font-bold text-[14px]">
@@ -159,7 +159,7 @@ function BestCompany() {
                     </div>
                     <div className="h-64 w-1/3 p-4 border-[2px] rounded-xl bg-white">
                         <div className="h-36 w-full flex ">
-                            <img src='./src/assets/img-company/ct1.png' alt="" className="w-full h-full p-5"/>
+                            <img src='./src/assets/img-company/cybozu.jpg' alt="" className="w-full h-full p-5"/>
                             <CiBookmark className="size-8" />
                         </div>
                         <div className=" font-bold text-[14px]">

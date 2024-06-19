@@ -1,54 +1,72 @@
-import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { FaGithub, FaGoogle } from "react-icons/fa6";
+import { useContext } from "react";
 import { AuthContext } from "../context/AuthProvider";
-import { Link, useLocation, useNavigate } from "react-router-dom";
 
-function Login() {
-  // eslint-disable-next-line no-unused-vars
-  const [errorMessage, setErrorMessage] = useState("");
-  const { signUpWithGmail, login } = useContext(AuthContext);
-
-  const location = useLocation();
+function SignUp() {
+  const { signUpWithGmail, createUser } = useContext(AuthContext);
   const navigate = useNavigate();
+
   const from = location.state?.from?.pathname || "/";
 
   const handleQuickLogin = () => {
     signUpWithGmail()
-      .then(() => {
+      .then((result) => {
+        // eslint-disable-next-line no-unused-vars
+        const user = result.user;
         navigate(from, { replace: true });
       })
       .catch((error) => console.log(error));
   };
 
-  const handleLogin = (event) => {
+  const handleSignUp = (event) => {
     event.preventDefault();
-    const { email, password } = event.target.elements;
 
-    login(email.value, password.value)
-      .then(() => {
-        alert("Login successful!");
-        navigate(from, { replace: true });
-      })
-      .catch(() => {
-        setErrorMessage("Please provide valid email & password!");
-      });
+    const { fullName, email, password, confirmPassword } =
+      event.target.elements;
+
+    if (password.value !== confirmPassword.value) {
+      alert("Mật khẩu không khớp!");
+    } else {
+      const userInfo = {
+        email: email.value,
+        password: password.value,
+        role: "candidate",
+        displayName: fullName.value,
+      };
+      createUser(userInfo)
+        .then(() => {
+          navigate('/login');
+        })
+        .catch((error) => console.log(error));
+    }
   };
-
   return (
     <div className="py-4 flex items-center justify-center">
       <form
-        onSubmit={handleLogin}
-        className="w-[600px] bg-white shadow-md rounded px-12 pt-12 pb-12 mb-4"
+        onSubmit={handleSignUp}
+        className="w-[600px] bg-white shadow-md rounded px-8 pt-6 pb-8 mb-2"
       >
         <h3 className="text-xl text-background font-semibold mb-2">
-          Chào mừng bạn đã quay trở lại
+          Chào mừng bạn đến với Dream IT Jobs
         </h3>
-        <h3 className=" mb-6 text-gray-500">
+        <h3 className=" mb-3 text-gray-500">
           Cùng xây dựng một hồ sơ nổi bật và nhận được các cơ hội việc làm bạn
           mơ ước
         </h3>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
+        <div className="mb-2">
+          <label className="block text-gray-700 text-sm font-bold mb-1">
+            Họ tên
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="fullName"
+            type="text"
+            placeholder="Nhập họ tên"
+          />
+        </div>
+        <div className="mb-2">
+          <label className="block text-gray-700 text-sm font-bold mb-1">
             Email
           </label>
           <input
@@ -58,15 +76,26 @@ function Login() {
             placeholder="name@email.com"
           />
         </div>
-        <div className="mb-6">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
+        <div className="mb-2">
+          <label className="block text-gray-700 text-sm font-bold mb-1">
             Mật khẩu
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="password"
             type="password"
-            placeholder="******************"
+            placeholder="Nhập mật khẩu"
+          />
+        </div>
+        <div className="mb-2">
+          <label className="block text-gray-700 text-sm font-bold mb-1">
+            Xác nhận lại mật khẩu
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+            id="confirmPassword"
+            type="password"
+            placeholder="Nhập lại mật khẩu"
           />
         </div>
         <div className="grid gap-5">
@@ -81,12 +110,12 @@ function Login() {
             className="bg-background text-white py-2 font-bold rounded focus:outline-none focus:shadow-outline"
             type="submit"
           >
-            Đăng nhập
+            Đăng ký
           </button>
         </div>
 
         {/* social login */}
-        <div className="mt-8 text-center w-full mx-auto">
+        <div className="mt-4 text-center w-full mx-auto">
           <p className="mb-4">Hoặc đăng nhập nhanh với</p>
 
           <div className="flex items-center justify-center gap-4 w-full mx-auto">
@@ -109,9 +138,9 @@ function Login() {
           <h3>Bạn chưa có tài khoản?</h3>
           <Link
             className="font-semibold text-background hover:text-teal-400"
-            to={"/sign-up"}
+            to={"/login"}
           >
-            Đăng kí ngay
+            Đăng nhập
           </Link>
         </div>
       </form>
@@ -119,4 +148,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default SignUp;

@@ -20,6 +20,50 @@ class JobController {
       })
       .catch((error) => next(error));
   }
+  postJob(req, res, next) {
+    const {
+      job_title,
+      company,
+      min_salary,
+      max_salary,
+      tag,
+      address,
+      location,
+      img,
+      type_job,
+      contract,
+      viewed,
+      year_exp,
+      level,
+      tech_stack,
+    } = req.body;
+    console.log(req.body);
+    const newJob = new Job({
+      job_title,
+      company,
+      salary_range: {
+        min_salary,
+        max_salary,
+      },
+      tag,
+      address,
+      location,
+      img: img || "./src/assets/jobs-img/job-df",
+      time_created: new Date(),
+      type_job,
+      contract,
+      viewed: viewed || 0,
+      year_exp,
+      level,
+      tech_stack,
+    });
+
+    // Save the job document to the database
+    newJob
+      .save()
+      .then((job) => res.status(201).json({ acknowledged: true, job }))
+      .catch((error) => next(error));
+  }
 }
 
 module.exports = new JobController();

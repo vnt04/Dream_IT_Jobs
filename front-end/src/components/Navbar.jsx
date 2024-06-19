@@ -1,6 +1,7 @@
-import { useState,useContext, useEffect, useRef } from "react";
+import { useState, useContext, useEffect, useRef } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { FaBars, FaXmark } from "react-icons/fa6";
+import { FaBars, FaXmark, FaRegCircleUser, FaBell } from "react-icons/fa6";
+import { IoLogOut } from "react-icons/io5";
 import { AuthContext } from "../context/AuthProvider";
 
 function Navbar() {
@@ -8,10 +9,11 @@ function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
   const { user, logOut } = useContext(AuthContext);
+  console.log(user);
   const handleLogout = () => {
     logOut()
       .then(() => {
-        // Sign-out successful.
+        alert("Đăng xuất thành công!");
       })
       .catch((error) => {
         console.log(error);
@@ -44,13 +46,22 @@ function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navItems = [
-    { path: "/viec-lam-it", title: "Việc làm IT" },
-    { path: "/ho-so-CV", title: "Hồ sơ & CV" },
-    { path: "/cong-ty-IT", title: "Công ty IT" },
-    { path: "/blog", title: "Blog IT" },
-    { path: "/dien-dan", title: "Diễn đàn IT" },
-  ];
+  const navItems =
+    user?.role === "recruiter"
+      ? [
+          { path: "/viec-lam-it", title: "Việc làm IT" },
+          { path: "/dang-bai", title: "Đăng bài" },
+          { path: "/cong-ty-IT", title: "Công ty IT" },
+          { path: "/blog", title: "Blog IT" },
+          { path: "/dien-dan", title: "Diễn đàn IT" },
+        ]
+      : [
+          { path: "/viec-lam-it", title: "Việc làm IT" },
+          { path: "/ho-so-CV", title: "Hồ sơ & CV" },
+          { path: "/cong-ty-IT", title: "Công ty IT" },
+          { path: "/blog", title: "Blog IT" },
+          { path: "/dien-dan", title: "Diễn đàn IT" },
+        ];
 
   const fixedClass = isFixed ? "fixed top-0 left-0 w-full z-50" : "";
 
@@ -82,42 +93,75 @@ function Navbar() {
         </ul>
 
         {/* navbar right */}
+        {/* {userPopup && (
+          <div className="absolute top-auto end-0 transform -translate-x-1/2 bg-white border border-gray-200 p-4 rounded-md shadow-lg z-10">
+            <User />
+          </div>
+        )} */}
         <div className="gap-5 items-center hidden lg:flex">
-        {user ? (
+          {user ? (
             <>
               <div className="flex gap-4 items-center">
-                <div className="flex -space-x-2 overflow-hidden">
-                  {
-                    user?.photoURL ? <> <img
-                    className="inline-block h-10 w-10 rounded-full ring-2 ring-white"
-                    src={user?.photoURL}
-                    alt=""
-                  /></> : <> <img
-                    className="inline-block h-10 w-10 rounded-full ring-2 ring-white"
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    alt=""
-                  /></>
-                  }
-                 
+                <div className="relative flex-space-x-2 overflow-hidden">
+                  {user?.displayName ? (
+                    <div className="flex gap-4 items-center">
+                      <FaBell className="size-5" />
+                      <div
+                        // onClick={handleUser}
+                        className="flex items-center gap-5 cursor-pointer border border-gray-200 hover:bg-gray-200 p-2 rounded-xl "
+                      >
+                        {user?.photoURL ? (
+                          <>
+                            <img
+                              className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
+                              src={user?.photoURL}
+                              alt="null"
+                            />
+                          </>
+                        ) : (
+                          <FaRegCircleUser className="size-5" />
+                        )}
+                        <button className="font-bold ">
+                          {user?.displayName}
+                        </button>
+                      </div>
+                      <div
+                        onClick={handleLogout}
+                        className="flex items-center gap-1 cursor-pointer border border-gray-200 hover:bg-gray-200 p-2 rounded-xl"
+                      >
+                        <IoLogOut className="size-4" />
+                        <button className="font-semibold">Đăng xuất</button>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      {" "}
+                      <img
+                        className="inline-block h-10 w-10 rounded-full ring-2 ring-white"
+                        src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pngwing.com%2Fen%2Fsearch%3Fq%3Duser&psig=AOvVaw3332MxZ6YSfisCEmaVhvKF&ust=1718698295734000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCJDI0p-Y4oYDFQAAAAAdAAAAABAE"
+                        alt="null"
+                      />
+                    </>
+                  )}
                 </div>
-                <button onClick={handleLogout} className="py-2 px-5 border rounded border-background hover:bg-background hover:text-white">Đăng xuất</button>
               </div>
-            </>)
-            :(
-          <div className="flex gap-5">
-            <Link
-              to="/sign-up"
-              className="py-1 px-4 border rounded border-background text-background font-bold"
-            >
-              Nhà tuyển dụng
-            </Link>
-            <Link
-              to="/login"
-              className="py-1 px-4 border rounded bg-background text-main_color_1 font-bold"
-            >
-              Đăng nhập
-            </Link>
-          </div>)}
+            </>
+          ) : (
+            <div className="flex gap-5">
+              <Link
+                to="/register"
+                className="py-1 px-4 border rounded border-background text-background font-bold"
+              >
+                Nhà tuyển dụng
+              </Link>
+              <Link
+                to="/login"
+                className="py-1 px-4 border rounded bg-background text-main_color_1 font-bold"
+              >
+                Đăng nhập
+              </Link>
+            </div>
+          )}
 
           <div>
             <Link to="/eng">Eng</Link>

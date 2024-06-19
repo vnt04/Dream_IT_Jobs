@@ -8,6 +8,9 @@ import ProfileCV from "../Pages/ProfileCV";
 import Home from "../Pages/Home";
 import JobDetail from "../Pages/JobDetail";
 import Login from "../components/Login";
+import Register from "../components/Register";
+import SignUp from "../components/SignUp";
+import PostJobs from "../Pages/PostJobs";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -42,8 +45,20 @@ const router = createBrowserRouter([
         element: <ProfileCV />,
       },
       {
+        path: "/dang-bai",
+        element: <PostJobs />,
+      },
+      {
         path: "/login",
         element: <Login />,
+      },
+      {
+        path: "/sign-up",
+        element: <SignUp />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
       },
     ],
   },

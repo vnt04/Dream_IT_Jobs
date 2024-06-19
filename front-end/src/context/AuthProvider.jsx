@@ -12,7 +12,8 @@ import {
 } from "firebase/auth";
 import { useState } from "react";
 import { useEffect } from "react";
-import app from "../firebase/firebase.config";
+import app, { firestore } from "../firebase/firebase.config";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 
 export const AuthContext = createContext();
 const auth = getAuth(app);
@@ -22,9 +23,28 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const createUser = (email, password) => {
-    setLoading(true);
-    return createUserWithEmailAndPassword(auth, email, password);
+  const createUser = async (userInfo) => {
+    const { email, password, displayName, role } = userInfo;
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const uid = userCredential.user.uid;
+    // Lưu thông tin người dùng vào Firestore
+    const userRef = doc(firestore, "users", uid);
+    await setDoc(userRef, {
+      displayName: displayName,
+      role: role,
+    });
+    const User = {
+      ...userCredential.user,
+      email: email,
+      displayName: displayName,
+      role: role,
+    };
+    setUser(User);
+    return User;
   };
 
   const signUpWithGmail = () => {
@@ -43,14 +63,30 @@ const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      // console.log(currentUser);
-      setUser(currentUser);
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        const userRef = doc(firestore, "users", currentUser.uid);
+        const userSnap = await getDoc(userRef);
+        if (userSnap.exists()) {
+          const userData = userSnap.data();
+
+          const extendedUser = {
+            ...currentUser,
+            displayName: userData.displayName,
+            role: userData.role,
+          };
+          setUser(extendedUser);
+        } else {
+          setUser(currentUser);
+        }
+      } else {
+        setUser(null);
+      }
       setLoading(false);
     });
 
     return () => {
-      return unsubscribe();
+      unsubscribe();
     };
   }, []);
 
