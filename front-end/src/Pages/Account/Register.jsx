@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { AuthContext } from "../context/AuthProvider";
+import { AuthContext } from "../../context/AuthProvider";
 import { useNavigate } from "react-router-dom";
 
 function Register() {
@@ -24,7 +24,7 @@ function Register() {
         onSubmit={handleLogin}
         className="w-[600px] bg-white shadow-md rounded px-12 pt-12 pb-12 mb-4"
       >
-        <h2 className="text-2xl text-background font-semibold mb-2">
+        <h2 className="text-2xl text-primary font-semibold mb-2">
           Đăng nhập để tuyển dụng ngay
         </h2>
         <h3 className=" mb-6 text-gray-500">
@@ -57,17 +57,17 @@ function Register() {
           Bằng việc đăng nhập, bạn đồng ý với{" "}
           <span className="font-bold "> Điều Khoản Sử Dụng</span> và
           <span className="font-bold "> Chính Sách Bảo Mật </span>
-          của <span className="text-background font-bold"> Dream IT Jobs</span>.
+          của <span className="text-primary font-bold"> Dream IT Jobs</span>.
         </h3>
         <div className="grid gap-5">
           <a
-            className="text-end font-bold text-sm text-background hover:text-teal-400"
+            className="text-end font-bold text-sm text-primary hover:text-teal-400"
             href="#"
           >
             Quên mật khẩu?
           </a>
           <button
-            className="bg-background text-white py-2 font-bold rounded focus:outline-none focus:shadow-outline"
+            className="btn-1"
             type="submit"
           >
             Đăng nhập
@@ -79,7 +79,7 @@ function Register() {
         // onSubmit={handleLogin}
         className="w-[600px] bg-white shadow-md rounded px-12 pt-12 pb-12 mb-4"
       >
-        <h2 className="text-2xl text-background font-semibold mb-2">
+        <h2 className="text-2xl text-primary font-semibold mb-2">
           Đăng ký Tài khoản Nhà tuyển dụng
         </h2>
         <h3 className=" mb-6 text-gray-500">
@@ -188,10 +188,10 @@ function Register() {
             <span className="font-bold "> Điều Khoản Sử Dụng</span> và
             <span className="font-bold "> Chính Sách Bảo Mật </span>
             của{" "}
-            <span className="text-background font-bold"> Dream IT Jobs</span>.
+            <span className="text-primary font-bold"> Dream IT Jobs</span>.
           </h3>
           <button
-            className="bg-background text-white w-full py-2 font-bold rounded focus:outline-none focus:shadow-outline"
+            className="w-full btn-1"
             type="submit"
           >
             Đăng ký

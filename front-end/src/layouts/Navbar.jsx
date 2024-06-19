@@ -9,7 +9,6 @@ function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
   const { user, logOut } = useContext(AuthContext);
-  console.log(user);
   const handleLogout = () => {
     logOut()
       .then(() => {
@@ -66,9 +65,9 @@ function Navbar() {
   const fixedClass = isFixed ? "fixed top-0 left-0 w-full z-50" : "";
 
   return (
-    <header className="max-w-screen-2xl container mx-auto ">
+    <header className="max-w-screen-2xl mx-auto ">
       <nav
-        className={`bg-main_color_1 flex justify-between px-4 items-center ${fixedClass}`}
+        className={`bg-white flex justify-between px-4 items-center ${fixedClass}`}
       >
         {/* Navbar for fullscreen desktop */}
         {/* navbar left - Logo */}
@@ -77,9 +76,9 @@ function Navbar() {
         </a>
 
         {/* navbar center - MAIN TOOLS */}
-        <ul className="text-main_color_2  hidden md:flex gap-12 font-bold">
+        <ul className=" hidden md:flex gap-12 font-bold ">
           {navItems.map(({ path, title }) => (
-            <li key={path}>
+            <li key={path} className="hover:text-red-500">
               <NavLink
                 to={path}
                 className={({ isActive }) =>
@@ -150,13 +149,13 @@ function Navbar() {
             <div className="flex gap-5">
               <Link
                 to="/register"
-                className="py-1 px-4 border rounded border-background text-background font-bold"
+                className="btn-2"
               >
                 Nhà tuyển dụng
               </Link>
               <Link
                 to="/login"
-                className="py-1 px-4 border rounded bg-background text-main_color_1 font-bold"
+                className="btn-1"
               >
                 Đăng nhập
               </Link>
@@ -166,7 +165,7 @@ function Navbar() {
           <div>
             <Link to="/eng">Eng</Link>
             <span> | </span>
-            <Link to="/vie" className="text-background font-bold">
+            <Link to="/vie" className="text-primary font-bold">
               Vie
             </Link>
           </div>

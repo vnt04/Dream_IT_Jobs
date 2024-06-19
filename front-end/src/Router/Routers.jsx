@@ -6,11 +6,12 @@ import Blog from "../Pages/Blog";
 import Forum from "../Pages/Forum";
 import ProfileCV from "../Pages/ProfileCV";
 import Home from "../Pages/Home";
-import JobDetail from "../Pages/JobDetail";
-import Login from "../components/Login";
-import Register from "../components/Register";
-import SignUp from "../components/SignUp";
+import JobDetail from "../Pages/Jobs/JobDetail";
+import Login from "../Pages/Account/Login";
+import Register from "../Pages/Account/Register";
+import SignUp from "../Pages/Account/SignUp";
 import PostJobs from "../Pages/PostJobs";
+
 const router = createBrowserRouter([
   {
     path: "/",

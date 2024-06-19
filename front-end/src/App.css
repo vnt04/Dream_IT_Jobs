@@ -1,11 +1,75 @@
+:root {
+  --primary: #33afa9;
+}
+/* css navbar  */
 .active {
   color: red;
-  font-weight: 500;
+  font-weight: bolder;
+  text-shadow: 2px 2px 6px rgb(248, 165, 165);
 }
-.create-job-flex{
+
+/* css responsive for container - main content  */
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (min-width: 640px) {
+  .container {
+    padding: 2px 36px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 3px 50px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding: 4px 66px;
+  }
+}
+@media (min-width: 1280px) {
+  .container {
+    padding: 6px 80px;
+  }
+}
+@media (min-width: 1536px) {
+  .container {
+    padding: 8px 96px;
+  }
+}
+
+/* Button css */
+.btn-1 {
+  padding: 4px 16px;
+  border-radius: 6px;
+  background-color: var(--primary);
+  color: white;
+  font-weight: bold;
+}
+.btn-1:hover {
+  background-color: rgb(56, 187, 170);
+}
+
+.btn-2 {
+  padding: 4px 16px;
+  border-width: 1px;
+  border-radius: 6px;
+  border-color: var(--primary);
+  color: var(--primary);
+  font-weight: bold;
+}
+.btn-2:hover {
+  background-color: rgb(244, 251, 250);
+}
+
+.create-job-flex {
   @apply flex flex-col lg:flex-row items-center justify-between gap-8;
 }
 
-.create-job-input{
-  @apply block w-full flex-1 bg-white py-1.5 pl-3 text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm sm:leading-6
+.create-job-input {
+  @apply block w-full flex-1 bg-white py-1.5 pl-3 text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm sm:leading-6;
 }

@@ -1,11 +1,7 @@
-const Job = require("../Models/Job");
+const Job = require("../Models/jobModel");
 
 class JobController {
-  index(req, res) {
-    res.send("jobs API");
-  }
-
-  read(req, res, next) {
+  index(req, res, next) {
     Job.find({})
       .then((job) => res.json(job))
       .then((error) => next(error));

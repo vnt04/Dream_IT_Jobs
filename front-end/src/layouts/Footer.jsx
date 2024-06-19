@@ -5,8 +5,8 @@ import { AiFillTikTok } from "react-icons/ai";
 
 function Footer() {
     return (  
-        <div className="2xl:px-24 px-4 h-auto bg-gray-300">
-            <div className="h-96 flex gap-8 py-14">
+        <div className="container h-auto bg-gray-300">
+            <div className="h-96 flex gap-8 py-10">
                 <div className="h-full w-2/6 grid gap-2">
                     <a href="/">
                         <img src="/src/assets/logo_gray.jpg" alt="logo" className="w-40 h-20" />

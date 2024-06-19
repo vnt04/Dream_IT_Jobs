@@ -1,15 +1,17 @@
 import axios from "axios";
+import apiEndpoint from "../../api";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { MdRadioButtonUnchecked } from "react-icons/md";
 import { formatDistanceToNow } from "date-fns";
 import { vi } from "date-fns/locale";
+import Tag from "../../components/Tag";
 
 function ListJobs() {
   const [data, setData] = useState([]);
   useEffect(() => {
     axios
-      .get("http://localhost:5000/job/read")
+      .get(apiEndpoint.all_jobs)
       .then((response) => {
         setData(response.data);
       })
@@ -33,11 +35,10 @@ function ListJobs() {
     });
   };
   return (
-    <div className="2xl:px-24 px-4 bg-[#f5f5f5] ">
+    <div className="container bg-[#f5f5f5] ">
       <h1 className="font-semibold py-2">
-        Tìm thấy{" "}
-        <span className="font-bold text-background"> {data.length} </span> công
-        việc phù hợp với bạn
+        Tìm thấy <span className="font-bold text-primary"> {data.length} </span>{" "}
+        công việc phù hợp với bạn
       </h1>
 
       <div className="flex mb-3">
@@ -93,13 +94,8 @@ function ListJobs() {
                 <hr className="mt-2 w-full bg-gray-300 hover:bg-gray-500" />
                 <div className="py-2 flex justify-between">
                   <div className="flex gap-3 mt-1">
-                    {jobData.tag.map((tag) => (
-                      <button
-                        key={tag}
-                        className="px-1 rounded text-[#1047b2] border bg-blue-100 hover:border-blue-600"
-                      >
-                        {tag}
-                      </button>
+                    {jobData.tag.map((tag, index) => (
+                      <Tag key={index} name={tag} />
                     ))}
                   </div>
                   <div className="text-sm flex items-center">
@@ -111,7 +107,7 @@ function ListJobs() {
           ))}
         </div>
         <div className="w-1/3 h-[685px]  bg-white">
-          <div className="py-2 items-center font-bold text-xl text-center text-white bg-background ">
+          <div className="py-2 items-center font-bold text-xl text-center text-white bg-primary ">
             Việc làm nổi bật
           </div>
           <div>
@@ -130,19 +126,14 @@ function ListJobs() {
                 <div>
                   <Link
                     to={`/viec-lam-it/${jobData._id}`}
-                    className="font-bold text-xl line-clamp-1 hover:text-background"
+                    className="font-bold text-xl line-clamp-1 hover:text-primary"
                   >
                     {jobData.job_title}
                   </Link>
                   <div className="my-1">{jobData.company}</div>
                   <div className="flex gap-3 mt-1">
-                    {jobData.tag.map((tag) => (
-                      <button
-                        key={tag}
-                        className="px-1 rounded text-[#1047b2] border bg-blue-100 hover:border-blue-600"
-                      >
-                        {tag}
-                      </button>
+                    {jobData.tag.map((tag, index) => (
+                      <Tag key={index} name={tag} />
                     ))}
                   </div>
                 </div>

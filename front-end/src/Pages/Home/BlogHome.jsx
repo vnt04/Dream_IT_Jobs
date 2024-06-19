@@ -1,6 +1,6 @@
 function BlogHome() {
     return (  
-        <div className="2xl:px-24 px-4 md:y-4 y-2 h-auto mb-4">
+        <div className="container h-auto mb-4">
             <div className="flex py-4 items-center justify-between">
                 <h1 className="text-xl font-bold lg:text-2xl">Blog IT</h1>
                 <a href="" className="underline text-red-600">Xem tất cả</a>

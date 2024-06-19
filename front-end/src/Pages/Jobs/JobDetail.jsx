@@ -4,17 +4,18 @@ import { FaRegMoneyBillAlt, FaShareAlt } from "react-icons/fa";
 import { CiBookmark } from "react-icons/ci";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import apiEndpoint from "../../api";
 
 function JobDetail() {
   const { jobID } = useParams();
   const [detail, setDetail] = useState({});
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/job/read/${jobID}`)
+      .get(apiEndpoint.job_detail(jobID))
       .then((response) => setDetail(response.data))
       .catch((error) => console.log(error));
   }, [jobID]);
-  
+
   const formatCurrency = (number) => {
     return number.toLocaleString("vi-VN", {
       style: "currency",
@@ -24,7 +25,7 @@ function JobDetail() {
   const minSalary = detail.salary_range?.min_salary;
   const maxSalary = detail.salary_range?.max_salary;
   return (
-    <div className="2xl:px-24 px-4 py-4 flex gap-4 bg-[#f5f5f5]">
+    <div className="container flex gap-4 bg-[#f5f5f5]">
       <div className="w-2/3">
         <div className="h-40 flex mb-4 bg-white">
           <div className=" w-11/12 h-full flex items-center gap-2">

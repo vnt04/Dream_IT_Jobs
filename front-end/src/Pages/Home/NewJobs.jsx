@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Tag from "../../components/Tag";
 import { BsFire } from "react-icons/bs";
+import apiEndpoint from "../../api";
 
 function NewJobs() {
   const [data, setData] = useState([]);
   useEffect(() => {
     axios
-      .get("http://localhost:5000/job/read")
+      .get(apiEndpoint.all_jobs)
       .then((response) => setData(response.data))
       .catch((error) => console.log(error));
   }, []);
@@ -25,7 +27,7 @@ function NewJobs() {
     });
   };
   return (
-    <div className="2xl:px-24 px-4 md:y-4 y-2 h-auto bg-white">
+    <div className="container h-auto bg-white">
       <div className="flex justify-between py-4 items-center">
         <div className="flex items-center gap-2">
           <BsFire className="size-10 text-red-500" />
@@ -71,13 +73,8 @@ function NewJobs() {
                   {formatCurrency(job.salary_range.max_salary)}
                 </span>
                 <div className="flex gap-3 mt-1">
-                  {job.tag.map((tag) => (
-                    <button
-                      key={tag}
-                      className="px-1 rounded text-[#1047b2] border bg-blue-100 hover:border-blue-600"
-                    >
-                      {tag}
-                    </button>
+                  {job.tag.map((tag, index) => (
+                    <Tag key={index} name={tag} />
                   ))}
                 </div>
               </div>

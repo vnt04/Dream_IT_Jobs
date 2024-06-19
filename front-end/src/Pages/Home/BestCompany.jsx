@@ -5,7 +5,7 @@ import { CiBookmark } from "react-icons/ci";
 function BestCompany() {
     return (  
         
-        <div className="2xl:px-24 px-4 md:y-4 y-2 h-auto bg-[#f5f5f5]">
+        <div className="container h-auto bg-[#f5f5f5]">
             <div className="flex justify-between">
                 <div className="flex items-center gap-2">
                     <FaSun className='size-10 text-yellow-400' />
