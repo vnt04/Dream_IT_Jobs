@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import InputTemplate from "../../components/InputTemplate";
 
 function Register() {
   const { login } = useContext(AuthContext);
@@ -22,7 +23,7 @@ function Register() {
     <div className="py-4 flex gap-4 justify-center">
       <form
         onSubmit={handleLogin}
-        className="w-[600px] bg-white shadow-md rounded px-12 pt-12 pb-12 mb-4"
+        className="w-[600px] bg-white shadow-2xl rounded px-12 pt-12 pb-12 mb-4"
       >
         <h2 className="text-2xl text-primary font-semibold mb-2">
           Đăng nhập để tuyển dụng ngay
@@ -31,28 +32,18 @@ function Register() {
           Liên kết tài khoản của bạn để tiếp tục sử dụng dịch vụ tuyển dụng của
           Dream IT Jobs
         </h3>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Email
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="email"
-            type="email"
-            placeholder="name@email.com"
-          />
-        </div>
-        <div className="mb-6">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Mật khẩu
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-            id="password"
-            type="password"
-            placeholder="******************"
-          />
-        </div>
+        <InputTemplate
+          title="Email"
+          type="email"
+          name="email"
+          placeholder="name@gmail.com"
+        />
+        <InputTemplate
+          title="Password"
+          type="password"
+          name="password"
+          placeholder="******************"
+        />
         <h3 className=" mb-6 text-gray-500">
           Bằng việc đăng nhập, bạn đồng ý với{" "}
           <span className="font-bold "> Điều Khoản Sử Dụng</span> và
@@ -66,10 +57,7 @@ function Register() {
           >
             Quên mật khẩu?
           </a>
-          <button
-            className="btn-1"
-            type="submit"
-          >
+          <button className="btn-1" type="submit">
             Đăng nhập
           </button>
         </div>
@@ -77,7 +65,7 @@ function Register() {
 
       <form
         // onSubmit={handleLogin}
-        className="w-[600px] bg-white shadow-md rounded px-12 pt-12 pb-12 mb-4"
+        className="w-[600px] bg-white shadow-2xl rounded px-12 pt-12 pb-12 mb-4"
       >
         <h2 className="text-2xl text-primary font-semibold mb-2">
           Đăng ký Tài khoản Nhà tuyển dụng
@@ -86,41 +74,26 @@ function Register() {
           Tạo tài khoản ngay để tuyển dụng những lập trình viên hàng đầu
         </h3>
         <strong className="text-red-500">Thông tin đăng nhập</strong>
-        <div className="mb-4 mt-2">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Email
-          </label>
-          <input
-            className="mb-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="email"
-            type="email"
-            placeholder="Nhập email"
-          />
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Số điện thoại
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="phone"
-            type=""
-            placeholder="Nhập số điện thoại"
-          />
-        </div>
+        <InputTemplate
+          title="Email"
+          id="email"
+          type="email"
+          placeholder="Nhập email"
+        />
+        <InputTemplate
+          title="Số điện thoại"
+          id="phone"
+          placeholder="Nhập số điện thoai"
+        />
 
-        <label className="block text-gray-700 text-sm font-bold mb-2">
-          Mật khẩu
-        </label>
-        <input
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+        <InputTemplate
+          title="Mật khẩu"
           id="password"
           type="password"
           placeholder="Nhập mật khẩu"
         />
-        <label className="block text-gray-700 text-sm font-bold mb-2">
-          Xác nhận mật khẩu
-        </label>
-        <input
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+        <InputTemplate
+          title="Xác nhận lại mật khẩu"
           id="password"
           type="password"
           placeholder="Vui lòng xác nhận mật khẩu"
@@ -128,57 +101,40 @@ function Register() {
 
         <strong className="text-red-500">Thông tin công ty</strong>
         <div className="mb-4 mt-2">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Mã số thuế
-          </label>
-          <input
-            className="mb-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          <InputTemplate
+            title="Mã số thuế"
             id=""
             type=""
             placeholder="Nhập mã số thuế"
           />
 
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Tên công ty đăng ký kinh doanh
-          </label>
-          <input
-            className="mb-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          <InputTemplate
+            title="Tên công ty"
             id=""
             type=""
             placeholder="Nhập tên công ty đăng ký kinh doanh"
           />
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Tên công ty hiển thị
-          </label>
-          <input
-            className="mb-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          <InputTemplate
+            title="Tên công ty hiển thị"
             id=""
             type=""
             placeholder="Nhập tên công ty của bạn"
           />
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Lĩnh vực công ty
-          </label>
-          <input
-            className="mb-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          <InputTemplate
+            title="Lĩnh vực"
             id=""
             type=""
-            placeholder="Nhập lĩnh vực công ty"
+            placeholder="Nhập lĩnh vực của công ty "
           />
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Kỹ năng công ty
-          </label>
-          <input
-            className="mb-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          <InputTemplate
+            title="Kỹ năng"
             id=""
             type=""
             placeholder="Nhập kỹ năng công ty"
           />
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Trụ sở công ty
-          </label>
-          <input
-            className="mb-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+
+          <InputTemplate
+            title="Trụ sở công ty"
             id=""
             type=""
             placeholder="Nhập trụ sở công ty"
@@ -187,13 +143,9 @@ function Register() {
             Tôi đã đọc và chấp thuận với
             <span className="font-bold "> Điều Khoản Sử Dụng</span> và
             <span className="font-bold "> Chính Sách Bảo Mật </span>
-            của{" "}
-            <span className="text-primary font-bold"> Dream IT Jobs</span>.
+            của <span className="text-primary font-bold"> Dream IT Jobs</span>.
           </h3>
-          <button
-            className="w-full btn-1"
-            type="submit"
-          >
+          <button className="w-full btn-1" type="submit">
             Đăng ký
           </button>
         </div>
