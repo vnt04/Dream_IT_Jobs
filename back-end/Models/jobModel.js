@@ -3,46 +3,46 @@ const mongoose = require("mongoose");
 const JobSchema = new mongoose.Schema({
   job_title: {
     type: String,
-    require: true,
+    required: true,
   },
   company: {
     type: String,
-    require: true,
+    required: true,
   },
   salary_range: {
     type: Object,
-    require: true,
+    required: true,
     properties: {
       min_salary: {
         type: Number,
-        require: true,
+        required: true,
       },
       max_salary: {
         type: Number,
-        require: true,
+        required: true,
       },
     },
   },
   tag: {
     type: [String],
-    require: true,
+    required: true,
   },
   address: {
     type: String,
-    require: true,
+    required: true,
   },
   location: {
     type:String,
-    require: true
+    required: true
   },
   img: {
     type: String,
-    require: true,
+    required: true,
     default: "./src/assets/jobs-img/job-df",
   },
   time_created: {
     type: Date,
-    require: true,
+    required: true,
   },
   type_job: {
     type: String,

@@ -1,25 +1,14 @@
-import axios from "axios";
-import apiEndpoint from "../../api";
-import { useState, useEffect } from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { MdRadioButtonUnchecked } from "react-icons/md";
 import { formatDistanceToNow } from "date-fns";
 import { vi } from "date-fns/locale";
 import Tag from "../../components/Tag";
+import { DataContext } from "../../context/DataProvider";
 
 function ListJobs() {
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    axios
-      .get(apiEndpoint.all_jobs)
-      .then((response) => {
-        setData(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-  const HighlightJobs = [...data]
+  const {dataJobs} = useContext(DataContext);
+  const HighlightJobs = [...dataJobs]
     .sort((a, b) => b.viewed - a.viewed)
     .slice(0, 5);
   const formatCurrency = (number) => {
@@ -37,7 +26,7 @@ function ListJobs() {
   return (
     <div className="container bg-[#f5f5f5] ">
       <h1 className="font-semibold py-2">
-        Tìm thấy <span className="font-bold text-primary"> {data.length} </span>{" "}
+        Tìm thấy <span className="font-bold text-primary"> {dataJobs.length} </span>{" "}
         công việc phù hợp với bạn
       </h1>
 
@@ -59,7 +48,7 @@ function ListJobs() {
 
       <div className="flex gap-4">
         <div className="w-2/3">
-          {data.map((jobData) => (
+          {dataJobs.map((jobData) => (
             <div
               key={jobData._id}
               className="h-48 flex mb-5 rounded-xl bg-white hover:bg-teal-100"

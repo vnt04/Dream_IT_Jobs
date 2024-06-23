@@ -51,7 +51,7 @@
   font-weight: bold;
 }
 .btn-1:hover {
-  background-color: rgb(56, 187, 170);
+  background-color: rgb(41, 156, 141);
 }
 
 .btn-2 {
@@ -63,7 +63,7 @@
   font-weight: bold;
 }
 .btn-2:hover {
-  background-color: rgb(244, 251, 250);
+  background-color: rgb(244, 241, 241)
 }
 
 .create-job-flex {

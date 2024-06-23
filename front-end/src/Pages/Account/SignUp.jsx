@@ -1,46 +1,22 @@
-import { Link, useNavigate } from "react-router-dom";
-import { FaGithub, FaGoogle } from "react-icons/fa6";
-import { useContext } from "react";
-import { AuthContext } from "../../context/AuthProvider";
+import { Link } from "react-router-dom";
 import InputTemplate from "../../components/InputTemplate";
+import { FaGithub, FaGoogle } from "react-icons/fa6";
+import useLogin from "../../hooks/useLogin";
+import useSignUp from "../../hooks/useSignUp";
 
 function SignUp() {
-  const { signUpWithGmail, createUser } = useContext(AuthContext);
-  const navigate = useNavigate();
-
-  const from = location.state?.from?.pathname || "/";
-
-  const handleQuickLogin = () => {
-    signUpWithGmail()
-      .then((result) => {
-        // eslint-disable-next-line no-unused-vars
-        const user = result.user;
-        navigate(from, { replace: true });
-      })
-      .catch((error) => console.log(error));
-  };
-
+  const { loginWithGoogle, loginWithGithub } = useLogin();
+  const { signUpCandidate } = useSignUp();
   const handleSignUp = (event) => {
     event.preventDefault();
-
     const { fullName, email, password, confirmPassword } =
       event.target.elements;
-
-    if (password.value !== confirmPassword.value) {
-      alert("Mật khẩu không khớp!");
-    } else {
-      const userInfo = {
-        email: email.value,
-        password: password.value,
-        role: "candidate",
-        displayName: fullName.value,
-      };
-      createUser(userInfo)
-        .then(() => {
-          navigate("/login");
-        })
-        .catch((error) => console.log(error));
-    }
+    signUpCandidate(
+      fullName.value,
+      email.value,
+      password.value,
+      confirmPassword.value
+    );
   };
   return (
     <div className="py-4 flex items-center justify-center">
@@ -92,12 +68,13 @@ function SignUp() {
             <button
               className="bg-red-500 text-white hover:bg-red-600 flex items-center gap-2 py-2 px-6 font-bold rounded focus:outline-none focus:shadow-outline"
               type="button"
-              onClick={handleQuickLogin}
+              onClick={loginWithGoogle}
             >
               <FaGoogle /> Google
             </button>
             <button
               className="bg-gray-700 text-white hover:bg-gray-600 flex items-center gap-2 py-2 px-6 font-bold rounded focus:outline-none focus:shadow-outline"
+              onClick={loginWithGithub}
               type="button"
             >
               <FaGithub /> Github

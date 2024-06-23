@@ -1,26 +1,20 @@
-import { useContext } from "react";
-import { AuthContext } from "../../context/AuthProvider";
-import { useNavigate } from "react-router-dom";
 import InputTemplate from "../../components/InputTemplate";
+import useLogin from "../../hooks/useLogin";
 
 function Register() {
-  const { login } = useContext(AuthContext);
-  const navigate = useNavigate();
-  const from = location.state?.from?.pathname || "/";
+  const { loginWithEmail } = useLogin();
+
   const handleLogin = (event) => {
     event.preventDefault();
-
     const { email, password } = event.target.elements;
-    login(email.value, password.value)
-      .then((result) => {
-        // eslint-disable-next-line no-unused-vars
-        const user = result.user;
-        navigate(from, { replace: true });
-      })
-      .catch((error) => console.log(error));
+    loginWithEmail(email.value, password.value);
   };
+  // const handleRegister = (event) => {
+
+  // }
   return (
     <div className="py-4 flex gap-4 justify-center">
+      {/* Form Login recruiter */}
       <form
         onSubmit={handleLogin}
         className="w-[600px] bg-white shadow-2xl rounded px-12 pt-12 pb-12 mb-4"
@@ -62,9 +56,9 @@ function Register() {
           </button>
         </div>
       </form>
-
+      {/* Form register recruiter */}
       <form
-        // onSubmit={handleLogin}
+        // onSubmit={handleRegister}
         className="w-[600px] bg-white shadow-2xl rounded px-12 pt-12 pb-12 mb-4"
       >
         <h2 className="text-2xl text-primary font-semibold mb-2">

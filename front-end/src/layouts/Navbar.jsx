@@ -3,21 +3,15 @@ import { Link, NavLink } from "react-router-dom";
 import { FaBars, FaXmark, FaRegCircleUser, FaBell } from "react-icons/fa6";
 import { IoLogOut } from "react-icons/io5";
 import { AuthContext } from "../context/AuthProvider";
+import useLogin from "../hooks/useLogin";
+
 
 function Navbar() {
   const [isFixed, setIsFixed] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
-  const { user, logOut } = useContext(AuthContext);
-  const handleLogout = () => {
-    logOut()
-      .then(() => {
-        alert("Đăng xuất thành công!");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  const { user } = useContext(AuthContext);
+  const { handleLogout } = useLogin();
   const handleMenuToggle = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -66,6 +60,7 @@ function Navbar() {
 
   return (
     <header className="max-w-screen-2xl mx-auto ">
+      {/* <ToastContainer /> */}
       <nav
         className={`bg-white flex justify-between px-4 items-center ${fixedClass}`}
       >
@@ -97,6 +92,7 @@ function Navbar() {
             <User />
           </div>
         )} */}
+
         <div className="gap-5 items-center hidden lg:flex">
           {user ? (
             <>
@@ -147,16 +143,10 @@ function Navbar() {
             </>
           ) : (
             <div className="flex gap-5">
-              <Link
-                to="/register"
-                className="btn-2"
-              >
+              <Link to="/register" className="btn-2">
                 Nhà tuyển dụng
               </Link>
-              <Link
-                to="/login"
-                className="btn-1"
-              >
+              <Link to="/login" className="btn-1">
                 Đăng nhập
               </Link>
             </div>

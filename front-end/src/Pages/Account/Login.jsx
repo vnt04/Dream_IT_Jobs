@@ -1,38 +1,14 @@
-import { useContext, useState } from "react";
-import { FaGithub, FaGoogle } from "react-icons/fa6";
-import { AuthContext } from "../../context/AuthProvider";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import InputTemplate from "../../components/InputTemplate";
+import useLogin from "../../hooks/useLogin";
+import { FaGithub, FaGoogle } from "react-icons/fa6";
 
 function Login() {
-  // eslint-disable-next-line no-unused-vars
-  const [errorMessage, setErrorMessage] = useState("");
-  const { signUpWithGmail, login } = useContext(AuthContext);
-
-  const location = useLocation();
-  const navigate = useNavigate();
-  const from = location.state?.from?.pathname || "/";
-
-  const handleQuickLogin = () => {
-    signUpWithGmail()
-      .then(() => {
-        navigate(from, { replace: true });
-      })
-      .catch((error) => console.log(error));
-  };
-
+  const { loginWithGoogle, loginWithGithub, loginWithEmail } = useLogin();
   const handleLogin = (event) => {
     event.preventDefault();
     const { email, password } = event.target.elements;
-
-    login(email.value, password.value)
-      .then(() => {
-        alert("Login successful!");
-        navigate(from, { replace: true });
-      })
-      .catch(() => {
-        setErrorMessage("Please provide valid email & password!");
-      });
+    loginWithEmail(email.value, password.value);
   };
 
   return (
@@ -44,7 +20,7 @@ function Login() {
         <h3 className="text-xl text-primary font-semibold mb-2">
           Chào mừng bạn đã quay trở lại
         </h3>
-        <h3 className=" mb-6 text-gray-500">
+        <h3 className="mb-6 text-gray-500">
           Cùng xây dựng một hồ sơ nổi bật và nhận được các cơ hội việc làm bạn
           mơ ước
         </h3>
@@ -67,10 +43,9 @@ function Login() {
           Quên mật khẩu?
         </a>
 
-        <button type="submit" className="w-full btn-1 ">
+        <button type="submit" className="w-full btn-1">
           Đăng nhập
         </button>
-
         {/* social login */}
         <div className="mt-8 text-center w-full mx-auto">
           <p className="mb-4">Hoặc đăng nhập nhanh với</p>
@@ -78,13 +53,14 @@ function Login() {
           <div className="flex items-center justify-center gap-4 w-full mx-auto">
             <button
               className="bg-red-500 text-white hover:bg-red-600 flex items-center gap-2 py-2 px-6 font-bold rounded focus:outline-none focus:shadow-outline"
+              onClick={loginWithGoogle}
               type="button"
-              onClick={handleQuickLogin}
             >
               <FaGoogle /> Google
             </button>
             <button
-              className="bg-gray-700 text-white hover:bg-gray-600  flex items-center gap-2 py-2 px-6 font-bold rounded focus:outline-none focus:shadow-outline"
+              className="bg-gray-700 text-white hover:bg-gray-600 flex items-center gap-2 py-2 px-6 font-bold rounded focus:outline-none focus:shadow-outline"
+              onClick={loginWithGithub}
               type="button"
             >
               <FaGithub /> Github

@@ -33,7 +33,6 @@ class JobController {
       level,
       tech_stack,
     } = req.body;
-    console.log(req.body);
     const newJob = new Job({
       job_title,
       company,
