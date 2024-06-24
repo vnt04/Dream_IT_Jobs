@@ -33,7 +33,38 @@ const useSignUp = () => {
     }
   };
 
-  return { signUpCandidate };
+  const signUpRecruiter = async (
+    email,
+    password,
+    confirmPassword,
+    company,
+    phone,
+    displayName,
+    position
+  ) => {
+    if (checkConfirmPassword(password, confirmPassword)) {
+      try {
+        const uid = await createUser(email, password);
+        if (uid) {
+          successSignUp();
+          const role = "recruiter";
+          await axios.post(apiEndpoint.sign_up, {
+            uid,
+            email,
+            displayName,
+            role,
+            company,
+            phone,
+            position,
+          });
+        }
+      } catch (error) {
+        handleAuthError(error);
+      }
+    }
+  };
+
+  return { signUpCandidate, signUpRecruiter };
 };
 
 export default useSignUp;

@@ -1,34 +1,24 @@
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema({
+const recruiterSchema = mongoose.Schema({
   //uid is id of user has saved on firebase authentication, it is instead of ObjectID in mongoDB
   uid: {
     type: String,
     required: true,
   },
-  displayName: {
-    type: String,
-    required: true,
-    default: "Tài khoản",
-  },
-  email:{
-    type:String,
-    required: true,
-  },
-  role: {
-    type: String,
-    required: true,
-  },
-  
   company: {
     type: String,
+    required: true,
   },
-  company_address: {
+  position: {
     type: String,
+    required: true,
   },
-  company_website: {
+  phone: {
     type: String,
+    required: true,
   },
+
   created_at: {
     type: Date,
     default: Date.now,
@@ -39,4 +29,4 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("Recruiter", recruiterSchema);

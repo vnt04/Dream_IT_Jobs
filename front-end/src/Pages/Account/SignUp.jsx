@@ -82,7 +82,7 @@ function SignUp() {
           </div>
         </div>
         <div className="mt-4 flex gap-2 justify-center">
-          <h3>Bạn chưa có tài khoản?</h3>
+          <h3>Bạn đã có tài khoản?</h3>
           <Link
             className="font-semibold text-primary hover:text-teal-400"
             to={"/login"}

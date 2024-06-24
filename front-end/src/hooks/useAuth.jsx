@@ -53,7 +53,7 @@ const useAuth = () => {
       autoClose: 1500,
       position: "top-center",
       onClose: () => {
-        navigate("/login");
+        navigate("/");
       },
     });
   };
