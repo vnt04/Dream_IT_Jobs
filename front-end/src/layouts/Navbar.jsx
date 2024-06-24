@@ -1,17 +1,15 @@
 import { useState, useContext, useEffect, useRef } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { FaBars, FaXmark, FaRegCircleUser, FaBell } from "react-icons/fa6";
-import { IoLogOut } from "react-icons/io5";
+import { FaBars, FaXmark, FaBell } from "react-icons/fa6";
 import { AuthContext } from "../context/AuthProvider";
-import useLogin from "../hooks/useLogin";
-
+import User from "../Pages/Account/User";
 
 function Navbar() {
-  const [isFixed, setIsFixed] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
+
   const { user } = useContext(AuthContext);
-  const { handleLogout } = useLogin();
+
   const handleMenuToggle = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -27,16 +25,6 @@ function Navbar() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsFixed(window.scrollY > 0);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const navItems =
@@ -55,14 +43,10 @@ function Navbar() {
           { path: "/blog", title: "Blog IT" },
           { path: "/dien-dan", title: "Diễn đàn IT" },
         ];
-
-  const fixedClass = isFixed ? "fixed top-0 left-0 w-full z-50" : "";
-
   return (
-    <header className="max-w-screen-2xl mx-auto ">
-      {/* <ToastContainer /> */}
+    <header className="sticky top-0 max-w-screen-4xl mx-auto  ">
       <nav
-        className={`bg-white flex justify-between px-4 items-center ${fixedClass}`}
+        className={`bg-white flex justify-between px-4 items-center shadow-2xl `}
       >
         {/* Navbar for fullscreen desktop */}
         {/* navbar left - Logo */}
@@ -85,62 +69,13 @@ function Navbar() {
             </li>
           ))}
         </ul>
-
-        {/* navbar right */}
-        {/* {userPopup && (
-          <div className="absolute top-auto end-0 transform -translate-x-1/2 bg-white border border-gray-200 p-4 rounded-md shadow-lg z-10">
-            <User />
-          </div>
-        )} */}
-
+        {/* User */}
         <div className="gap-5 items-center hidden lg:flex">
           {user ? (
-            <>
-              <div className="flex gap-4 items-center">
-                <div className="relative flex-space-x-2 overflow-hidden">
-                  {user?.displayName ? (
-                    <div className="flex gap-4 items-center">
-                      <FaBell className="size-5" />
-                      <div
-                        // onClick={handleUser}
-                        className="flex items-center gap-5 cursor-pointer border border-gray-200 hover:bg-gray-200 p-2 rounded-xl "
-                      >
-                        {user?.photoURL ? (
-                          <>
-                            <img
-                              className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
-                              src={user?.photoURL}
-                              alt="null"
-                            />
-                          </>
-                        ) : (
-                          <FaRegCircleUser className="size-5" />
-                        )}
-                        <button className="font-bold ">
-                          {user?.displayName}
-                        </button>
-                      </div>
-                      <div
-                        onClick={handleLogout}
-                        className="flex items-center gap-1 cursor-pointer border border-gray-200 hover:bg-gray-200 p-2 rounded-xl"
-                      >
-                        <IoLogOut className="size-4" />
-                        <button className="font-semibold">Đăng xuất</button>
-                      </div>
-                    </div>
-                  ) : (
-                    <>
-                      {" "}
-                      <img
-                        className="inline-block h-10 w-10 rounded-full ring-2 ring-white"
-                        src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pngwing.com%2Fen%2Fsearch%3Fq%3Duser&psig=AOvVaw3332MxZ6YSfisCEmaVhvKF&ust=1718698295734000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCJDI0p-Y4oYDFQAAAAAdAAAAABAE"
-                        alt="null"
-                      />
-                    </>
-                  )}
-                </div>
-              </div>
-            </>
+            <div className="flex gap-6 items-center">
+              <FaBell />
+              <User displayName={user.displayName} url={user.avatar} role={user.role} />
+            </div>
           ) : (
             <div className="flex gap-5">
               <Link to="/register" className="btn-2">
@@ -151,7 +86,7 @@ function Navbar() {
               </Link>
             </div>
           )}
-
+          {/* Language */}
           <div>
             <Link to="/eng">Eng</Link>
             <span> | </span>
@@ -196,7 +131,6 @@ function Navbar() {
           Đăng nhập
         </Link>
       </div>
-      <div className="bg-gradient-to-b from-gray-400 to-teal-300 h-0.5"></div>
     </header>
   );
 }

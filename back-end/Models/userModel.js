@@ -11,23 +11,17 @@ const userSchema = new mongoose.Schema({
     required: true,
     default: "Tài khoản",
   },
-  email:{
-    type:String,
+  email: {
+    type: String,
     required: true,
   },
   role: {
     type: String,
     required: true,
   },
-  
-  company: {
+  avatar: {
     type: String,
-  },
-  company_address: {
-    type: String,
-  },
-  company_website: {
-    type: String,
+    default: null,
   },
   created_at: {
     type: Date,

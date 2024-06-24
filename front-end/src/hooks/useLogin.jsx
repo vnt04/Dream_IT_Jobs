@@ -14,11 +14,13 @@ const useLogin = () => {
   const loginWithGoogle = () => {
     signUpWithGmail()
       .then((result) => {
-        const { uid, email, displayName } = result.user;
+        console.log(result);
+        const { uid, email, displayName, photoURL } = result.user;
         axios.post(apiEndpoint.sign_up, {
           uid,
           email,
           displayName,
+          photoURL,
           role,
         });
         successLogin();
@@ -30,11 +32,12 @@ const useLogin = () => {
   const loginWithGithub = () => {
     signUpWithGithub()
       .then((result) => {
-        const { uid, email, displayName } = result.user;
+        const { uid, email, displayName, photoURL } = result.user;
         axios.post(apiEndpoint.sign_up, {
           uid,
           email,
           displayName,
+          photoURL,
           role,
         });
         successLogin();

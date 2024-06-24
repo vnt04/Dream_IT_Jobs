@@ -9,15 +9,23 @@ class UserController {
       .catch((error) => next(error));
   }
   async signUp(req, res, next) {
-    const { uid, email, displayName, role, company, phone, position } =
-      req.body;
-    const newUser = new User({
+    const {
       uid,
       email,
       displayName,
       role,
+      company,
+      phone,
+      position,
+      photoURL,
+    } = req.body;
+    const newUser = new User({
+      uid,
+      email,
+      displayName,
+      avatar: photoURL,
+      role,
     });
-    
 
     try {
       const existUser = await User.findOne({ email });

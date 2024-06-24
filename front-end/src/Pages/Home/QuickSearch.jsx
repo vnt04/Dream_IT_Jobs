@@ -3,7 +3,7 @@ import { IoIosFlash } from "react-icons/io";
 
 function QuickSearch() {
     return (  
-        <div className="container h-60 bg-[#93efeb]">
+        <div className="container h-60 bg-[#acf2ed]">
             <div className="flex items-center">
                 <IoIosFlash  className="size-10 text-yellow-400" />
                 <h1 className="font-bold text-xl my-5">Tìm việc làm IT nhanh chóng - Cơ hội tốt ngay hôm nay!</h1>

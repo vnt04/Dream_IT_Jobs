@@ -44,7 +44,7 @@ const useAuth = () => {
       autoClose: 1000,
       position: "top-center",
       onClose: () => {
-        navigate(from, { replace: true });
+        window.location.href = from;
       },
     });
   };
