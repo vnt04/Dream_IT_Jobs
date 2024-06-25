@@ -3,6 +3,7 @@ import "./App.css";
 import Navbar from "./layouts/Navbar";
 import Footer from "./layouts/Footer";
 import { ToastContainer } from "react-toastify";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Outlet />
       <Footer />
       <ToastContainer />
+      <ScrollToTop />
     </>
   );
 }
