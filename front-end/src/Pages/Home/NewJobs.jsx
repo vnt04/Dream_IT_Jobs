@@ -1,20 +1,12 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import { useContext } from "react";
+import { DataContext } from "../../context/DataProvider";
 import Tag from "../../components/Tag";
 import { BsFire } from "react-icons/bs";
-import apiEndpoint from "../../api";
 
 function NewJobs() {
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    axios
-      .get(apiEndpoint.all_jobs)
-      .then((response) => setData(response.data))
-      .catch((error) => console.log(error));
-  }, []);
-
-  const newJobs = [...data].sort((a, b) => a - b).slice(0, 9);
+  const { dataJobs } = useContext(DataContext);
+  const newJobs = [...dataJobs].sort((a, b) => a - b).slice(0, 9);
   const rows = [];
   for (let i = 0; i < newJobs.length; i += 3) {
     rows.push(newJobs.slice(i, i + 3));

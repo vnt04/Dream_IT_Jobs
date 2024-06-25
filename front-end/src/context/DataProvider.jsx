@@ -8,9 +8,12 @@ export const DataContext = createContext();
 const DataProvider = ({ children }) => {
   const [dataJobs, setDataJobs] = useState([]);
   const [dataUsers, setDataUsers] = useState([]);
+  const [dataCompany, setDataCompany] = useState([]);
+
   useEffect(() => {
     getDataJobs();
     getDataUsers();
+    getDataCompany();
   }, []);
   const getDataJobs = () => {
     axios
@@ -30,10 +33,22 @@ const DataProvider = ({ children }) => {
     const userInfo = dataUsers.find((user) => user?.uid === uid);
     return userInfo || null;
   };
+
+  const getDataCompany = () => {
+    axios
+      .get(apiEndpoint.all_company)
+      .then((response) => setDataCompany(response.data))
+      .catch((error) => console.log(error));
+  };
+  const mostFollow = [...dataCompany];
+  mostFollow.sort((a, b) => a - b);
+
   const dataInfo = {
     dataJobs,
     dataUsers,
     getUserInfo,
+    dataCompany,
+    mostFollow,
   };
   return (
     <DataContext.Provider value={dataInfo}>{children}</DataContext.Provider>

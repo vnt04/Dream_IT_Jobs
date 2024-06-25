@@ -44,9 +44,9 @@ function Navbar() {
           { path: "/dien-dan", title: "Diễn đàn IT" },
         ];
   return (
-    <header className="sticky top-0 max-w-screen-4xl mx-auto  ">
+    <header className="sticky top-0 z-50 max-w-screen-4xl mx-auto  ">
       <nav
-        className={`bg-white flex justify-between px-4 items-center shadow-2xl `}
+        className={`bg-white flex justify-between px-4 items-center shadow-xl `}
       >
         {/* Navbar for fullscreen desktop */}
         {/* navbar left - Logo */}

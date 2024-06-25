@@ -1,0 +1,11 @@
+const Company = require("../Models/companyModel");
+
+class CompanyController {
+  index(req, res, next) {
+    Company.find({})
+      .then((company) => res.json(company))
+      .catch((error) => next(error));
+  }
+}
+
+module.exports = new CompanyController();

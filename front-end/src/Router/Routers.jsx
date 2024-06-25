@@ -1,7 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import Jobs from "../Pages/Jobs";
-import Company from "../Pages/Company";
 import Blog from "../Pages/Blog";
 import Forum from "../Pages/Forum";
 import ProfileCV from "../Pages/ProfileCV";
@@ -11,6 +10,7 @@ import Login from "../Pages/Account/Login";
 import Register from "../Pages/Account/Register";
 import SignUp from "../Pages/Account/SignUp";
 import PostJobs from "../Pages/PostJobs";
+import Company from "../Pages/Company";
 
 const router = createBrowserRouter([
   {

@@ -52,7 +52,7 @@ function User({ displayName, url, role }) {
             <div className="p-2 mr-2 rounded text-2xl transition duration-300 group-hover/link:bg-white group-hover/link:text-red-600  bg-gray-100">
               {item.icon}
             </div>
-            <span>{item.title}</span>
+            <span className="group-hover/link:font-semibold">{item.title}</span>
           </Link>
         ))}
       </ul>

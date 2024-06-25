@@ -63,9 +63,22 @@
   font-weight: bold;
 }
 .btn-2:hover {
-  background-color: rgb(244, 241, 241)
+  background-color: rgb(244, 241, 241);
 }
 
+/* Company menu li-tag */
+.menu-company {
+  width: 33.33%;
+  font-weight: bold;
+  text-align: center;
+  border: 1px solid var(--primary);
+  padding:10px;
+  cursor: pointer;
+}
+.menu-company-active{
+  background-color: var(--primary);
+  color: white;
+}
 .create-job-flex {
   @apply flex flex-col lg:flex-row items-center justify-between gap-8;
 }
