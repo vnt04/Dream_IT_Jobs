@@ -39,7 +39,7 @@ function AllCompany() {
   return (
     <div>
       <div className="py-6 ">
-        <div className="flex ">
+        <div className="flex">
           <a
             className={`menu-company ${activeSection === "#section-best-company" ? "menu-company-active" : ""}`}
             href="#section-best-company"

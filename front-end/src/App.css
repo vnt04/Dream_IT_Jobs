@@ -72,12 +72,31 @@
   font-weight: bold;
   text-align: center;
   border: 1px solid var(--primary);
-  padding:10px;
+  padding: 10px;
   cursor: pointer;
 }
-.menu-company-active{
+.menu-company:hover {
+  color: var(--primary);
+}
+.menu-company-active {
   background-color: var(--primary);
   color: white;
+}
+.menu-company-active:hover {
+  color: white;
+}
+
+/* Blog menu */
+.menu-blog {
+  width: 20%;
+  border: 1px solid #aaa;
+  color: #555;
+  padding: 4px 0px;
+  border-radius: 1.5rem;
+}
+.menu-blog:hover {
+  border-color: var(--primary);
+  color: var(--primary);
 }
 .create-job-flex {
   @apply flex flex-col lg:flex-row items-center justify-between gap-8;

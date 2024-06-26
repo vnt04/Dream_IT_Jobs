@@ -9,11 +9,13 @@ const DataProvider = ({ children }) => {
   const [dataJobs, setDataJobs] = useState([]);
   const [dataUsers, setDataUsers] = useState([]);
   const [dataCompany, setDataCompany] = useState([]);
+  const [dataBlog, setDataBlog] = useState([]);
 
   useEffect(() => {
     getDataJobs();
     getDataUsers();
     getDataCompany();
+    getDataBlog();
   }, []);
   const getDataJobs = () => {
     axios
@@ -43,12 +45,20 @@ const DataProvider = ({ children }) => {
   const mostFollow = [...dataCompany];
   mostFollow.sort((a, b) => a - b);
 
+  const getDataBlog = () => {
+    axios
+      .get(apiEndpoint.all_blog)
+      .then((response) => setDataBlog(response.data))
+      .catch((error) => console.log(error));
+  };
+
   const dataInfo = {
     dataJobs,
     dataUsers,
     getUserInfo,
     dataCompany,
     mostFollow,
+    dataBlog,
   };
   return (
     <DataContext.Provider value={dataInfo}>{children}</DataContext.Provider>

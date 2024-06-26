@@ -7,8 +7,9 @@ const apiEndpoint = {
   job_detail: (jobID) => `${base_url}/job/${jobID}`,
   sign_up: `${base_url}/user/sign-up`,
   all_user: `${base_url}/user`,
-  user_info: (uid) =>  `${base_url}/user/${uid}`,
-  all_company: `${base_url}/company`
+  user_info: (uid) => `${base_url}/user/${uid}`,
+  all_company: `${base_url}/company`,
+  all_blog: `${base_url}/blog`,
 };
 
 export default apiEndpoint;
