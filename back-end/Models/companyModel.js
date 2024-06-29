@@ -44,6 +44,10 @@ const companySchema = new mongoose.Schema({
   nation: {
     type: String,
   },
+  created_by: {
+    type: String,
+    default: "667e6bef9fd78a13de46b6e2",
+  },
 });
 
 module.exports = mongoose.model("Company", companySchema);

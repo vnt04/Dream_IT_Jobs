@@ -2,34 +2,65 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 import apiEndpoint from "../api";
+import { calculateDayNumber, compareDate } from "../utils/index";
 
 export const DataContext = createContext();
 
 const DataProvider = ({ children }) => {
+  const [loading, setLoading] = useState(true);
   const [dataJobs, setDataJobs] = useState([]);
   const [dataUsers, setDataUsers] = useState([]);
   const [dataCompany, setDataCompany] = useState([]);
   const [dataBlog, setDataBlog] = useState([]);
 
   useEffect(() => {
-    getDataJobs();
-    getDataUsers();
-    getDataCompany();
-    getDataBlog();
+    const fetchData = async () => {
+      try {
+        await Promise.all([
+          getDataJobs(),
+          getDataUsers(),
+          getDataCompany(),
+          getDataBlog(),
+        ]);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
+
   const getDataJobs = () => {
     axios
       .get(apiEndpoint.all_jobs)
-      .then((response) => setDataJobs(response.data))
-      .catch((error) => console.log(error));
+      .then((response) => {
+        setDataJobs(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
   };
+  const newJobs = [...dataJobs]
+    .sort(
+      (a, b) =>
+        calculateDayNumber(a.time_created) - calculateDayNumber(b.time_created)
+    )
+    .slice(0, 12);
   const getDataUsers = () => {
     axios
       .get(apiEndpoint.all_user)
       .then((response) => {
         setDataUsers(response.data);
+        setLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
   };
   const getUserInfo = (uid) => {
     const userInfo = dataUsers.find((user) => user?.uid === uid);
@@ -39,8 +70,14 @@ const DataProvider = ({ children }) => {
   const getDataCompany = () => {
     axios
       .get(apiEndpoint.all_company)
-      .then((response) => setDataCompany(response.data))
-      .catch((error) => console.log(error));
+      .then((response) => {
+        setDataCompany(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
   };
   const mostFollow = [...dataCompany];
   mostFollow.sort((a, b) => a - b);
@@ -52,6 +89,11 @@ const DataProvider = ({ children }) => {
       .catch((error) => console.log(error));
   };
 
+  const newBlogs = [...dataBlog];
+  newBlogs.sort((a, b) => compareDate(a.time, b.time));
+  if (loading) {
+    return <div>Loading...</div>;
+  }
   const dataInfo = {
     dataJobs,
     dataUsers,
@@ -59,6 +101,9 @@ const DataProvider = ({ children }) => {
     dataCompany,
     mostFollow,
     dataBlog,
+    loading,
+    newJobs,
+    newBlogs,
   };
   return (
     <DataContext.Provider value={dataInfo}>{children}</DataContext.Provider>

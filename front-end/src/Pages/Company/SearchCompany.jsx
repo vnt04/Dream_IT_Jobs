@@ -1,3 +1,6 @@
+/* eslint-disable react/prop-types */
+import { useState } from "react";
+import axios from "axios";
 import { FaSearch } from "react-icons/fa";
 import Select from "react-select";
 
@@ -33,23 +36,45 @@ const customStyle = {
     color: "black",
   }),
 };
-function SearchCompany() {
+
+function SearchCompany({ setResultSearch }) {
+  const [companyName, setCompanyName] = useState("");
+  const [selected, setSelected] = useState(null);
+  const handleSearch = () => {
+    const name = companyName;
+    const city = selected ? selected.value : null;
+    axios
+      .get("http://localhost:5000/company/search", { params: { name, city } })
+      .then((response) => {
+        setResultSearch(response.data);
+      })
+      .catch((error) => console.log(error));
+  };
   return (
     <div className="flex h-16 w-full mt-4 border rounded border-primary">
       <div className="w-[92%] flex gap-2 p-2 ">
         <div className="w-3/4 p-2 flex items-center gap-3 border rounded border-gray-300 hover:border-2">
           <FaSearch className="text-gray-600 text-xl" />
-          <input className="w-full h-full outline-none p-1 "></input>
+          <input
+            className="w-full h-full outline-none p-1 "
+            onChange={(e) => setCompanyName(e.target.value)}
+            placeholder="Nhập tên công ty bạn đang tìm kiếm ..."
+          ></input>
         </div>
         <div className="w-1/4 h-full">
           <Select
             styles={customStyle}
             placeholder="Địa điểm"
             options={location}
+            value={selected}
+            onChange={setSelected}
           />
         </div>
       </div>
-      <button className="h-full w-[8%] bg-primary text-white font-bold hover:bg-[#299C8D] ">
+      <button
+        onClick={handleSearch}
+        className="h-full w-[8%] bg-primary text-white font-bold hover:bg-[#299C8D] "
+      >
         Tìm kiếm
       </button>
     </div>

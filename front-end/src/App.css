@@ -89,14 +89,89 @@
 /* Blog menu */
 .menu-blog {
   width: 20%;
+  font-weight: bold;
   border: 1px solid #aaa;
   color: #555;
   padding: 4px 0px;
   border-radius: 1.5rem;
 }
 .menu-blog:hover {
-  border-color: var(--primary);
   color: var(--primary);
+  font-weight: bold;
+  border: 2px solid var(--primary);
+}
+.stickyBlog {
+  position: fixed;
+  top: 64px;
+  width: 100%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  z-index: 1000;
+  background-color: white;
+  --tw-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--tw-shadow);
+}
+
+/* Multi tag search */
+.tagsClass {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.tagInputClass {
+  display: flex;
+  flex: 1;
+  width: 100%;
+}
+
+.tagInputFieldClass {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 16px;
+}
+
+.selectedClass {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.tagClass {
+  background: var(--primary);
+  border-radius: 4px;
+  color: white;
+  padding: 5px 8px;
+  margin: 2px;
+  display: flex;
+  align-items: center;
+  cursor: text !important;
+  margin-right: 10px;
+}
+.tagClass:hover {
+  gap: 1rem;
+}
+
+.removeClass {
+  cursor: pointer;
+  margin-left: 8px;
+  font-weight: bold;
+}
+
+/* zoom image hover */
+.zoom-container {
+  overflow: hidden; /* Đảm bảo phần ảnh zoom không bị tràn ra ngoài */
+  position: relative;
+  border-radius: 12px;
+}
+
+.zoom-image {
+  transition: transform 0.3s ease-in-out;
+}
+
+.zoom-container:hover .zoom-image {
+  transform: scale(1.2); /* Tăng kích thước ảnh lên 110% khi hover */
 }
 .create-job-flex {
   @apply flex flex-col lg:flex-row items-center justify-between gap-8;

@@ -1,13 +1,13 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { MdRadioButtonUnchecked } from "react-icons/md";
-import { formatDistanceToNow } from "date-fns";
-import { vi } from "date-fns/locale";
 import Tag from "../../components/Tag";
 import { DataContext } from "../../context/DataProvider";
+import { calculateDaysAgo } from "../../utils";
 
 function ListJobs() {
-  const {dataJobs} = useContext(DataContext);
+  const { dataJobs } = useContext(DataContext);
+
   const HighlightJobs = [...dataJobs]
     .sort((a, b) => b.viewed - a.viewed)
     .slice(0, 5);
@@ -17,17 +17,13 @@ function ListJobs() {
       currency: "VND",
     });
   };
-  const calculateDaysAgo = (timeCreated) => {
-    return formatDistanceToNow(new Date(timeCreated), {
-      addSuffix: true,
-      locale: vi,
-    });
-  };
+
   return (
     <div className="container bg-[#f5f5f5] ">
       <h1 className="font-semibold py-2">
-        Tìm thấy <span className="font-bold text-primary"> {dataJobs.length} </span>{" "}
-        công việc phù hợp với bạn
+        Tìm thấy{" "}
+        <span className="font-bold text-primary"> {dataJobs.length} </span> công
+        việc phù hợp với bạn
       </h1>
 
       <div className="flex mb-3">

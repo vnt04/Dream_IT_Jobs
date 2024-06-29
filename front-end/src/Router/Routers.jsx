@@ -11,6 +11,11 @@ import Register from "../Pages/Account/Register";
 import SignUp from "../Pages/Account/SignUp";
 import PostJobs from "../Pages/PostJobs";
 import Company from "../Pages/Company";
+import Profile from "../Pages/Account/Profile";
+import MyCV from "../Pages/Account/MyCV";
+import MyFollow from "../Pages/Account/MyFollow";
+import MyJobs from "../Pages/Account/MyJobs";
+import SearchResult from "../Pages/Company/SearchResult";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: "/cong-ty-it",
         element: <Company />,
+      },
+      {
+        path: "/cong-ty-IT/search",
+        element: <SearchResult />,
       },
       {
         path: "/blog",
@@ -60,6 +69,22 @@ const router = createBrowserRouter([
       {
         path: "/register",
         element: <Register />,
+      },
+      {
+        path: "/user/profile",
+        element: <Profile />,
+      },
+      {
+        path: "/user/my-cv",
+        element: <MyCV />,
+      },
+      {
+        path: "/user/my-jobs",
+        element: <MyJobs />,
+      },
+      {
+        path: "/user/my-follow",
+        element: <MyFollow />,
       },
     ],
   },

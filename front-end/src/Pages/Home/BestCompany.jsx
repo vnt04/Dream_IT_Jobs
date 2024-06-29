@@ -10,7 +10,6 @@ function BestCompany() {
   for (let i = 0; i < mostFollow.length; i += 3) {
     rowData.push(mostFollow.slice(i, i + 3));
   }
-  console.log(rowData);
   return (
     <div className="container h-auto bg-[#f5f5f5]">
       <div className="flex justify-between">

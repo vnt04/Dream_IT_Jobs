@@ -13,10 +13,22 @@ function User({ displayName, url, role }) {
   const userMenu =
     role === "candidate"
       ? [
-          { icon: <RiAccountPinBoxLine />, title: "Tài khoản của tôi" },
-          { icon: <BiFile />, title: "Quản lý CV" },
-          { icon: <AiOutlineFileDone />, title: "Việc đã ứng tuyển" },
-          { icon: <HiOutlineBookmarkAlt />, title: "Đang theo dõi" },
+          {
+            icon: <RiAccountPinBoxLine />,
+            title: "Tài khoản của tôi",
+            route: "/user/profile",
+          },
+          { icon: <BiFile />, title: "Quản lý CV", route: "user/my-cv" },
+          {
+            icon: <AiOutlineFileDone />,
+            title: "Việc đã ứng tuyển",
+            route: "user/my-jobs",
+          },
+          {
+            icon: <HiOutlineBookmarkAlt />,
+            title: "Đang theo dõi",
+            route: "user/my-follow",
+          },
           { icon: <BiLogOut />, title: "Đăng xuất", action: handleLogout },
         ]
       : [
@@ -46,6 +58,7 @@ function User({ displayName, url, role }) {
         {userMenu.map((item, index) => (
           <Link
             key={index}
+            to={item.route}
             className="group/link flex items-center p-3 text-gray-600 hover:bg-gray-100"
             onClick={item.action}
           >
