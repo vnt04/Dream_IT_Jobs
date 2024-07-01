@@ -60,7 +60,7 @@ function Blog() {
         </div>
       </div>
       <div
-        className={`container flex gap-3 my-4 ${stickyBlog ? "stickyBlog" : ""}`}
+        className={`container h-14 flex gap-3 my-4 ${stickyBlog ? "stickyBlog" : ""}`}
       >
         <button onClick={() => handleFilter("Lập trình")} className="menu-blog">
           Lập trình

@@ -3,6 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import { FaSearch } from "react-icons/fa";
 import Select from "react-select";
+import apiEndpoint from "../../api";
 
 const location = [
   { value: "Tất cả", label: "Tất cả" },
@@ -44,10 +45,8 @@ function SearchCompany({ setResultSearch }) {
     const name = companyName;
     const city = selected ? selected.value : null;
     axios
-      .get("http://localhost:5000/company/search", { params: { name, city } })
-      .then((response) => {
-        setResultSearch(response.data);
-      })
+      .get(apiEndpoint.search_company, { params: { name, city } })
+      .then((response) => setResultSearch(response.data))
       .catch((error) => console.log(error));
   };
   return (

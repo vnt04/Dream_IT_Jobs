@@ -1,57 +1,76 @@
-import { useContext } from "react";
+/* eslint-disable react/prop-types */
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { MdRadioButtonUnchecked } from "react-icons/md";
 import Tag from "../../components/Tag";
 import { DataContext } from "../../context/DataProvider";
-import { calculateDaysAgo } from "../../utils";
+import {
+  calculateDaysAgo,
+  formatCurrency,
+  calculateDayNumber,
+} from "../../utils";
 
-function ListJobs() {
+function ListJobs({ resultSearch, showResult }) {
   const { dataJobs } = useContext(DataContext);
+  const [newest, setNewest] = useState(false);
+  const [highestSalary, setHighestSalary] = useState(false);
 
   const HighlightJobs = [...dataJobs]
     .sort((a, b) => b.viewed - a.viewed)
     .slice(0, 5);
-  const formatCurrency = (number) => {
-    return number.toLocaleString("vi-VN", {
-      style: "currency",
-      currency: "VND",
-    });
-  };
 
+  const currentData = showResult ? resultSearch : dataJobs;
+  const filterData = [...currentData];
+  if (newest) {
+    filterData.sort(
+      (a, b) =>
+        calculateDayNumber(a.time_created) - calculateDayNumber(b.time_created)
+    );
+  }
+  if (highestSalary) {
+    filterData.sort(
+      (a, b) => b.salary_range.max_salary - a.salary_range.max_salary
+    );
+  }
   return (
     <div className="container bg-[#f5f5f5] ">
       <h1 className="font-semibold py-2">
         Tìm thấy{" "}
-        <span className="font-bold text-primary"> {dataJobs.length} </span> công
-        việc phù hợp với bạn
+        <span className="font-bold text-primary"> {currentData.length} </span>{" "}
+        công việc phù hợp với bạn
       </h1>
 
       <div className="flex mb-3">
         <h1 className="w-1/6 text-gray-500">Ưu tiên hiển thị:</h1>
         <div className="w-1/6 flex items-center gap-2">
-          <MdRadioButtonUnchecked />
+          <input
+            type="radio"
+            checked={newest}
+            onClick={() => setNewest(!newest)}
+            onChange={() => {}}
+          />
           <span>Tin mới nhất</span>
         </div>
         <div className="w-1/6 flex items-center gap-2">
-          <MdRadioButtonUnchecked />
-          <span>Cần tuyển gấp</span>
-        </div>
-        <div className="w-1/6 flex items-center gap-2">
-          <MdRadioButtonUnchecked />
+          <input
+            type="radio"
+            checked={highestSalary}
+            onClick={() => setHighestSalary(!highestSalary)}
+            onChange={() => {}}
+          />
           <span>Lương cao nhất</span>
         </div>
       </div>
 
       <div className="flex gap-4">
         <div className="w-2/3">
-          {dataJobs.map((jobData) => (
+          {filterData.map((jobData) => (
             <div
               key={jobData._id}
               className="h-48 flex mb-5 rounded-xl bg-white hover:bg-teal-100"
             >
               <div className="w-[30%] h-2/3">
                 <img
-                  src={`./src/assets/img-company/${jobData.img}`}
+                  src={`/src/assets/img-company/${jobData.img}`}
                   alt=""
                   className="w-full h-full px-14 py-5"
                 />

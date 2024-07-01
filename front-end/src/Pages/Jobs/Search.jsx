@@ -1,42 +1,41 @@
-import { FaSearch } from "react-icons/fa";
-import { IoCheckmarkCircle } from "react-icons/io5";
-import { FaFilterCircleXmark } from "react-icons/fa6";
+/* eslint-disable react/prop-types */
 import Dropdown from "../../components/DropDown";
 import { WithContext as ReactTags } from "react-tag-input";
 import { useState } from "react";
+import axios from "axios";
+import apiEndpoint from "../../api";
+import { FaSearch } from "react-icons/fa";
+import { IoCheckmarkCircle } from "react-icons/io5";
+import { FaFilterCircleXmark } from "react-icons/fa6";
 
 const locationOption = [
-  { value: "Tất cả", label: "Tất cả địa điểm" },
+  { value: "Tất cả địa điểm", label: "Tất cả địa điểm" },
   { value: "Hồ Chí Minh", label: "Hồ Chí Minh" },
   { value: "Hà Nội", label: "Hà Nội" },
   { value: "Đà Nẵng", label: "Đà Nẵng" },
 ];
 
 const levelOptions = [
-  { value: "Tất cả", label: "Tất cả cấp bậc" },
+  { value: "Tất cả cấp bậc", label: "Tất cả cấp bậc" },
   { value: "Intern", label: "Intern" },
+  { value: "Fresher", label: "Fresher" },
   { value: "Junior", label: "Junior" },
+  { value: "Middle", label: "Middle" },
   { value: "Senior", label: "Senior" },
+  { value: "Tech Lead", label: "Tech Lead" },
 ];
 
 const jobTypeOptions = [
-  { value: "Tất cả", label: "Tất cả loại công việc" },
-  { value: "Full-time", label: "Full-time" },
-  { value: "Part-time", label: "Part-time" },
-  { value: "Contract", label: "Contract" },
+  { value: "In Office", label: "In Office" },
+  { value: "Hybrid", label: "Hybrid" },
+  { value: "Remote", label: "Remote" },
+  { value: "Oversea", label: "Oversea" },
 ];
 
 const contractTypeOptions = [
-  { value: "Tất cả", label: "Tất cả loại hợp đồng" },
-  { value: "Permanent", label: "Permanent" },
-  { value: "Temporary", label: "Temporary" },
-];
-
-const salaryOptions = [
-  { value: "Tất cả", label: "Tất cả mức lương" },
-  { value: "< $1000", label: "< $1000" },
-  { value: "$1000 - $2000", label: "$1000 - $2000" },
-  { value: "> $2000", label: "> $2000" },
+  { value: "Full-time", label: "Full-time" },
+  { value: "Freelancer", label: "Freelancer" },
+  { value: "Part-time", label: "Part-time" },
 ];
 
 const KeyCodes = {
@@ -46,15 +45,12 @@ const KeyCodes = {
 
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
-function Search() {
+function Search({ setResultSearch, setShowResult }) {
   const [tags, setTags] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(locationOption[0]);
   const [selectedLevel, setSelectedLevel] = useState(levelOptions[0]);
-  const [selectedJobType, setSelectedJobType] = useState(jobTypeOptions[0]);
-  const [selectedContractType, setSelectedContractType] = useState(
-    contractTypeOptions[0]
-  );
-  const [selectedSalary, setSelectedSalary] = useState(salaryOptions[0]);
+  const [selectedJobType, setSelectedJobType] = useState([]);
+  const [selectedContractType, setSelectedContractType] = useState([]);
 
   const handleDelete = (i) => {
     setTags(tags.filter((tag, index) => index !== i));
@@ -62,6 +58,31 @@ function Search() {
 
   const handleAddition = (tag) => {
     setTags([...tags, tag]);
+  };
+
+  const handleDeleteFilter = () => {
+    setSelectedLocation(locationOption[0]);
+    setSelectedLevel(levelOptions[0]);
+    setSelectedJobType([]);
+    setSelectedContractType([]);
+  };
+
+  const handleSearch = () => {
+    axios
+      .get(apiEndpoint.search_job, {
+        params: {
+          tags: JSON.stringify(tags),
+          selectedLocation: JSON.stringify(selectedLocation),
+          selectedLevel: JSON.stringify(selectedLevel),
+          selectedJobType: JSON.stringify(selectedJobType),
+          selectedContractType: JSON.stringify(selectedContractType),
+        },
+      })
+      .then((response) => {
+        setResultSearch(response.data);
+        setShowResult(true);
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -107,7 +128,10 @@ function Search() {
             />
           </div>
           <div className="m-5">
-            <button className="flex items-center h-10 px-4 font-bold text-white text-[14px] border border-solid rounded bg-primary">
+            <button
+              onClick={handleSearch}
+              className="flex items-center h-10 px-4 font-bold text-white text-[14px] border border-solid rounded bg-primary"
+            >
               <FaSearch className="mx-2" />
               Tìm kiếm
             </button>
@@ -116,40 +140,41 @@ function Search() {
 
         <div className="flex gap-2 py-4">
           <Dropdown
+            type="single"
             label="Tất cả địa điểm"
             options={locationOption}
             selectedValue={selectedLocation}
             onSelect={setSelectedLocation}
           />
           <Dropdown
+            type="single"
             label="Tất cả cấp bậc"
             options={levelOptions}
             selectedValue={selectedLevel}
             onSelect={setSelectedLevel}
           />
           <Dropdown
+            type="multi"
             label="Tất cả loại công việc"
             options={jobTypeOptions}
             selectedValue={selectedJobType}
             onSelect={setSelectedJobType}
           />
           <Dropdown
+            type="multi"
             label="Tất cả loại hợp đồng"
             options={contractTypeOptions}
             selectedValue={selectedContractType}
             onSelect={setSelectedContractType}
           />
-          <Dropdown
-            label="Tất cả mức lương"
-            options={salaryOptions}
-            selectedValue={selectedSalary}
-            onSelect={setSelectedSalary}
-          />
 
-          <div className="w-1/6 h-12 flex gap-2 justify-center cursor-pointer items-center font-bold rounded-sm text-red-500 bg-[#c2c2c2]">
+          <button
+            onClick={handleDeleteFilter}
+            className="w-1/6 h-12 flex gap-2 justify-center cursor-pointer items-center font-bold rounded-sm text-red-500 bg-[#c2c2c2] hover:bg-gray-300"
+          >
             <FaFilterCircleXmark />
             <span>Xóa bộ lọc</span>
-          </div>
+          </button>
         </div>
       </div>
     </div>
