@@ -2,7 +2,6 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import Jobs from "../Pages/Jobs";
 import Blog from "../Pages/Blog";
-import Forum from "../Pages/Forum";
 import ProfileCV from "../Pages/ProfileCV";
 import Home from "../Pages/Home";
 import JobDetail from "../Pages/Jobs/JobDetail";
@@ -16,6 +15,8 @@ import MyCV from "../Pages/Account/MyCV";
 import MyFollow from "../Pages/Account/MyFollow";
 import MyJobs from "../Pages/Account/MyJobs";
 import SearchResult from "../Pages/Company/SearchResult";
+import CompanyDetail from "../Pages/Company/CompanyDetail";
+import MyCompany from "../Pages/Account/MyCompany";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,11 @@ const router = createBrowserRouter([
         path: "/cong-ty-it",
         element: <Company />,
       },
+      { path: "/cong-ty-it/:companyID", element: <CompanyDetail /> },
+      {
+        path: "/cong-ty-it/:companyID/update",
+        element: <MyCompany />,
+      },
       {
         path: "/cong-ty-IT/search",
         element: <SearchResult />,
@@ -45,10 +51,6 @@ const router = createBrowserRouter([
       {
         path: "/blog",
         element: <Blog />,
-      },
-      {
-        path: "/dien-dan",
-        element: <Forum />,
       },
       {
         path: "/ho-so-CV",

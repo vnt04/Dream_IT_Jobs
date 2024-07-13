@@ -31,17 +31,15 @@ function Navbar() {
     user?.role === "recruiter"
       ? [
           { path: "/viec-lam-it", title: "Việc làm IT" },
-          { path: "/dang-bai", title: "Đăng bài" },
+          { path: "/dang-bai", title: "Đăng việc làm" },
           { path: "/cong-ty-IT", title: "Công ty IT" },
           { path: "/blog", title: "Blog IT" },
-          { path: "/dien-dan", title: "Diễn đàn IT" },
         ]
       : [
           { path: "/viec-lam-it", title: "Việc làm IT" },
           { path: "/ho-so-CV", title: "Hồ sơ & CV" },
           { path: "/cong-ty-IT", title: "Công ty IT" },
           { path: "/blog", title: "Blog IT" },
-          { path: "/dien-dan", title: "Diễn đàn IT" },
         ];
   return (
     <header className="sticky top-0 z-50 max-w-screen-4xl mx-auto  ">
@@ -55,7 +53,7 @@ function Navbar() {
         </a>
 
         {/* navbar center - MAIN TOOLS */}
-        <ul className=" hidden md:flex gap-12 font-bold ">
+        <ul className=" hidden md:flex gap-16 font-bold ">
           {navItems.map(({ path, title }) => (
             <li key={path} className="hover:text-red-500">
               <NavLink
@@ -70,11 +68,17 @@ function Navbar() {
           ))}
         </ul>
         {/* User */}
+
         <div className="gap-5 items-center hidden lg:flex">
           {user ? (
             <div className="flex gap-6 items-center">
               <FaBell />
-              <User displayName={user.displayName} url={user.avatar} role={user.role} />
+              <User
+                displayName={user.displayName}
+                url={user.avatar}
+                role={user.role}
+                uid={user.uid}
+              />
             </div>
           ) : (
             <div className="flex gap-5">

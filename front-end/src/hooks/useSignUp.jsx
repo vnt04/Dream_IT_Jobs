@@ -40,13 +40,15 @@ const useSignUp = () => {
     company,
     phone,
     displayName,
-    position
+    position,
+    mst,
+    onSuccess
   ) => {
     if (checkConfirmPassword(password, confirmPassword)) {
       try {
         const uid = await createUser(email, password);
         if (uid) {
-          successSignUp();
+          // successSignUp();
           const role = "recruiter";
           await axios.post(apiEndpoint.sign_up, {
             uid,
@@ -55,8 +57,10 @@ const useSignUp = () => {
             role,
             company,
             phone,
+            mst,
             position,
           });
+          onSuccess();
         }
       } catch (error) {
         handleAuthError(error);

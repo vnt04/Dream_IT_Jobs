@@ -5,38 +5,45 @@ const companySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  photo: [String],
+  mst: {
+    type: String,
+    required: true,
+  },
   logo: {
     type: String,
-    required: true,
-  },
-  slogan: {
-    type: String,
-  },
-  address: [String],
-  location: {
-    type: String,
-  },
-  city: {
-    type: String,
-    required: true,
   },
   banner: {
     type: String,
-    required: true,
   },
+  model: {
+    type: String,
+  },
+  scale: {
+    type: Number,
+    default: 1,
+  },
+  work_time: {
+    type: String,
+  },
+  over_time: {
+    type: String,
+  },
+  tech_stack: [String],
+  address: [String],
+  location: [String],
   field: {
     type: String,
-    required: true,
   },
   follow: {
     type: Number,
     required: true,
+    default: 0,
   },
-  jobs: [String],
   description: {
     type: String,
-    required: true,
+  },
+  benefit: {
+    type: String,
   },
   website: {
     type: String,
@@ -44,9 +51,9 @@ const companySchema = new mongoose.Schema({
   nation: {
     type: String,
   },
-  created_by: {
-    type: String,
-    default: "667e6bef9fd78a13de46b6e2",
+  review_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Review",
   },
 });
 

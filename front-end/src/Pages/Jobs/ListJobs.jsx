@@ -8,6 +8,7 @@ import {
   formatCurrency,
   calculateDayNumber,
 } from "../../utils";
+import JobCard from "../../components/JobCard";
 
 function ListJobs({ resultSearch, showResult }) {
   const { dataJobs } = useContext(DataContext);
@@ -110,40 +111,11 @@ function ListJobs({ resultSearch, showResult }) {
             </div>
           ))}
         </div>
-        <div className="w-1/3 h-[685px]  bg-white">
+        <div className="w-1/3 h-[840px]  bg-white">
           <div className="py-2 items-center font-bold text-xl text-center text-white bg-primary ">
             Việc làm nổi bật
           </div>
-          <div>
-            {HighlightJobs.map((jobData) => (
-              <div
-                key={jobData._id}
-                className="h-32 flex border-y-[1px] py-5 cursor-pointer "
-              >
-                <div className="w-1/3">
-                  <img
-                    src={`/src/assets/img-company/${jobData.img}`}
-                    alt=""
-                    className="w-full h-full p-5"
-                  />
-                </div>
-                <div>
-                  <Link
-                    to={`/viec-lam-it/${jobData._id}`}
-                    className="font-bold text-xl line-clamp-1 hover:text-primary"
-                  >
-                    {jobData.job_title}
-                  </Link>
-                  <div className="my-1">{jobData.company}</div>
-                  <div className="flex gap-3 mt-1">
-                    {jobData.tag.map((tag, index) => (
-                      <Tag key={index} name={tag} />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <JobCard jobCard={HighlightJobs} />
         </div>
       </div>
     </div>

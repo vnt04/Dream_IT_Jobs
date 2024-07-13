@@ -39,7 +39,7 @@ function NewJobs() {
               className="h-40 w-1/3 py-2 flex border-[2px] rounded-xl"
             >
               <div className="w-1/3">
-                <Link to={"/cong-ty-IT"}>
+                <Link to={"/cong-ty-IT/${job.}"}>
                   <img
                     src={`/src/assets/img-company/${job.img}`}
                     alt=""
@@ -54,7 +54,7 @@ function NewJobs() {
                 >
                   {job.job_title}
                 </Link>
-                <Link to={"/cong-ty-IT"}>
+                <Link to={"/cong-ty-IT/:companyID"}>
                   <h4 className="my-1 font-semibold text-[#666] hover:text-[#aaa]">
                     {job.company}
                   </h4>

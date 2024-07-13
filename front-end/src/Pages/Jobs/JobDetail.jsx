@@ -5,6 +5,7 @@ import { CiBookmark } from "react-icons/ci";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import apiEndpoint from "../../api";
+import { formatCurrency } from "../../utils/index";
 
 function JobDetail() {
   const { jobID } = useParams();
@@ -16,12 +17,6 @@ function JobDetail() {
       .catch((error) => console.log(error));
   }, [jobID]);
 
-  const formatCurrency = (number) => {
-    return number.toLocaleString("vi-VN", {
-      style: "currency",
-      currency: "VND",
-    });
-  };
   const minSalary = detail.salary_range?.min_salary;
   const maxSalary = detail.salary_range?.max_salary;
   return (

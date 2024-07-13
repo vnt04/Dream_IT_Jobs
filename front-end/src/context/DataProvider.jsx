@@ -10,6 +10,7 @@ const DataProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [dataJobs, setDataJobs] = useState([]);
   const [dataUsers, setDataUsers] = useState([]);
+  const [dataRecruiter, setDataRecruiter] = useState([]);
   const [dataCompany, setDataCompany] = useState([]);
   const [dataBlog, setDataBlog] = useState([]);
 
@@ -21,6 +22,7 @@ const DataProvider = ({ children }) => {
           getDataUsers(),
           getDataCompany(),
           getDataBlog(),
+          getDataRecruiter(),
         ]);
         setLoading(false);
       } catch (error) {
@@ -62,6 +64,18 @@ const DataProvider = ({ children }) => {
         setLoading(false);
       });
   };
+  const getDataRecruiter = () => {
+    axios
+      .get(apiEndpoint.all_recruiter)
+      .then((response) => {
+        setDataRecruiter(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
+  };
   const getUserInfo = (uid) => {
     const userInfo = dataUsers.find((user) => user?.uid === uid);
     return userInfo || null;
@@ -88,7 +102,6 @@ const DataProvider = ({ children }) => {
       .then((response) => setDataBlog(response.data))
       .catch((error) => console.log(error));
   };
-
   const newBlogs = [...dataBlog];
   newBlogs.sort((a, b) => compareDate(a.time, b.time));
   if (loading) {
@@ -104,6 +117,7 @@ const DataProvider = ({ children }) => {
     loading,
     newJobs,
     newBlogs,
+    dataRecruiter,
   };
   return (
     <DataContext.Provider value={dataInfo}>{children}</DataContext.Provider>

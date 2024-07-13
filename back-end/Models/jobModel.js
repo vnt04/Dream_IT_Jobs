@@ -6,25 +6,16 @@ const JobSchema = new mongoose.Schema({
     required: true,
   },
   company: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Company",
     required: true,
   },
-  salary_range: {
-    type: Object,
+  min_salary: {
+    type: Number,
     required: true,
-    properties: {
-      min_salary: {
-        type: Number,
-        required: true,
-      },
-      max_salary: {
-        type: Number,
-        required: true,
-      },
-    },
   },
-  tag: {
-    type: [String],
+  max_salary: {
+    type: Number,
     required: true,
   },
   address: {
@@ -32,36 +23,50 @@ const JobSchema = new mongoose.Schema({
     required: true,
   },
   location: {
-    type:String,
-    required: true
-  },
-  img: {
     type: String,
     required: true,
-    default: "./src/assets/jobs-img/job-df",
   },
   time_created: {
     type: Date,
     required: true,
+    default: Date.now(),
   },
-  type_job: {
+  job_type: {
     type: String,
+    required: true,
   },
   contract: {
     type: String,
+    required: true,
   },
   viewed: {
     type: Number,
+    default: 0,
   },
-  year_exp:{
+  year_exp: {
     type: String,
+    required: true,
   },
   level: {
-    type: Array
+    type: String,
+    required: true,
   },
-  tech_stack:{
-    type:Array
-  }
+  tech_stack: {
+    type: Array,
+    required: true,
+  },
+  mission: {
+    type: String,
+    required: true,
+  },
+  requirement: {
+    type: String,
+    required: true,
+  },
+  benefit: {
+    type: String,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("Job", JobSchema);

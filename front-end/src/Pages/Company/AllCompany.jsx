@@ -9,7 +9,7 @@ function AllCompany({ resultSearch }) {
   const { dataCompany, mostFollow } = useContext(DataContext);
 
   const rowData = [];
-  for (let i = 0; i < dataCompany.length; i += 3) {
+  for (let i = 0; i < dataCompany?.length; i += 3) {
     rowData.push(dataCompany.slice(i, i + 3));
   }
 
@@ -20,7 +20,7 @@ function AllCompany({ resultSearch }) {
 
   const hasJob = [];
   dataCompany.map((data) => {
-    if (data.jobs.length > 0) {
+    if (data.jobs?.length > 0) {
       hasJob.push(data);
     }
   });
@@ -83,18 +83,23 @@ function AllCompany({ resultSearch }) {
             {rowData.map((row, index) => (
               <div key={index} className="flex gap-4 mb-2">
                 {row.map((data, index) => (
-                  <div
+                  <a
+                    href={`/cong-ty-IT/${data._id}`}
                     key={index}
                     className="mt-2 w-1/3 h-[400px] rounded-xl border"
                   >
-                    <div className="h-44 relative mb-4">
+                    <div className="h-44 relative z-0 mb-4">
                       <img
-                        src="/src/assets/img-company/banner_fpt.jpg"
+                        src={`/src/assets/img-company/${data.banner}`}
                         className="h-[90%] w-full rounded-tl-xl rounded-tr-xl"
                         alt="banner"
                       />
-                      <div className="absolute bottom-0 h-20 w-20 left-4 rounded-md border border-gray-100">
-                        <img src="/src/assets/img-company/fpt.png" alt="" />
+                      <div className="absolute bottom-0 h-28 w-28 left-4 rounded-md border border-gray-100">
+                        <img
+                          src={`/src/assets/img-company/${data.logo}`}
+                          alt=""
+                          className="w-full h-full border"
+                        />
                       </div>
                     </div>
 
@@ -102,16 +107,11 @@ function AllCompany({ resultSearch }) {
                       <h3 className="text-[#333] text-left font-bold uppercase">
                         {data.name}
                       </h3>
-                      <p className="text-[#555] pt-4 text-sm">
-                        J&T Express là thương hiệu chuyển phát nhanh dựa trên sự
-                        phát triển của công nghệ và Internet của Công ty TNHH
-                        MTV Chuyển phát nhanh Thuận Phong có vốn đầu tư từ Hồng
-                        Kông. Chúng tôi sở hữu một mạng lưới rộng khắp nhằm hỗ
-                        trợ các hoạt động giao nhận hàng hóa nhanh chóng không
-                        chỉ ở nội thành mà còn ở ngoại thành và các vùng xa...
+                      <p className="text-[#555] pt-4 line-clamp-5">
+                        {data.description}
                       </p>
                     </div>
-                  </div>
+                  </a>
                 ))}
               </div>
             ))}
@@ -124,18 +124,23 @@ function AllCompany({ resultSearch }) {
             {rowMostFollow.map((row, index) => (
               <div key={index} className="flex gap-4 mb-2">
                 {row.map((data, index) => (
-                  <div
+                  <a
+                    href={`/cong-ty-IT/${data._id}`}
                     key={index}
                     className="mt-2 w-1/4 h-[358px] rounded-xl border"
                   >
                     <div className="h-60 relative mb-2">
                       <img
-                        src="/src/assets/img-company/banner_fpt.jpg"
+                        src={`/src/assets/img-company/${data.banner}`}
                         className="h-[90%] w-full rounded-tl-xl rounded-tr-xl"
                         alt="banner"
                       />
                       <div className="absolute bottom-0 h-20 w-20 left-4 rounded-md border border-gray-100">
-                        <img src="/src/assets/img-company/fpt.png" alt="" />
+                        <img
+                          src={`/src/assets/img-company/${data.logo}`}
+                          alt=""
+                          className="w-full h-full border"
+                        />
                       </div>
                     </div>
 
@@ -154,7 +159,7 @@ function AllCompany({ resultSearch }) {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </a>
                 ))}
               </div>
             ))}

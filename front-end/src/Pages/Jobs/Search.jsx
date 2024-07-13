@@ -4,39 +4,15 @@ import { WithContext as ReactTags } from "react-tag-input";
 import { useState } from "react";
 import axios from "axios";
 import apiEndpoint from "../../api";
+import {
+  locationOption,
+  levelOptions,
+  jobTypeOptions,
+  contractTypeOptions,
+} from "../../assets/defaultData";
 import { FaSearch } from "react-icons/fa";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import { FaFilterCircleXmark } from "react-icons/fa6";
-
-const locationOption = [
-  { value: "Tất cả địa điểm", label: "Tất cả địa điểm" },
-  { value: "Hồ Chí Minh", label: "Hồ Chí Minh" },
-  { value: "Hà Nội", label: "Hà Nội" },
-  { value: "Đà Nẵng", label: "Đà Nẵng" },
-];
-
-const levelOptions = [
-  { value: "Tất cả cấp bậc", label: "Tất cả cấp bậc" },
-  { value: "Intern", label: "Intern" },
-  { value: "Fresher", label: "Fresher" },
-  { value: "Junior", label: "Junior" },
-  { value: "Middle", label: "Middle" },
-  { value: "Senior", label: "Senior" },
-  { value: "Tech Lead", label: "Tech Lead" },
-];
-
-const jobTypeOptions = [
-  { value: "In Office", label: "In Office" },
-  { value: "Hybrid", label: "Hybrid" },
-  { value: "Remote", label: "Remote" },
-  { value: "Oversea", label: "Oversea" },
-];
-
-const contractTypeOptions = [
-  { value: "Full-time", label: "Full-time" },
-  { value: "Freelancer", label: "Freelancer" },
-  { value: "Part-time", label: "Part-time" },
-];
 
 const KeyCodes = {
   comma: 188,
@@ -47,8 +23,8 @@ const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
 function Search({ setResultSearch, setShowResult }) {
   const [tags, setTags] = useState([]);
-  const [selectedLocation, setSelectedLocation] = useState(locationOption[0]);
-  const [selectedLevel, setSelectedLevel] = useState(levelOptions[0]);
+  const [selectedLocation, setSelectedLocation] = useState([]);
+  const [selectedLevel, setSelectedLevel] = useState([]);
   const [selectedJobType, setSelectedJobType] = useState([]);
   const [selectedContractType, setSelectedContractType] = useState([]);
 
@@ -61,8 +37,8 @@ function Search({ setResultSearch, setShowResult }) {
   };
 
   const handleDeleteFilter = () => {
-    setSelectedLocation(locationOption[0]);
-    setSelectedLevel(levelOptions[0]);
+    setSelectedLocation("Tất cả địa điểm");
+    setSelectedLevel("Tất cả cấp bậc");
     setSelectedJobType([]);
     setSelectedContractType([]);
   };
@@ -138,39 +114,47 @@ function Search({ setResultSearch, setShowResult }) {
           </div>
         </div>
 
-        <div className="flex gap-2 py-4">
-          <Dropdown
-            type="single"
-            label="Tất cả địa điểm"
-            options={locationOption}
-            selectedValue={selectedLocation}
-            onSelect={setSelectedLocation}
-          />
-          <Dropdown
-            type="single"
-            label="Tất cả cấp bậc"
-            options={levelOptions}
-            selectedValue={selectedLevel}
-            onSelect={setSelectedLevel}
-          />
-          <Dropdown
-            type="multi"
-            label="Tất cả loại công việc"
-            options={jobTypeOptions}
-            selectedValue={selectedJobType}
-            onSelect={setSelectedJobType}
-          />
-          <Dropdown
-            type="multi"
-            label="Tất cả loại hợp đồng"
-            options={contractTypeOptions}
-            selectedValue={selectedContractType}
-            onSelect={setSelectedContractType}
-          />
+        <div className="flex gap-2 py-2">
+          <div className="w-1/5">
+            <Dropdown
+              type="single"
+              label="Tất cả địa điểm"
+              options={locationOption}
+              selectedValue={selectedLocation}
+              onSelect={setSelectedLocation}
+            />
+          </div>
+          <div className="w-1/5">
+            <Dropdown
+              type="single"
+              label="Tất cả cấp bậc"
+              options={levelOptions}
+              selectedValue={selectedLevel}
+              onSelect={setSelectedLevel}
+            />
+          </div>
+          <div className="w-1/5">
+            <Dropdown
+              type="multi"
+              label="Tất cả loại công việc"
+              options={jobTypeOptions}
+              selectedValue={selectedJobType}
+              onSelect={setSelectedJobType}
+            />
+          </div>
+          <div className="w-1/5">
+            <Dropdown
+              type="multi"
+              label="Tất cả loại hợp đồng"
+              options={contractTypeOptions}
+              selectedValue={selectedContractType}
+              onSelect={setSelectedContractType}
+            />
+          </div>
 
           <button
             onClick={handleDeleteFilter}
-            className="w-1/6 h-12 flex gap-2 justify-center cursor-pointer items-center font-bold rounded-sm text-red-500 bg-[#c2c2c2] hover:bg-gray-300"
+            className="w-1/6 h-10 flex gap-2 justify-center cursor-pointer items-center font-bold rounded-sm text-red-500 bg-[#c2c2c2] hover:bg-gray-300"
           >
             <FaFilterCircleXmark />
             <span>Xóa bộ lọc</span>

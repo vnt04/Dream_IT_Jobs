@@ -1,35 +1,74 @@
+import { useState } from "react";
 import InputTemplate from "../../components/InputTemplate";
+import CustomModal from "../../components/CustomModal";
 import useLogin from "../../hooks/useLogin";
 import useSignUp from "../../hooks/useSignUp";
 
 function Register() {
   const { loginWithEmail } = useLogin();
   const { signUpRecruiter } = useSignUp();
+
+  const [agreeRegister, setAgreeRegister] = useState(false);
+  const [agreeLogin, setAgreeLogin] = useState(false);
+  const [showNote, setShowNote] = useState(false);
+  const [showNoteLogin, setShowNoteLogin] = useState(false);
+  const [showPopUp, setShowPopUp] = useState(false);
+
+  const handleClose = () => {
+    setShowPopUp(false);
+    window.location.href = "";
+  };
+
+  const footerActions = [
+    {
+      variant: "secondary",
+      label: "Đóng",
+      onClick: handleClose,
+    },
+    {
+      variant: "primary",
+      label: "Tôi đã hiểu",
+      onClick: handleClose,
+    },
+  ];
+
   const handleLogin = (event) => {
     event.preventDefault();
-    const { email, password } = event.target.elements;
-    loginWithEmail(email.value, password.value);
+    if (!agreeLogin) {
+      setShowNoteLogin((pre) => !pre);
+    } else {
+      const { email, password } = event.target.elements;
+      loginWithEmail(email.value, password.value);
+    }
   };
+
   const handleRegister = (event) => {
     event.preventDefault();
-    const {
-      email,
-      password,
-      confirmPassword,
-      company,
-      phone,
-      displayName,
-      position,
-    } = event.target.elements;
-    signUpRecruiter(
-      email.value,
-      password.value,
-      confirmPassword.value,
-      company.value,
-      phone.value,
-      displayName.value,
-      position.value
-    );
+    if (!agreeRegister) {
+      setShowNote((pre) => !pre);
+    } else {
+      const {
+        email,
+        password,
+        confirmPassword,
+        company,
+        mst,
+        phone,
+        displayName,
+        position,
+      } = event.target.elements;
+      signUpRecruiter(
+        email.value,
+        password.value,
+        confirmPassword.value,
+        company.value,
+        phone.value,
+        displayName.value,
+        position.value,
+        mst.value,
+        () => setShowPopUp(true)
+      );
+    }
   };
   return (
     <div className="py-4 flex gap-4 justify-center">
@@ -58,7 +97,15 @@ function Register() {
           placeholder="******************"
         />
         <div className="flex gap-2 items-start mb-6">
-          <input type="checkbox" className="mt-2" />
+          <input
+            type="checkbox"
+            checked={agreeLogin}
+            onChange={() => {
+              setAgreeLogin((pre) => !pre);
+              setShowNoteLogin(false);
+            }}
+            className="mt-2"
+          />
           <h3 className=" items-start text-gray-500">
             Bằng việc đăng nhập, bạn đồng ý với{" "}
             <span className="font-bold "> Điều Khoản Sử Dụng</span> và
@@ -66,6 +113,11 @@ function Register() {
             của <span className="text-primary font-bold"> Dream IT Jobs</span>.
           </h3>
         </div>
+        {showNoteLogin && (
+          <h1 className="py-2 text-red-500">
+            Vui lòng đồng ý với điều khoản và chính sách bảo mật của chúng tôi
+          </h1>
+        )}
         <div className="grid gap-5">
           <a
             className="text-end font-bold text-sm text-primary hover:text-teal-400"
@@ -89,19 +141,31 @@ function Register() {
         <h3 className=" mb-6 text-gray-500">
           Tạo tài khoản ngay để tuyển dụng những lập trình viên hàng đầu
         </h3>
-        <InputTemplate
-          title="Tên công ty"
-          name="company"
-          type=""
-          placeholder="Ví dụ: TMA Solution"
-        />
-        <div className="flex justify-between">
+        <div className="flex gap-1 justify-between">
+          <div className="w-2/3">
+            <InputTemplate
+              title="Tên công ty"
+              name="company"
+              type="text"
+              placeholder="Ví dụ: TMA Solution"
+            />
+          </div>
           <InputTemplate
-            title="Họ và tên"
-            name="displayName"
-            type=""
-            placeholder="Nguyễn Văn A"
+            title="Mã số thuế"
+            name="mst"
+            type="text"
+            placeholder="Ví dụ:0101778572"
           />
+        </div>
+        <div className="flex gap-1 justify-between">
+          <div className="w-2/3">
+            <InputTemplate
+              title="Họ và tên"
+              name="displayName"
+              type=""
+              placeholder="Nguyễn Văn A"
+            />
+          </div>
           <InputTemplate
             title="Vị trí hiện tại"
             name="position"
@@ -135,15 +199,35 @@ function Register() {
           placeholder="Nhập lại mật khẩu"
         />
         <div className="flex gap-2 items-baseline">
-          <input type="checkbox" className="mt-2" />
-          <h3 className=" mb-6 text-gray-500">
+          <input
+            type="checkbox"
+            checked={agreeRegister}
+            onChange={() => {
+              setAgreeRegister((pre) => !pre);
+              setShowNote(false);
+            }}
+            className="mt-2"
+          />
+          <h3 className=" mb-2 text-gray-500">
             Tôi đã đọc và chấp thuận với
             <span className="font-bold "> Điều Khoản Sử Dụng</span> và
             <span className="font-bold "> Chính Sách Bảo Mật </span>
             của <span className="text-primary font-bold"> Dream IT Jobs</span>.
           </h3>
         </div>
-
+        {showNote && (
+          <h1 className="py-2 text-red-500">
+            Vui lòng đồng ý với điều khoản và chính sách bảo mật của chúng tôi
+          </h1>
+        )}
+        <CustomModal
+          show={showPopUp}
+          handleClose={handleClose}
+          title="Đăng ký thành công"
+          body="Cảm ơn bạn đã đăng kí tuyển dụng với Dream IT Jobs. 
+          Bộ phận CSKH của chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất!"
+          footerActions={footerActions}
+        />
         <button className="w-full btn-1" type="submit">
           Đăng ký
         </button>

@@ -40,18 +40,18 @@ function BestCompany() {
               key={index}
               className="h-64 w-1/3 p-4 border-[2px] rounded-xl bg-white"
             >
-              <div className="h-36 w-full flex ">
+              <a href={`/cong-ty-IT/${data._id}`} className="h-36 w-full flex ">
                 <img
-                  src="./src/assets/img-company/cybozu.jpg"
+                  src={`/src/assets/img-company/${data.logo}`}
                   alt=""
-                  className="w-full h-full p-5"
+                  className="w-full h-full p-2"
                 />
                 <CiBookmark className="size-8" />
-              </div>
+              </a>
               <div className=" font-bold text-[14px]">{data.name}</div>
               <div>{data.location}</div>
               <div className="flex justify-end underline p-1 text-red-500">
-                {data.jobs.length} vị trí tuyển dụng
+                2 vị trí tuyển dụng
                 <MdNavigateNext className="mt-1.5" />
               </div>
             </div>

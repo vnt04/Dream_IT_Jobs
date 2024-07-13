@@ -19,41 +19,40 @@ class JobController {
   postJob(req, res, next) {
     const {
       job_title,
-      company,
       min_salary,
-      max_salary,
-      tag,
-      address,
-      location,
-      img,
-      type_job,
-      contract,
-      viewed,
       year_exp,
+      max_salary,
+      contract,
+      address,
       level,
+      location,
+      job_type,
+      mission,
+      requirement,
+      benefit,
       tech_stack,
+      company,
     } = req.body;
+    const parsedTechStack = Array.isArray(tech_stack)
+      ? tech_stack
+      : JSON.parse(tech_stack);
     const newJob = new Job({
       job_title,
-      company,
-      salary_range: {
-        min_salary,
-        max_salary,
-      },
-      tag,
-      address,
-      location,
-      img: img || "./src/assets/jobs-img/job-df",
-      time_created: new Date(),
-      type_job,
-      contract,
-      viewed: viewed || 0,
+      min_salary,
       year_exp,
+      max_salary,
+      contract,
+      address,
       level,
-      tech_stack,
+      location,
+      job_type,
+      mission,
+      requirement,
+      benefit,
+      tech_stack: parsedTechStack,
+      company,
     });
 
-    // Save the job document to the database
     newJob
       .save()
       .then((job) => res.status(201).json({ acknowledged: true, job }))

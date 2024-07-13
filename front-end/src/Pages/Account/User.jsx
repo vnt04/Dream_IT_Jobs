@@ -1,15 +1,19 @@
 /* eslint-disable react/prop-types */
 import { FaChevronDown } from "react-icons/fa6";
 import { BiFile, BiLogOut, BiWallet } from "react-icons/bi";
+import { HiOutlineBuildingOffice2 } from "react-icons/hi2";
 import { AiOutlineFileDone } from "react-icons/ai";
 import { HiOutlineBookmarkAlt } from "react-icons/hi";
 import { RiAccountPinBoxLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import useLogin from "../../hooks/useLogin";
+import { useContext } from "react";
+import { DataContext } from "../../context/DataProvider";
 
-function User({ displayName, url, role }) {
+function User({ displayName, url, role, uid }) {
   const { handleLogout } = useLogin();
-
+  const { dataRecruiter } = useContext(DataContext);
+  const recruiter = dataRecruiter.find((r) => r.uid === uid);
   const userMenu =
     role === "candidate"
       ? [
@@ -33,6 +37,11 @@ function User({ displayName, url, role }) {
         ]
       : [
           { icon: <RiAccountPinBoxLine />, title: "Tài khoản của tôi" },
+          {
+            icon: <HiOutlineBuildingOffice2 />,
+            title: "Công ty của tôi",
+            route: `/cong-ty-IT/${recruiter.companyID}`,
+          },
           { icon: <BiWallet />, title: "Ví tuyển dụng" },
           { icon: <AiOutlineFileDone />, title: "Việc làm đã đăng" },
           { icon: <HiOutlineBookmarkAlt />, title: "Đang theo dõi" },

@@ -6,7 +6,19 @@ class CompanyController {
       .then((company) => res.json(company))
       .catch((error) => next(error));
   }
-
+  addCompany(req, res, next) {
+    res.send("add Company");
+  }
+  detail(req, res, next) {
+    const companyID = req.params.companyID;
+    Company.findById(companyID)
+      .then((company) => {
+        if (!company)
+          return res.status(404).json({ message: "Company not found!" });
+        return res.json(company);
+      })
+      .catch((error) => next(error));
+  }
   search(req, res, next) {
     const { name, city } = req.query;
     let query = {};

@@ -1,3 +1,4 @@
+
 :root {
   --primary: #33afa9;
 }
@@ -175,6 +176,37 @@
 .zoom-container:hover .zoom-image {
   transform: scale(1.2); /* Tăng kích thước ảnh lên 110% khi hover */
 }
+
+/* Company detail */
+.company-detail-active {
+  height: 100%;
+  color: red;
+  border-bottom: 3px solid red;
+}
+.content-company {
+  background-color: white;
+  --tw-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--tw-shadow);
+  border-radius: 4px;
+  padding: 10px 20px;
+  margin-bottom: 8px;
+}
+.content-company-header {
+  height: 60px;
+  font-weight: bold;
+  font-size: 20px;
+  padding: 14px 0px;
+  border-bottom: 1px dashed gray;
+}
+.content-company-label {
+  color: gray;
+}
+
+.content-company-info {
+  font-weight: 500;
+}
+
+
 .create-job-flex {
   @apply flex flex-col lg:flex-row items-center justify-between gap-8;
 }
