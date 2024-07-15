@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import { DataContext } from "../../context/DataProvider";
 import { FaSun } from "react-icons/fa";
-import { MdNavigateNext } from "react-icons/md";
 import { CiBookmark } from "react-icons/ci";
+import Tag from "../../components/Tag";
 
 function BestCompany() {
   const { mostFollow } = useContext(DataContext);
@@ -48,11 +48,17 @@ function BestCompany() {
                 />
                 <CiBookmark className="size-8" />
               </a>
-              <div className=" font-bold text-[14px]">{data.name}</div>
-              <div>{data.location}</div>
-              <div className="flex justify-end underline p-1 text-red-500">
-                2 vị trí tuyển dụng
-                <MdNavigateNext className="mt-1.5" />
+              <a
+                href={`/cong-ty-IT/${data._id}`}
+                className=" font-bold text-[18px]"
+              >
+                {data.name}
+              </a>
+
+              <div className="flex gap-2 py-2">
+                {data.tech_stack.map((tech, index) => (
+                  <Tag key={index} name={tech} />
+                ))}
               </div>
             </div>
           ))}

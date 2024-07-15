@@ -13,7 +13,6 @@ import {
 import { FaSearch } from "react-icons/fa";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import { FaFilterCircleXmark } from "react-icons/fa6";
-
 const KeyCodes = {
   comma: 188,
   enter: 13,
@@ -90,7 +89,7 @@ function Search({ setResultSearch, setShowResult }) {
               handleDelete={handleDelete}
               handleAddition={handleAddition}
               delimiters={delimiters}
-              placeholder="Tìm kiếm công việc mơ ước của bạn ..."
+              placeholder="Tìm kiếm công việc theo kỹ năng ..."
               inputFieldPosition="inline"
               autocomplete
               classNames={{

@@ -6,7 +6,7 @@ import { FaLongArrowAltRight } from "react-icons/fa";
 
 function AllCompany({ resultSearch }) {
   const [activeSection, setActiveSection] = useState("#section-best-company");
-  const { dataCompany, mostFollow } = useContext(DataContext);
+  const { dataCompany, mostFollow, dataJobs } = useContext(DataContext);
 
   const rowData = [];
   for (let i = 0; i < dataCompany?.length; i += 3) {
@@ -18,12 +18,21 @@ function AllCompany({ resultSearch }) {
     rowMostFollow.push(mostFollow.slice(i, i + 4));
   }
 
+  const getJobInCompany = (companyID) => {
+    let number = 0;
+    dataJobs.map((data) => {
+      if (data.company._id === companyID) {
+        number = number + 1;
+      }
+    });
+    return number;
+  };
   const hasJob = [];
-  dataCompany.map((data) => {
-    if (data.jobs?.length > 0) {
-      hasJob.push(data);
-    }
+  dataCompany.map((company) => {
+    if (dataJobs.find((job) => job.company._id === company._id))
+      hasJob.push(company);
   });
+  console.log(hasJob);
   const rowHasJob = [];
   for (let i = 0; i < hasJob.length; i += 4) {
     rowHasJob.push(hasJob.slice(i, i + 4));
@@ -172,18 +181,22 @@ function AllCompany({ resultSearch }) {
             {rowHasJob.map((row, index) => (
               <div key={index} className="flex gap-4 mb-2">
                 {row.map((data, index) => (
-                  <div
+                  <a
+                    href={`/cong-ty-IT/${data._id}`}
                     key={index}
-                    className="mt-2 w-1/4 h-[358px] rounded-xl border"
+                    className="mt-2 w-[30%] h-[358px] rounded-xl border"
                   >
                     <div className="h-60 relative mb-2">
                       <img
-                        src="/src/assets/img-company/banner_fpt.jpg"
+                        src={`/src/assets/img-company/${data.banner}`}
                         className="h-[90%] w-full rounded-tl-xl rounded-tr-xl"
                         alt="banner"
                       />
                       <div className="absolute bottom-0 h-20 w-20 left-4 rounded-md border border-gray-100">
-                        <img src="/src/assets/img-company/fpt.png" alt="" />
+                        <img
+                          src={`/src/assets/img-company/${data.logo}`}
+                          alt=""
+                        />
                       </div>
                     </div>
 
@@ -194,19 +207,21 @@ function AllCompany({ resultSearch }) {
                       <div className="flex justify-between py-1">
                         <h3 className="text-[#aaa]">{data.location}</h3>
                         <div className=" flex items-center gap-1">
-                          <span className="text-[#aaa]">123</span>
+                          <span className="text-[#aaa]">{data.follow}</span>
                           <CiBookmark className="size-6 text-[#aaa]" />
                         </div>
                       </div>
                       <div className="flex justify-between ">
-                        <h3 className="text-[#aaa]">{data.field}</h3>
+                        <h3 className="text-[#aaa] line-clamp-1">
+                          {data.field}
+                        </h3>
                         <div className=" flex items-center gap-1 underline text-red-600">
-                          <span>{data.jobs.length} việc làm</span>
+                          <span>{getJobInCompany(data._id)} việc làm</span>
                           <FaLongArrowAltRight className="mt-1" />
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </a>
                 ))}
               </div>
             ))}

@@ -20,9 +20,12 @@ function CompanyDetail() {
     (company) => company._id === companyID
   );
   const isMyCompany =
-    dataRecruiter.find((re) => re.uid === user?.uid)?.companyID === companyID;
+    dataRecruiter.find((re) => re.uid === user?.uid)?.company_id === companyID;
 
-  const currentJob = [...dataJobs].slice(0, 5);
+  const hasJobs = [];
+  dataJobs.map((data) => {
+    if (data.company._id === companyID) hasJobs.push(data);
+  });
 
   return (
     <div className="bg-primary">
@@ -32,7 +35,7 @@ function CompanyDetail() {
             <img
               src={`/src/assets/img-company/${currentCompany?.logo}`}
               alt=""
-              className="rounded shadow-2xl"
+              className="rounded shadow-2xl w-full h-full"
             />
           </div>
           <div className="text-white">
@@ -43,8 +46,8 @@ function CompanyDetail() {
                 {currentCompany?.location.join(" - ")}
               </div>
               <div className="flex items-center gap-2 underline">
-                <MdOutlineWorkHistory className="text-gray-700 size-5" />5 việc
-                làm đang tuyển dụng
+                <MdOutlineWorkHistory className="text-gray-700 size-5" />
+                {hasJobs?.length} việc làm đang tuyển dụng
               </div>
               <div className="flex items-center gap-2">
                 4.9{" "}
@@ -220,11 +223,11 @@ function CompanyDetail() {
         <div className="w-1/3 h-auto">
           <div className="max-h-14 mb-7">
             <h1 className="text-2xl text-center font-bold py-6">
-              5 việc làm đang tuyển dụng
+              {hasJobs.length} việc làm đang tuyển dụng
             </h1>
           </div>
           <div className="bg-white">
-            <JobCard jobCard={currentJob} />
+            <JobCard jobCard={hasJobs} />
           </div>
         </div>
       </div>

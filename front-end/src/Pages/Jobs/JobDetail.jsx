@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { FaLocationDot } from "react-icons/fa6";
 import { FaRegMoneyBillAlt, FaShareAlt } from "react-icons/fa";
 import { CiBookmark } from "react-icons/ci";
@@ -10,6 +10,7 @@ import { formatCurrency } from "../../utils/index";
 function JobDetail() {
   const { jobID } = useParams();
   const [detail, setDetail] = useState({});
+
   useEffect(() => {
     axios
       .get(apiEndpoint.job_detail(jobID))
@@ -17,8 +18,9 @@ function JobDetail() {
       .catch((error) => console.log(error));
   }, [jobID]);
 
-  const minSalary = detail.salary_range?.min_salary;
-  const maxSalary = detail.salary_range?.max_salary;
+  const minSalary = detail.min_salary;
+  const maxSalary = detail.max_salary;
+
   return (
     <div className="container flex gap-4 bg-[#f5f5f5]">
       <div className="w-2/3">
@@ -26,19 +28,19 @@ function JobDetail() {
           <div className=" w-11/12 h-full flex items-center gap-2">
             <div className="w-1/3 h-full">
               <img
-                src={`/src/assets/img-company/${detail.img}`}
-                alt=""
+                src={`/src/assets/img-company/${detail.company?.logo}`}
+                alt={detail.company?.name}
                 className="w-full h-full p-5"
               />
             </div>
             <div className="w-2/3">
-              <div className="font-bold text-xl">{detail.job_title}</div>
+              <div className="font-bold text-xl ">{detail.job_title}</div>
               <div className="my-1 font-bold text-gray-400 ">
-                {detail.company}
+                {detail.company?.name}
               </div>
               <div className="flex items-center gap-2">
                 <FaLocationDot />
-                <p>{detail.location}</p>
+                <p>{detail.address}</p>
               </div>
               <div className="flex items-center gap-2">
                 <FaRegMoneyBillAlt />
@@ -60,63 +62,56 @@ function JobDetail() {
         </div>
         <div className="p-4 mb-4 bg-white">
           <div className="mb-4 flex items-center gap-4">
-            <div className="h-8 w-1 bg-background"></div>
+            <div className="h-8 w-1 bg-primary"></div>
             <h1 className="font-bold text-xl">Mô tả công việc</h1>
           </div>
           <div className="h-auto bottom-1 mb-4">
             <strong className="mb-2 ">Trách nhiệm công việc</strong>
             <div className="mb-2">
-              <strong>Develop part</strong>
               <p>
-                Participating in software development projects for financial
-                institutions and Korean partners. Customers are financial
-                institutions (including banks, financial companies …) Join in
-                development process for all digital products at InfoPlus such as
-                develop new features, improvement, detect and fix bugs. Work
-                with team leader, manager to synchronize about the solution and
-                complete assigned tasks. You can suggest the other solution if
-                it is better. Develop and design scalable RESTful API Write the
-                clean code, easy to reuse and extends Troubleshoot, test and
-                maintain the core product software and databases to ensure
-                strong optimization and functionality.
+                {detail.mission?.split("\n").map((line, index) => (
+                  <span key={index}>
+                    - {line}
+                    <br />
+                  </span>
+                ))}
               </p>
-              <strong>Training part:</strong>
-              <p>Learning new technology, create seminar</p>
             </div>
           </div>
           <div className="h-auto mb-4">
-            <strong className="mb-2 ">Trách nhiệm công việc</strong>
+            <strong className="mb-2 ">Kỹ năng và chuyên môn</strong>
             <div className="mb-2">
-              <strong>Develop part</strong>
               <p>
-                Participating in software development projects for financial
-                institutions and Korean partners. Customers are financial
-                institutions (including banks, financial companies …) Join in
-                development process for all digital products at InfoPlus such as
-                develop new features, improvement, detect and fix bugs. Work
-                with team leader, manager to synchronize about the solution and
-                complete assigned tasks. You can suggest the other solution if
-                it is better. Develop and design scalable RESTful API Write the
-                clean code, easy to reuse and extends Troubleshoot, test and
-                maintain the core product software and databases to ensure
-                strong optimization and functionality.
+                {detail.requirement?.split("\n").map((line, index) => (
+                  <span key={index}>
+                    - {line}
+                    <br />
+                  </span>
+                ))}
               </p>
-              <strong>Training part:</strong>
-              <p>Learning new technology, create seminar</p>
             </div>
           </div>
-          <div>Phúc lợi dành cho bạn</div>
+          <div className="h-auto mb-4">
+            <strong className="mb-2 ">Phúc lợi dành cho bạn</strong>
+            <div className="mb-2">
+              <p>
+                {detail.benefit?.split("\n").map((line, index) => (
+                  <span key={index}>
+                    - {line}
+                    <br />
+                  </span>
+                ))}
+              </p>
+            </div>
+          </div>
         </div>
-
-        <div className="mb-4 bg-white">Về Công Ty</div>
-        <div className="bg-white">Việc làm tại FPT</div>
       </div>
       <div className="w-1/3">
         <div className="w-full h-auto mb-6">
-          <button className="mb-4 w-full font-bold text-xl p-3 border rounded bg-background text-white hover:bg-teal-600">
+          <button className="mb-4 w-full font-bold text-xl p-3 border rounded bg-primary text-white hover:bg-teal-600">
             Ứng tuyển ngay
           </button>
-          <button className=" w-full font-bold text-xl p-3 border border-background rounded bg-white text-background hover:bg-gray-200">
+          <button className=" w-full font-bold text-xl p-3 border border-background rounded bg-white text-primary hover:bg-gray-200">
             Tạo CV để ứng tuyển
           </button>
         </div>
@@ -126,21 +121,19 @@ function JobDetail() {
         <div className="p-4 bg-white">
           <div className="mb-4">
             <h1 className="font-bold ">Năm kinh nghiệm tối thiểu</h1>
-            <Link>{detail.year_exp}</Link>
+            <span>{detail.year_exp}</span>
           </div>
           <div className="mb-4">
             <h1 className="font-bold">Cấp bậc</h1>
-            {detail.level?.map((lv) => (
-              <Link key={lv}>{lv}</Link>
-            ))}
+            {detail.level}
           </div>
           <div className="mb-4">
             <h1 className="font-bold">Loại hình</h1>
-            <Link>{detail.type_job}</Link>
+            <span>{detail.job_type}</span>
           </div>
           <div className="mb-4">
             <h1 className="font-bold">Loại hợp đồng</h1>
-            <Link>{detail.contract}</Link>
+            <span>{detail.contract}</span>
           </div>
           <div>
             <h1 className="font-bold mb-2">Các công nghệ sử dụng</h1>

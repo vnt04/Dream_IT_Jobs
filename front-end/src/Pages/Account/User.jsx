@@ -12,8 +12,12 @@ import { DataContext } from "../../context/DataProvider";
 
 function User({ displayName, url, role, uid }) {
   const { handleLogout } = useLogin();
-  const { dataRecruiter } = useContext(DataContext);
+  const { dataRecruiter, dataCompany } = useContext(DataContext);
   const recruiter = dataRecruiter.find((r) => r.uid === uid);
+  const currentCompany = dataCompany.find(
+    (com) => com._id === recruiter?.company_id
+  );
+  console.log(currentCompany);
   const userMenu =
     role === "candidate"
       ? [
@@ -40,7 +44,7 @@ function User({ displayName, url, role, uid }) {
           {
             icon: <HiOutlineBuildingOffice2 />,
             title: "Công ty của tôi",
-            route: `/cong-ty-IT/${recruiter.companyID}`,
+            route: `/cong-ty-IT/${recruiter.company_id}`,
           },
           { icon: <BiWallet />, title: "Ví tuyển dụng" },
           { icon: <AiOutlineFileDone />, title: "Việc làm đã đăng" },
@@ -52,6 +56,12 @@ function User({ displayName, url, role, uid }) {
       <button className="group/button flex items-center gap-2 lg:max-w-none max-w-[100px] p-2 rounded hover:bg-gray-100">
         {url ? (
           <img className="max-h-7 rounded-[50%]" src={url} alt="user" />
+        ) : currentCompany?.logo ? (
+          <img
+            className="max-h-7 border "
+            src={`/src/assets/img-company/${currentCompany?.logo}`}
+            alt="user"
+          />
         ) : (
           <img
             className="max-h-7 "

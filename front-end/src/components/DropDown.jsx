@@ -41,7 +41,7 @@ const Dropdown = ({ label, options, selectedValue, onSelect, type }) => {
         return newLabel.charAt(0).toUpperCase() + newLabel.slice(1);
       }
     } else {
-      return selectedValue.label || label;
+      return selectedValue?.label || label;
     }
   };
 

@@ -10,7 +10,6 @@ import { CiHeart } from "react-icons/ci";
 
 function NewJobs() {
   const { newJobs } = useContext(DataContext);
-
   const rows = getRows(newJobs, 3);
   return (
     <div className="container h-auto bg-white">
@@ -39,36 +38,36 @@ function NewJobs() {
               className="h-40 w-1/3 py-2 flex border-[2px] rounded-xl"
             >
               <div className="w-1/3">
-                <Link to={"/cong-ty-IT/${job.}"}>
+                <a href={`/cong-ty-IT/${job.company._id}`}>
                   <img
-                    src={`/src/assets/img-company/${job.img}`}
-                    alt=""
-                    className="w-full h-full p-5 hover-zoom:hover"
+                    src={`/src/assets/img-company/${job.company.logo}`}
+                    alt={job.company.name}
+                    className="w-full h-full p-1 "
                   />
-                </Link>
+                </a>
               </div>
               <div className="w-2/3">
-                <Link
-                  to={`/viec-lam-it/${job._id}`}
+                <a
+                  href={`/viec-lam-it/${job._id}`}
                   className="font-bold text-xl line-clamp-1 hover:text-primary"
                 >
                   {job.job_title}
-                </Link>
-                <Link to={"/cong-ty-IT/:companyID"}>
+                </a>
+                <Link to={`/cong-ty-IT/${job.company._id}`}>
                   <h4 className="my-1 font-semibold text-[#666] hover:text-[#aaa]">
-                    {job.company}
+                    {job.company.name}
                   </h4>
                 </Link>
                 <span className="text-red-600">
-                  {job.salary_range.min_salary == null
+                  {job.min_salary == null
                     ? "Lên tới "
-                    : formatCurrency(job.salary_range.min_salary) + " - "}{" "}
+                    : formatCurrency(job.min_salary) + " - "}{" "}
                 </span>
                 <span className="text-red-600">
-                  {formatCurrency(job.salary_range.max_salary)}
+                  {formatCurrency(job.max_salary)}
                 </span>
                 <div className="flex gap-3 mt-1">
-                  {job.tag.map((tag, index) => (
+                  {job.tech_stack.map((tag, index) => (
                     <Tag key={index} name={tag} />
                   ))}
                 </div>

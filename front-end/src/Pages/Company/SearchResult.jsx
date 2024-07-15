@@ -5,7 +5,6 @@ import { FaLongArrowAltRight } from "react-icons/fa";
 
 function SearchResult({ resultSearch }) {
   const rowData = getRows(resultSearch, 3);
-  console.log(rowData);
   return (
     <div>
       {resultSearch?.length > 0 ? (

@@ -1,3 +1,4 @@
+import { useContext, useState } from "react";
 import axios from "axios";
 import Select from "react-select";
 import InputTemplate from "../components/InputTemplate";
@@ -9,9 +10,9 @@ import {
   jobTypeOptions,
   contractTypeOptions,
 } from "../assets/defaultData";
-import { useContext, useState } from "react";
 import { DataContext } from "../context/DataProvider";
 import { AuthContext } from "../context/AuthProvider";
+import CustomModal from "../components/CustomModal"; // Import CustomModal
 
 const customStyle = {
   control: (provided, state) => ({
@@ -42,14 +43,17 @@ const customStyle = {
 };
 
 const PostJobs = () => {
-  const { dataRecruiter } = useContext(DataContext);
+  const { dataRecruiter, dataCompany } = useContext(DataContext);
   const { user } = useContext(AuthContext);
   const [selectedTech, setSelectedTech] = useState([]);
+  const [showModal, setShowModal] = useState(false); // State for modal visibility
+  const [formData, setFormData] = useState(null); // State to store form data
 
   const recruiter = dataRecruiter.find((hr) => hr?.uid === user?.uid);
-  const companyID = recruiter?.company;
+  const companyID = recruiter?.company_id;
+  const company = dataCompany.find((com) => com._id === companyID);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     const techStackValues = selectedTech.map((tech) => tech.value);
@@ -57,10 +61,15 @@ const PostJobs = () => {
     formData.append("company", companyID);
 
     const jsonFormData = JSON.stringify(Object.fromEntries(formData.entries()));
+    setFormData(jsonFormData); // Store form data in state
+    setShowModal(true); // Show modal
+  };
+
+  const handleConfirm = async () => {
     try {
       const response = await axios.post(
         "http://localhost:5000/job/dang-bai",
-        jsonFormData,
+        formData,
         {
           headers: {
             "Content-Type": "application/json",
@@ -68,6 +77,8 @@ const PostJobs = () => {
         }
       );
       console.log("Response from server:", response.data);
+      setShowModal(false); // Hide modal
+      window.location.assign("/viec-lam-IT")
     } catch (error) {
       console.error("Error sending data:", error);
     }
@@ -93,7 +104,7 @@ const PostJobs = () => {
               />
             </div>
             <div className="lg:w-1/2 w-full">
-              <InputTemplate title="Tên công ty" value="FPT Software" />
+              <InputTemplate title="Tên công ty" value={company?.name} />
             </div>
           </div>
 
@@ -256,6 +267,24 @@ const PostJobs = () => {
           </button>
         </form>
       </div>
+      <CustomModal
+        title="Xác nhận đăng bài"
+        body="Bạn sẽ phải sử dụng 1 credit cho bài đăng của công việc này!"
+        show={showModal}
+        handleClose={() => setShowModal(false)}
+        footerActions={[
+          {
+            label: "Hủy",
+            variant: "secondary",
+            onClick: () => setShowModal(false),
+          },
+          {
+            label: "Xác nhận",
+            variant: "primary",
+            onClick: handleConfirm,
+          },
+        ]}
+      />
     </div>
   );
 };

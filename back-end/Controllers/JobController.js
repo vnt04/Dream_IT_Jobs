@@ -1,22 +1,30 @@
-const Job = require("../Models/jobModel");
+const Job = require("../models/jobModel");
 
 class JobController {
-  index(req, res, next) {
-    Job.find({})
-      .then((job) => res.json(job))
-      .then((error) => next(error));
+  async index(req, res, next) {
+    try {
+      const jobs = await Job.find().populate("company");
+      res.json(jobs);
+    } catch (error) {
+      next(error);
+    }
   }
-  detail(req, res, next) {
+
+  async detail(req, res, next) {
     const jobID = req.params.jobID;
 
-    Job.findById(jobID)
-      .then((job) => {
-        if (!job) return res.status(404).json({ message: "Job not found!" });
-        return res.json(job);
-      })
-      .catch((error) => next(error));
+    try {
+      const job = await Job.findById(jobID).populate("company");
+      if (!job) {
+        return res.status(404).json({ message: "Job not found!" });
+      }
+      res.json(job);
+    } catch (error) {
+      next(error);
+    }
   }
-  postJob(req, res, next) {
+
+  async postJob(req, res, next) {
     const {
       job_title,
       min_salary,
@@ -33,9 +41,11 @@ class JobController {
       tech_stack,
       company,
     } = req.body;
+
     const parsedTechStack = Array.isArray(tech_stack)
       ? tech_stack
       : JSON.parse(tech_stack);
+
     const newJob = new Job({
       job_title,
       min_salary,
@@ -53,13 +63,15 @@ class JobController {
       company,
     });
 
-    newJob
-      .save()
-      .then((job) => res.status(201).json({ acknowledged: true, job }))
-      .catch((error) => next(error));
+    try {
+      const job = await newJob.save();
+      res.status(201).json({ acknowledged: true, job });
+    } catch (error) {
+      next(error);
+    }
   }
 
-  search = (req, res, next) => {
+  async search(req, res, next) {
     const {
       tags,
       selectedLocation,
@@ -73,13 +85,15 @@ class JobController {
     if (tags) {
       const tagList = JSON.parse(tags).map((tag) => new RegExp(tag.text, "i"));
       if (tagList.length > 0) {
-        filter.tag = { $in: tagList };
+        filter.tech_stack = { $in: tagList };
       }
     }
+
     const location = JSON.parse(selectedLocation);
     if (selectedLocation && location.label !== "Tất cả địa điểm") {
       filter.location = new RegExp(location.value, "i");
     }
+
     const level = JSON.parse(selectedLevel);
     if (selectedLevel && level.label !== "Tất cả cấp bậc") {
       filter.level = new RegExp(level.value, "i");
@@ -90,7 +104,7 @@ class JobController {
         (job) => new RegExp(job.value, "i")
       );
       if (jobTypes.length > 0) {
-        filter.type_job = { $in: jobTypes };
+        filter.job_type = { $in: jobTypes };
       }
     }
 
@@ -103,14 +117,13 @@ class JobController {
       }
     }
 
-    Job.find(filter)
-      .then((results) => {
-        res.json(results);
-      })
-      .catch((err) => {
-        next(err);
-      });
-  };
+    try {
+      const results = await Job.find(filter).populate("company");
+      res.json(results);
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 module.exports = new JobController();

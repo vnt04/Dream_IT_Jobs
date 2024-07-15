@@ -2,14 +2,19 @@ import { formatDistanceToNow, differenceInDays } from "date-fns";
 import { vi } from "date-fns/locale";
 
 export const calculateDaysAgo = (timeCreated) => {
-  return formatDistanceToNow(new Date(timeCreated), {
+  return formatDistanceToNow(new Date(timeCreated.$date || timeCreated), {
     addSuffix: true,
     locale: vi,
   });
 };
+
 export const calculateDayNumber = (timeCreated) => {
-  return differenceInDays(new Date(), new Date(timeCreated));
+  return differenceInDays(
+    new Date(),
+    new Date(timeCreated.$date || timeCreated)
+  );
 };
+
 export const formatCurrency = (number) => {
   return number.toLocaleString("vi-VN", {
     style: "currency",
@@ -27,7 +32,7 @@ export const getRows = (original, number) => {
 
 const parseDate = (dateString) => {
   const [day, month, year] = dateString.split("/").map(Number);
-  return new Date(year, month - 1, day); // tháng trong đối tượng Date bắt đầu từ 0
+  return new Date(year, month - 1, day);
 };
 
 export const compareDate = (date1, date2) => {

@@ -28,10 +28,9 @@ function ListJobs({ resultSearch, showResult }) {
     );
   }
   if (highestSalary) {
-    filterData.sort(
-      (a, b) => b.salary_range.max_salary - a.salary_range.max_salary
-    );
+    filterData.sort((a, b) => b.max_salary - a.max_salary);
   }
+
   return (
     <div className="container bg-[#f5f5f5] ">
       <h1 className="font-semibold py-2">
@@ -71,7 +70,7 @@ function ListJobs({ resultSearch, showResult }) {
             >
               <div className="w-[30%] h-2/3">
                 <img
-                  src={`/src/assets/img-company/${jobData.img}`}
+                  src={`/src/assets/img-company/${jobData.company.logo}`}
                   alt=""
                   className="w-full h-full px-14 py-5"
                 />
@@ -83,23 +82,22 @@ function ListJobs({ resultSearch, showResult }) {
                 >
                   {jobData.job_title}
                 </Link>
-                <div className="my-1 text-[16px]">{jobData.company}</div>
+                <div className="my-1 text-[16px]">{jobData.company.name}</div>
                 <span className="text-red-600">
-                  {jobData.salary_range.min_salary == null
+                  {jobData.min_salary == null
                     ? "Lên tới "
-                    : formatCurrency(jobData.salary_range.min_salary) +
-                      " - "}{" "}
+                    : formatCurrency(jobData.min_salary) + " - "}{" "}
                 </span>
                 <span className="text-red-600">
-                  {formatCurrency(jobData.salary_range.max_salary)}
+                  {formatCurrency(jobData.max_salary)}
                 </span>
                 <div>
-                  {jobData.address} - {jobData.type_job}
+                  {jobData.location} - {jobData.job_type}
                 </div>
                 <hr className="mt-2 w-full bg-gray-300 hover:bg-gray-500" />
                 <div className="py-2 flex justify-between">
                   <div className="flex gap-3 mt-1">
-                    {jobData.tag.map((tag, index) => (
+                    {jobData.tech_stack.map((tag, index) => (
                       <Tag key={index} name={tag} />
                     ))}
                   </div>

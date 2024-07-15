@@ -18,7 +18,10 @@ const recruiterSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-
+  company_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Company",
+  },
   created_at: {
     type: Date,
     default: Date.now,
