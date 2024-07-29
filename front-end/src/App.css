@@ -1,17 +1,14 @@
-
 :root {
   --primary: #33afa9;
 }
-/* css navbar  */
-.active {
-  color: red;
-  font-weight: bolder;
-  text-shadow: 2px 2px 6px rgb(248, 165, 165);
+body {
+  font-family: "Poppins", sans-serif;
+  overflow-y: overlay  ;
 }
 
 /* css responsive for container - main content  */
 .container {
-  width: 100%;
+  max-width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -49,7 +46,7 @@
   border-radius: 6px;
   background-color: var(--primary);
   color: white;
-  font-weight: bold;
+  font-weight: 600;
 }
 .btn-1:hover {
   background-color: rgb(41, 156, 141);
@@ -61,7 +58,7 @@
   border-radius: 6px;
   border-color: var(--primary);
   color: var(--primary);
-  font-weight: bold;
+  font-weight: 600;
 }
 .btn-2:hover {
   background-color: rgb(244, 241, 241);
@@ -206,9 +203,8 @@
   font-weight: 500;
 }
 
-
 .create-job-flex {
-  @apply flex flex-col lg:flex-row items-center justify-between gap-8;
+  @apply flex flex-col items-center justify-between gap-8 lg:flex-row;
 }
 
 .create-job-input {

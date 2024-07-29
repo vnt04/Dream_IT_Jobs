@@ -74,27 +74,27 @@ const PostJobs = () => {
           headers: {
             "Content-Type": "application/json",
           },
-        }
+        },
       );
       console.log("Response from server:", response.data);
       setShowModal(false); // Hide modal
-      window.location.assign("/viec-lam-IT")
+      window.location.assign("/viec-lam-IT");
     } catch (error) {
       console.error("Error sending data:", error);
     }
   };
 
   return (
-    <div className="max-w-screen-2xl container mx-auto xl:px-24 px-4 bg-[#f5f5f5]">
+    <div className="container mx-auto max-w-screen-2xl bg-[#f5f5f5] px-4 xl:px-24">
       {/* form */}
-      <div className="pt-10 px-4 lg:px-16">
+      <div className="px-4 pt-10 lg:px-16">
         <form
           onSubmit={handleSubmit}
-          className="w-full bg-white shadow-2xl rounded px-8 pt-4 pb-8 mb-2"
+          className="mb-2 w-full rounded bg-white px-8 pb-8 pt-4 shadow-2xl"
         >
           {/* 1st row */}
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
-            <div className="lg:w-1/2 w-full">
+          <div className="flex flex-col items-center justify-between gap-8 lg:flex-row">
+            <div className="w-full lg:w-1/2">
               <InputTemplate
                 title="Tên công việc"
                 placeholder="Ex: Tuyển dụng Fresher Java"
@@ -103,14 +103,14 @@ const PostJobs = () => {
                 name="job_title"
               />
             </div>
-            <div className="lg:w-1/2 w-full">
+            <div className="w-full lg:w-1/2">
               <InputTemplate title="Tên công ty" value={company?.name} />
             </div>
           </div>
 
           {/* 2nd row */}
           <div className="create-job-flex">
-            <div className="lg:w-1/2 w-full">
+            <div className="w-full lg:w-1/2">
               <InputTemplate
                 title="Lương tối thiểu"
                 placeholder="Ex: 1.000.000"
@@ -119,8 +119,8 @@ const PostJobs = () => {
                 name="min_salary"
               />
             </div>
-            <div className="lg:w-1/2 w-full">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
+            <div className="w-full lg:w-1/2">
+              <label className="mb-2 block text-sm font-bold text-gray-700">
                 Yêu cầu kinh nghiệm
               </label>
               <Select
@@ -135,7 +135,7 @@ const PostJobs = () => {
 
           {/* 3rd row */}
           <div className="create-job-flex">
-            <div className="lg:w-1/2 w-full">
+            <div className="w-full lg:w-1/2">
               <InputTemplate
                 title="Lương tối đa"
                 placeholder="Ex: 10.000.000"
@@ -144,8 +144,8 @@ const PostJobs = () => {
                 name="max_salary"
               />
             </div>
-            <div className="lg:w-1/2 w-full">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
+            <div className="w-full lg:w-1/2">
+              <label className="mb-2 block text-sm font-bold text-gray-700">
                 Loại hợp đồng
               </label>
               <Select
@@ -160,7 +160,7 @@ const PostJobs = () => {
 
           {/* 4th row */}
           <div className="create-job-flex">
-            <div className="lg:w-1/2 w-full">
+            <div className="w-full lg:w-1/2">
               <InputTemplate
                 title="Địa chỉ cụ thể"
                 placeholder="Ex: Đường D1, Đ. D1, Phường Tân Phú, Quận 9, Hồ Chí Minh"
@@ -170,8 +170,8 @@ const PostJobs = () => {
               />
             </div>
 
-            <div className="lg:w-1/2 w-full">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
+            <div className="w-full lg:w-1/2">
+              <label className="mb-2 block text-sm font-bold text-gray-700">
                 Cấp bậc
               </label>
               <Select
@@ -186,8 +186,8 @@ const PostJobs = () => {
 
           {/* 5th row */}
           <div className="create-job-flex">
-            <div className="lg:w-1/2 w-full">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
+            <div className="w-full lg:w-1/2">
+              <label className="mb-2 block text-sm font-bold text-gray-700">
                 Địa điểm làm việc
               </label>
               <Select
@@ -199,8 +199,8 @@ const PostJobs = () => {
               />
             </div>
 
-            <div className="lg:w-1/2 w-full">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
+            <div className="w-full lg:w-1/2">
+              <label className="mb-2 block text-sm font-bold text-gray-700">
                 Hình thức làm việc
               </label>
               <Select
@@ -214,7 +214,7 @@ const PostJobs = () => {
           </div>
           {/* 6th row */}
           <div className="">
-            <label className="block text-gray-700 text-sm font-bold my-2">
+            <label className="my-2 block text-sm font-bold text-gray-700">
               Yêu cầu kỹ năng
             </label>
             <Select
@@ -229,8 +229,8 @@ const PostJobs = () => {
 
           {/* 7th row */}
           <div className="w-full">
-            <h1 className="font-bold mt-4">Mô tả công việc</h1>
-            <label className="block text-gray-700 text-sm font-bold my-1">
+            <h1 className="mt-4 font-bold">Mô tả công việc</h1>
+            <label className="my-1 block text-sm font-bold text-gray-700">
               Trách nhiệm công việc
             </label>
             <InputTemplate
@@ -240,7 +240,7 @@ const PostJobs = () => {
               id="mission"
               name="mission"
             />
-            <label className="block text-gray-700 text-sm font-bold my-1">
+            <label className="my-1 block text-sm font-bold text-gray-700">
               Kỹ năng và chuyên môn
             </label>
             <InputTemplate
@@ -250,7 +250,7 @@ const PostJobs = () => {
               id="requirement"
               name="requirement"
             />
-            <label className="block text-gray-700 text-sm font-bold my-1">
+            <label className="my-1 block text-sm font-bold text-gray-700">
               Quyền lợi
             </label>
             <InputTemplate

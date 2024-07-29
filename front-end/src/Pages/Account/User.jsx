@@ -15,9 +15,8 @@ function User({ displayName, url, role, uid }) {
   const { dataRecruiter, dataCompany } = useContext(DataContext);
   const recruiter = dataRecruiter.find((r) => r.uid === uid);
   const currentCompany = dataCompany.find(
-    (com) => com._id === recruiter?.company_id
+    (com) => com._id === recruiter?.company_id,
   );
-  console.log(currentCompany);
   const userMenu =
     role === "candidate"
       ? [
@@ -53,27 +52,30 @@ function User({ displayName, url, role, uid }) {
         ];
   return (
     <div className="group relative">
-      <button className="group/button flex items-center gap-2 lg:max-w-none max-w-[100px] p-2 rounded hover:bg-gray-100">
+      <button
+        onClick={handleLogout} // bỏ nếu không bug
+        className="group/button flex max-w-[100px] items-center gap-2 rounded p-2 hover:bg-gray-100 lg:max-w-none"
+      >
         {url ? (
           <img className="max-h-7 rounded-[50%]" src={url} alt="user" />
         ) : currentCompany?.logo ? (
           <img
-            className="max-h-7 border "
+            className="max-h-7 border"
             src={`/src/assets/img-company/${currentCompany?.logo}`}
             alt="user"
           />
         ) : (
           <img
-            className="max-h-7 "
+            className="max-h-7"
             src="/src/assets/user_default.jpg"
             alt="user"
           />
         )}
 
-        <span className="font-bold">{displayName}</span>
-        <FaChevronDown className="m-2 transition duration-500 group-hover/button:rotate-180" />
+        <span className="font-semibold hidden lg:block">{displayName}</span>
+        <FaChevronDown className=" transition duration-500 group-hover/button:rotate-180" />
       </button>
-      <ul className="absolute opacity-0 group-hover:opacity-100 lg:min-w-[315px] top-[110%] group-hover:top-full lg:left-0 right-0 invisible group-hover:visible shadow-2xl bg-white rounded ">
+      <ul className="invisible absolute left-0 right-0 top-[110%] min-w-[315px] rounded bg-white opacity-0 shadow-2xl group-hover:visible group-hover:top-full group-hover:opacity-100">
         {userMenu.map((item, index) => (
           <Link
             key={index}
@@ -81,7 +83,7 @@ function User({ displayName, url, role, uid }) {
             className="group/link flex items-center p-3 text-gray-600 hover:bg-gray-100"
             onClick={item.action}
           >
-            <div className="p-2 mr-2 rounded text-2xl transition duration-300 group-hover/link:bg-white group-hover/link:text-red-600  bg-gray-100">
+            <div className="mr-2 rounded bg-gray-100 p-2 text-2xl transition duration-300 group-hover/link:bg-white group-hover/link:text-red-600">
               {item.icon}
             </div>
             <span className="group-hover/link:font-semibold">{item.title}</span>

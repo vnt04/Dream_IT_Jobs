@@ -27,6 +27,11 @@ function Blog() {
     }
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+  useEffect(() => {
+    if (filter !== "") {
+      setDataFilter(getDataFilter(filter));
+    }
+  }, [filter]);
   const toggleVisibility = () => {
     if (window.pageYOffset > 350) {
       setStickyBlog(true);

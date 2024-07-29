@@ -1,7 +1,7 @@
 function ProfileCV() {
   return (
     <div className="container">
-      <button className="bg-primary text-white p-2 ">Tạo CV ngay</button>
+      <button className="bg-primary p-2 text-white">Tạo CV ngay</button>
     </div>
   );
 }
