@@ -79,9 +79,9 @@ function Navbar() {
           className="h-16 w-36 lg:h-20 lg:w-40"
         />
       </a>
-      <nav className="max-lg:hidden">
+      <nav className="max-lg:hidden w-[35%]">
         {/* Navbar for fullscreen desktop */}
-        <ul className="flex justify-between lg:gap-12">
+        <ul className="flex justify-between">
           {navItems.map(({ path, title }) => (
             <li key={path} className="hover:text-red-500">
               <NavLink
