@@ -3,40 +3,25 @@
 }
 body {
   font-family: "Poppins", sans-serif;
-  overflow-y: overlay  ;
+  overflow-y: overlay;
 }
 
 /* css responsive for container - main content  */
 .container {
   max-width: 100%;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
+  margin: 0;
+  padding: 0px 8px;
 }
-@media (min-width: 640px) {
-  .container {
-    padding: 2px 36px;
-  }
-}
-
 @media (min-width: 768px) {
   .container {
-    padding: 3px 50px;
+    padding: 0px 20px;
   }
 }
 
 @media (min-width: 1024px) {
   .container {
-    padding: 4px 66px;
-  }
-}
-@media (min-width: 1280px) {
-  .container {
-    padding: 6px 80px;
-  }
-}
-@media (min-width: 1536px) {
-  .container {
-    padding: 8px 96px;
+    padding: 0px 132px;
   }
 }
 

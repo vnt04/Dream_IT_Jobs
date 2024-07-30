@@ -7,16 +7,30 @@ import { HiOutlineBookmarkAlt } from "react-icons/hi";
 import { RiAccountPinBoxLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import useLogin from "../../hooks/useLogin";
-import { useContext } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { DataContext } from "../../context/DataProvider";
 
 function User({ displayName, url, role, uid }) {
+  const [isOpenProfileManage, setIsOpenProfileManage] = useState(false);
+  const profileManage = useRef(null);
   const { handleLogout } = useLogin();
   const { dataRecruiter, dataCompany } = useContext(DataContext);
+
   const recruiter = dataRecruiter.find((r) => r.uid === uid);
   const currentCompany = dataCompany.find(
     (com) => com._id === recruiter?.company_id,
   );
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutsideUP);
+    return () =>
+      document.removeEventListener("mousedown", handleClickOutsideUP);
+  }, []);
+
+  const handleClickOutsideUP = (event) => {
+    if (profileManage && !profileManage.current.contains(event.target)) {
+      setIsOpenProfileManage(false);
+    }
+  };
   const userMenu =
     role === "candidate"
       ? [
@@ -51,13 +65,14 @@ function User({ displayName, url, role, uid }) {
           { icon: <BiLogOut />, title: "Đăng xuất", action: handleLogout },
         ];
   return (
-    <div className="group relative">
+    <div ref={profileManage} className="group relative">
       <button
-        onClick={handleLogout} // bỏ nếu không bug
+        
+        onClick={() => setIsOpenProfileManage((currentState) => !currentState)}
         className="group/button flex max-w-[100px] items-center gap-2 rounded p-2 hover:bg-gray-100 lg:max-w-none"
       >
         {url ? (
-          <img className="max-h-7 rounded-[50%]" src={url} alt="user" />
+          <img className="max-h-7 rounded-full" src={url} alt="user" />
         ) : currentCompany?.logo ? (
           <img
             className="max-h-7 border"
@@ -72,18 +87,26 @@ function User({ displayName, url, role, uid }) {
           />
         )}
 
-        <span className="font-semibold hidden lg:block">{displayName}</span>
-        <FaChevronDown className=" transition duration-500 group-hover/button:rotate-180" />
+        <span className="hidden font-semibold lg:block">{displayName}</span>
+        <FaChevronDown
+          className={`transition duration-500 ${isOpenProfileManage ? "rotate-180" : ""}`}
+        />
       </button>
-      <ul className="invisible absolute left-0 right-0 top-[110%] min-w-[315px] rounded bg-white opacity-0 shadow-2xl group-hover:visible group-hover:top-full group-hover:opacity-100">
+      <ul
+       
+        className={`absolute right-0 top-[110%] min-w-[275px] rounded bg-white shadow-2xl lg:left-0 lg:min-w-[315px] ${isOpenProfileManage ? "visible opacity-100" : "invisible opacity-0"}`}
+      >
         {userMenu.map((item, index) => (
           <Link
             key={index}
             to={item.route}
             className="group/link flex items-center p-3 text-gray-600 hover:bg-gray-100"
-            onClick={item.action}
+            onClick={() => {
+              item.action;
+              setIsOpenProfileManage((currentState) => !currentState);
+            }}
           >
-            <div className="mr-2 rounded bg-gray-100 p-2 text-2xl transition duration-300 group-hover/link:bg-white group-hover/link:text-red-600">
+            <div className="mr-2 rounded bg-gray-100 p-2 text-2xl transition duration-300 group-hover/link:bg-white group-hover/link:text-primary">
               {item.icon}
             </div>
             <span className="group-hover/link:font-semibold">{item.title}</span>

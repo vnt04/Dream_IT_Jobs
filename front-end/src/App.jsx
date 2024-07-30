@@ -9,7 +9,9 @@ function App() {
   return (
     <>
       <Navbar />
-      <Outlet />
+      <div className="w-full">
+        <Outlet />
+      </div>
       <Footer />
       <ToastContainer />
       <ScrollToTop />

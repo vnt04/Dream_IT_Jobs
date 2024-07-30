@@ -61,7 +61,7 @@ function Navbar() {
         { path: "/login", title: "Đăng nhập" },
       ];
   return (
-    <header className="sm sticky top-0 z-[1000] flex h-20 w-full items-center justify-between overflow-hidden bg-white px-3 text-base shadow-2xl md:px-6 lg:px-8 lg:font-semibold">
+    <header className="sticky top-0 z-[1000] flex h-20 w-full items-center justify-between bg-white px-3 text-base shadow-2xl md:px-6 lg:px-8 lg:font-semibold">
       {/* Navbar for mobile  */}
       <div className="block lg:hidden">
         <button onClick={handleMenuToggle}>
@@ -79,7 +79,7 @@ function Navbar() {
           className="h-16 w-36 lg:h-20 lg:w-40"
         />
       </a>
-      <nav className="max-lg:hidden w-[35%]">
+      <nav className="w-[42%] px-2 max-lg:hidden">
         {/* Navbar for fullscreen desktop */}
         <ul className="flex justify-between">
           {navItems.map(({ path, title }) => (
@@ -134,7 +134,7 @@ function Navbar() {
       >
         <button
           onClick={() => setIsMenuOpen(false)}
-          className="ml-auto flex px-4 py-2 font-semibold hover:text-red-600"
+          className="ml-auto flex px-2 py-4 font-semibold text-primary hover:text-red-600"
         >
           <span className="flex items-center">
             Đóng
@@ -157,7 +157,7 @@ function Navbar() {
           <span>Ngôn ngữ: </span>
           <button>En</button>
           <span> | </span>
-          <button className="font-semibold">Vi</button>
+          <button className="font-semibold text-primary">Vi</button>
         </div>
       </div>
     </header>
