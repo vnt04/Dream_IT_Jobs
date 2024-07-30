@@ -1,14 +1,15 @@
 /* eslint-disable react/prop-types */
+import { useContext, useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import useLogin from "../../hooks/useLogin";
+import { DataContext } from "../../context/DataProvider";
+import { preventScroll } from "../../utils";
 import { FaChevronDown } from "react-icons/fa6";
 import { BiFile, BiLogOut, BiWallet } from "react-icons/bi";
 import { HiOutlineBuildingOffice2 } from "react-icons/hi2";
 import { AiOutlineFileDone } from "react-icons/ai";
 import { HiOutlineBookmarkAlt } from "react-icons/hi";
 import { RiAccountPinBoxLine } from "react-icons/ri";
-import { Link } from "react-router-dom";
-import useLogin from "../../hooks/useLogin";
-import { useContext, useEffect, useRef, useState } from "react";
-import { DataContext } from "../../context/DataProvider";
 
 function User({ displayName, url, role, uid }) {
   const [isOpenProfileManage, setIsOpenProfileManage] = useState(false);
@@ -22,8 +23,9 @@ function User({ displayName, url, role, uid }) {
   );
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutsideUP);
-    return () =>
+    return () => {
       document.removeEventListener("mousedown", handleClickOutsideUP);
+    };
   }, []);
 
   const handleClickOutsideUP = (event) => {
@@ -31,6 +33,9 @@ function User({ displayName, url, role, uid }) {
       setIsOpenProfileManage(false);
     }
   };
+  useEffect(() => {
+    preventScroll(isOpenProfileManage);
+  }, [isOpenProfileManage]);
   const userMenu =
     role === "candidate"
       ? [
@@ -67,7 +72,6 @@ function User({ displayName, url, role, uid }) {
   return (
     <div ref={profileManage} className="group relative">
       <button
-        
         onClick={() => setIsOpenProfileManage((currentState) => !currentState)}
         className="group/button flex max-w-[100px] items-center gap-2 rounded p-2 hover:bg-gray-100 lg:max-w-none"
       >
@@ -93,7 +97,6 @@ function User({ displayName, url, role, uid }) {
         />
       </button>
       <ul
-       
         className={`absolute right-0 top-[110%] min-w-[275px] rounded bg-white shadow-2xl lg:left-0 lg:min-w-[315px] ${isOpenProfileManage ? "visible opacity-100" : "invisible opacity-0"}`}
       >
         {userMenu.map((item, index) => (

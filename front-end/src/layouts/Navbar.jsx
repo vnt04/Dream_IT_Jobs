@@ -3,6 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 import { FaBars, FaXmark, FaBell, FaGreaterThan } from "react-icons/fa6";
 import { AuthContext } from "../context/AuthProvider";
 import User from "../Pages/Account/User";
+import { preventScroll } from "../utils";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -26,7 +27,9 @@ function Navbar() {
       setIsMenuOpen(false);
     }
   };
-
+  useEffect(() => {
+    preventScroll(isMenuOpen);
+  }, [isMenuOpen]);
   const navItems =
     user?.role === "recruiter"
       ? [
