@@ -97,7 +97,7 @@ function User({ displayName, url, role, uid }) {
         />
       </button>
       <ul
-        className={`absolute right-0 top-[110%] min-w-[275px] rounded bg-white shadow-2xl lg:left-0 lg:min-w-[315px] ${isOpenProfileManage ? "visible opacity-100" : "invisible opacity-0"}`}
+        className={`absolute right-0 top-[110%] min-w-[275px] rounded bg-white shadow-2xl transition duration-500 lg:left-0 lg:min-w-[315px] ${isOpenProfileManage ? "visible opacity-100" : "invisible opacity-0"}`}
       >
         {userMenu.map((item, index) => (
           <Link
@@ -105,7 +105,7 @@ function User({ displayName, url, role, uid }) {
             to={item.route}
             className="group/link flex items-center p-3 text-gray-600 hover:bg-gray-100"
             onClick={() => {
-              item.action;
+              if (item.action) item.action();
               setIsOpenProfileManage((currentState) => !currentState);
             }}
           >

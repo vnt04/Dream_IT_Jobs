@@ -4,12 +4,14 @@ import { FaBars, FaXmark, FaBell, FaGreaterThan } from "react-icons/fa6";
 import { AuthContext } from "../context/AuthProvider";
 import User from "../Pages/Account/User";
 import { preventScroll } from "../utils";
+import useLogin from "../hooks/useLogin";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
 
   const { user } = useContext(AuthContext);
+  const { handleLogout } = useLogin();
 
   const handleMenuToggle = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -53,7 +55,7 @@ function Navbar() {
         { path: "/cong-ty-IT", title: "Công ty IT" },
         { path: "/blog", title: "Blog IT" },
         { path: "/register", title: "Nhà tuyển dụng" },
-        { path: "/login", title: "Đăng xuất" },
+        { path: "#", title: "Đăng xuất", action: handleLogout },
       ]
     : [
         { path: "/viec-lam-it", title: "Việc làm IT" },
@@ -145,11 +147,17 @@ function Navbar() {
           </span>
         </button>
         <ul className="space-y-3">
-          {menuMobile.map(({ path, title }) => (
-            <li key={path} className="p-2 hover:text-red-600">
-              <NavLink to={path} onClick={() => setIsMenuOpen(false)}>
+          {menuMobile.map((item) => (
+            <li key={item.path} className="p-2 hover:text-red-600">
+              <NavLink
+                to={item.path}
+                onClick={() => {
+                  if (item.action) item.action();
+                  setIsMenuOpen(false);
+                }}
+              >
                 <span className="flex items-center justify-between">
-                  {title} <FaGreaterThan className="size-3" />
+                  {item.title} <FaGreaterThan className="size-3" />
                 </span>
               </NavLink>
               <hr />

@@ -46,7 +46,7 @@ function Blog() {
     };
   }, []);
   return (
-    <div>
+    <div className="">
       <div className="h-80 relative flex justify-center">
         <img
           src="/src/assets/blog/banner.jpg"

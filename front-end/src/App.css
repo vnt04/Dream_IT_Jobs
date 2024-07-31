@@ -2,26 +2,21 @@
   --primary: #33afa9;
 }
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: "OpenSans", sans-serif;
   overflow-y: overlay;
 }
 
 /* css responsive for container - main content  */
 .container {
-  max-width: 100%;
   width: 100%;
+  max-width: 100%;
   margin: 0;
-  padding: 0px 8px;
-}
-@media (min-width: 768px) {
-  .container {
-    padding: 0px 20px;
-  }
+  padding: 0px 2%;
 }
 
 @media (min-width: 1024px) {
   .container {
-    padding: 0px 132px;
+    padding: 0px 10%;
   }
 }
 

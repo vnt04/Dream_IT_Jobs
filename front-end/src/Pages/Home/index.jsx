@@ -8,14 +8,17 @@ import { DataContext } from "../../context/DataProvider";
 function Home() {
   const { newBlogs } = useContext(DataContext);
   return (
-    <div>
+    <div className="space-y-6">
       <QuickSearch />
       <NewJobs />
       <BestCompany />
-      <div className="py-4">
+      <div className="space-y-4 pb-10">
         <div className="container flex items-center justify-between">
-          <h1 className="text-xl font-bold lg:text-2xl">Blog IT</h1>
-          <a href="/blog" className="underline text-red-600">
+          <h1 className="font-bold md:text-xl">Blog IT</h1>
+          <a
+            href={"/blog-IT"}
+            className="text-sm font-semibold text-red-400 underline hover:text-red-600 md:text-base"
+          >
             Xem tất cả
           </a>
         </div>

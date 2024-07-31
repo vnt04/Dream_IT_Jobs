@@ -3,8 +3,9 @@
 const Tag = ({ name, url }) => {
   return (
     <a
-      className="px-2 rounded cursor-pointer text-[#1047b2] border bg-blue-100 hover:border-blue-600"
+      className="cursor-pointer rounded-xl border bg-white px-3 text-sm font-semibold text-primary hover:bg-gray-100"
       href={url}
+      title={name}
     >
       {name}
     </a>

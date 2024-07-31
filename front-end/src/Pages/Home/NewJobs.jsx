@@ -4,87 +4,95 @@ import { DataContext } from "../../context/DataProvider";
 import Tag from "../../components/Tag";
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
-import { formatCurrency, getRows, calculateDaysAgo } from "../../utils";
+import { formatCurrency, calculateDaysAgo } from "../../utils";
 import { BsFire } from "react-icons/bs";
-import { CiHeart } from "react-icons/ci";
+import { CiHeart, CiLocationOn } from "react-icons/ci";
+import { PiMoneyWavy } from "react-icons/pi";
 
 function NewJobs() {
   const { newJobs } = useContext(DataContext);
-  const rows = getRows(newJobs, 3);
   return (
-    <div className="container h-auto bg-white">
-      <div className="flex justify-between py-4 items-center">
-        <div className="flex items-center gap-2">
-          <BsFire className="size-10 text-red-500" />
-          <h1 className="text-xl font-bold lg:text-2xl">Công việc </h1>
-          <h1 className="text-xl font-bold lg:text-2xl text-red-600">
-            {" "}
-            mới nhất
-          </h1>
+    <div className="container bg-white">
+      <div className="mb-4 flex items-center justify-between">
+        <div className="flex items-center space-x-1">
+          <BsFire className="size-6 text-red-500 md:size-8" />
+          <h1 className="font-bold md:text-xl">Công việc </h1>
+          <h1 className="font-bold text-red-600 md:text-xl"> mới nhất</h1>
         </div>
-        <Link
-          to={"/viec-lam-it"}
-          className="underline text-red-400 hover:text-red-600"
+        <a
+          href={"/viec-lam-IT"}
+          className="text-sm font-semibold text-red-400 underline hover:text-red-600 md:text-base"
         >
           Xem tất cả
-        </Link>
+        </a>
       </div>
 
-      {rows.map((row, index) => (
-        <div key={index} className="flex gap-4 py-2">
-          {row.map((job, index) => (
-            <div
-              key={index}
-              className="h-40 w-1/3 py-2 flex border-[2px] rounded-xl"
-            >
-              <div className="w-1/3">
-                <a href={`/cong-ty-IT/${job.company._id}`}>
-                  <img
-                    src={`/src/assets/img-company/${job.company.logo}`}
-                    alt={job.company.name}
-                    className="w-full h-full p-1 "
-                  />
-                </a>
-              </div>
-              <div className="w-2/3">
+      {/* List new jobs */}
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:gap-5 xl:grid-cols-3">
+        {newJobs?.map((job, index) => (
+          <div key={index} className="h-44 w-full rounded-xl border-[2px] p-2">
+            <div className="flex h-2/3 w-full space-x-2">
+              <a className="w-1/3" href={`/cong-ty-IT/${job.company._id}`}>
+                <img
+                  src={`/src/assets/img-company/${job.company.logo}`}
+                  alt={job.company.name}
+                  title={job.company.name}
+                  className="h-full w-full object-contain"
+                />
+              </a>
+              <div className="w-2/3 space-y-1 overflow-hidden">
                 <a
                   href={`/viec-lam-it/${job._id}`}
-                  className="font-bold text-xl line-clamp-1 hover:text-primary"
+                  title={job.job_title}
+                  className="line-clamp-1 font-bold hover:text-primary"
                 >
                   {job.job_title}
                 </a>
                 <Link to={`/cong-ty-IT/${job.company._id}`}>
-                  <h4 className="my-1 font-semibold text-[#666] hover:text-[#aaa]">
+                  <h4
+                    title={job.company.name}
+                    className="line-clamp-1 font-semibold text-[#666] hover:text-[#aaa]"
+                  >
                     {job.company.name}
                   </h4>
                 </Link>
-                <span className="text-red-600">
-                  {job.min_salary == null
-                    ? "Lên tới "
-                    : formatCurrency(job.min_salary) + " - "}{" "}
-                </span>
-                <span className="text-red-600">
-                  {formatCurrency(job.max_salary)}
-                </span>
-                <div className="flex gap-3 mt-1">
-                  {job.tech_stack.map((tag, index) => (
-                    <Tag key={index} name={tag} />
-                  ))}
+                <div className="flex items-center space-x-1 overflow-hidden whitespace-nowrap">
+                  <PiMoneyWavy className="size-5" />
+                  <span className="text-red-600">
+                    {job.min_salary == null
+                      ? "Lên tới "
+                      : formatCurrency(job.min_salary) + " - "}{" "}
+                  </span>
+                  <span className="text-red-600">
+                    {formatCurrency(job.max_salary)}
+                  </span>
                 </div>
-                <div className="flex items-center gap-2 justify-end text-sm text-[#555] px-2 my-3 ">
-                  {calculateDaysAgo(job.time_created)}
-                  <CiHeart
-                    data-tooltip-id="save-job"
-                    data-tooltip-content="Lưu công việc này"
-                    className="size-5 cursor-pointer hover:text-red-500"
-                  />
-                  <Tooltip id="save-job" className="rounded-xl" />
-                </div>
+                <h4 className="line-clamp-1 flex items-center space-x-2 text-[#666]">
+                  <CiLocationOn className="size-4" />
+                  {job.location}
+                </h4>
               </div>
             </div>
-          ))}
-        </div>
-      ))}
+            <hr />
+            <div className="h-1/3 space-y-1 py-2">
+              <div className="flex justify-start space-x-3 overflow-hidden whitespace-nowrap">
+                {job.tech_stack.map((tag, index) => (
+                  <Tag key={index} name={tag} />
+                ))}
+              </div>
+              <div className="flex items-center justify-end gap-2 px-2 text-sm text-[#555]">
+                {calculateDaysAgo(job.time_created)}
+                <CiHeart
+                  data-tooltip-id="save-job"
+                  data-tooltip-content="Lưu công việc này"
+                  className="size-5 cursor-pointer hover:text-red-500"
+                />
+                <Tooltip id="save-job" className="rounded-xl" />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
