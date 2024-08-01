@@ -6,13 +6,14 @@ import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import { formatCurrency, calculateDaysAgo } from "../../utils";
 import { BsFire } from "react-icons/bs";
-import { CiHeart, CiLocationOn } from "react-icons/ci";
+import { CiHeart } from "react-icons/ci";
+import { IoLocation } from "react-icons/io5";
 import { PiMoneyWavy } from "react-icons/pi";
 
 function NewJobs() {
   const { newJobs } = useContext(DataContext);
   return (
-    <div className="container bg-white">
+    <div className="container ">
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center space-x-1">
           <BsFire className="size-6 text-red-500 md:size-8" />
@@ -68,7 +69,7 @@ function NewJobs() {
                   </span>
                 </div>
                 <h4 className="line-clamp-1 flex items-center space-x-2 text-[#666]">
-                  <CiLocationOn className="size-4" />
+                  <IoLocation className="size-4" />
                   {job.location}
                 </h4>
               </div>

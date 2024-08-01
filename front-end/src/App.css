@@ -5,12 +5,15 @@ body {
   font-family: "OpenSans", sans-serif;
   overflow-y: overlay;
 }
+html {
+  margin: 0 auto;
+}
 
 /* css responsive for container - main content  */
 .container {
   width: 100%;
-  max-width: 100%;
-  margin: 0;
+  max-width: 1680px;
+  margin: 0 auto;
   padding: 0px 2%;
 }
 
@@ -19,31 +22,41 @@ body {
     padding: 0px 10%;
   }
 }
-
+@media (min-width: 2500px) {
+  .container {
+    padding: 0 5%;
+    max-width: 1920px;
+  }
+}
 /* Button css */
-.btn-1 {
-  padding: 4px 16px;
+.btn-1,
+.btn-2 {
+  padding: 0.5em 1em;
   border-radius: 6px;
+  font-weight: 600;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+}
+
+.btn-1 {
   background-color: var(--primary);
   color: white;
-  font-weight: 600;
 }
+
 .btn-1:hover {
   background-color: rgb(41, 156, 141);
 }
 
 .btn-2 {
-  padding: 4px 16px;
   border-width: 1px;
-  border-radius: 6px;
+  border-style: solid;
   border-color: var(--primary);
   color: var(--primary);
-  font-weight: 600;
 }
+
 .btn-2:hover {
   background-color: rgb(244, 241, 241);
 }
-
 /* Company menu li-tag */
 .menu-company {
   width: 33.33%;

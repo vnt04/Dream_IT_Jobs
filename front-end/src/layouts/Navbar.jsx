@@ -66,109 +66,107 @@ function Navbar() {
         { path: "/login", title: "Đăng nhập" },
       ];
   return (
-    <header className="sticky top-0 z-[1000] flex h-20 w-full items-center justify-between bg-white px-3 text-base shadow-2xl md:px-6 lg:px-8 lg:font-semibold">
-      {/* Navbar for mobile  */}
-      <div className="block lg:hidden">
-        <button onClick={handleMenuToggle}>
-          <FaBars
-            className={`h-6 w-6 ${!isMenuOpen ? "visible" : "invisible"}`}
-          />
-        </button>
-      </div>
-
-      {/* Logo */}
-      <a href="/">
-        <img
-          src="/src/assets/logo.jpg"
-          alt="logo"
-          className="h-16 w-36 lg:h-20 lg:w-40"
-        />
-      </a>
-      <nav className="w-[42%] px-2 max-lg:hidden">
-        {/* Navbar for fullscreen desktop */}
-        <ul className="flex justify-between">
-          {navItems.map(({ path, title }) => (
-            <li key={path} className="hover:text-red-500">
-              <NavLink
-                to={path}
-                className={({ isActive }) => (isActive ? "text-red-500" : "")}
-              >
-                {title}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
-      </nav>
-
-      {/* User and language */}
-      <div className="items-center lg:flex lg:gap-4">
-        {user ? (
-          <div className="flex items-center gap-2">
-            <FaBell />
-            <User
-              displayName={user.displayName}
-              url={user.avatar}
-              role={user.role}
-              uid={user.uid}
+    <header className="sticky top-0 z-[1000] bg-white shadow-2xl">
+      <div className="screen4K:max-w-[2048px] mx-auto flex h-20 max-w-[1680px] items-center justify-between px-3 text-base md:px-6 lg:px-8 lg:font-semibold">
+        {/* Navbar for mobile  */}
+        <div className="block lg:hidden">
+          <button onClick={handleMenuToggle}>
+            <FaBars
+              className={`h-6 w-6 ${!isMenuOpen ? "visible" : "invisible"}`}
             />
-          </div>
-        ) : (
-          <div className="flex lg:gap-2">
-            <Link to="/register" className="btn-2 hidden lg:block">
-              Nhà tuyển dụng
-            </Link>
-            <Link to="/login" className="btn-1">
-              Đăng nhập
-            </Link>
-          </div>
-        )}
-
-        <div className="hidden lg:block">
-          <Link to="/eng">En</Link>
-          <span className="font-normal"> | </span>
-          <Link to="/vie" className="text-primary">
-            Vi
-          </Link>
+          </button>
         </div>
-      </div>
-
-      {/* NavItems menu mobile */}
-      <div
-        ref={menuRef}
-        className={`fixed left-0 top-0 h-full w-[280px] space-y-5 bg-white shadow-2xl ${isMenuOpen ? "translate-x-0" : "-translate-x-full"} transition-transform duration-500 ease-in-out`}
-      >
-        <button
-          onClick={() => setIsMenuOpen(false)}
-          className="ml-auto flex px-2 py-4 font-semibold text-primary hover:text-red-600"
+        {/* Logo */}
+        <a href="/">
+          <img
+            src="/src/assets/logo.jpg"
+            alt="logo"
+            className="h-16 w-36 lg:h-20 lg:w-40"
+          />
+        </a>
+        <nav className="w-[42%] px-2 max-lg:hidden">
+          {/* Navbar for fullscreen desktop */}
+          <ul className="flex justify-between">
+            {navItems.map(({ path, title }) => (
+              <li key={path} className="hover:text-red-500">
+                <NavLink
+                  to={path}
+                  className={({ isActive }) => (isActive ? "text-red-500" : "")}
+                >
+                  {title}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        {/* User and language */}
+        <div className="items-center lg:flex lg:gap-4">
+          {user ? (
+            <div className="flex items-center gap-2">
+              <FaBell />
+              <User
+                displayName={user.displayName}
+                url={user.avatar}
+                role={user.role}
+                uid={user.uid}
+              />
+            </div>
+          ) : (
+            <div className="flex lg:gap-2">
+              <Link to="/register" className="btn-2 hidden lg:block">
+                Nhà tuyển dụng
+              </Link>
+              <Link to="/login" className="btn-1">
+                Đăng nhập
+              </Link>
+            </div>
+          )}
+          <div className="hidden lg:block">
+            <Link to="/eng">En</Link>
+            <span className="font-normal"> | </span>
+            <Link to="/vie" className="text-primary">
+              Vi
+            </Link>
+          </div>
+        </div>
+        {/* NavItems menu mobile */}
+        <div
+          ref={menuRef}
+          className={`fixed left-0 top-0 h-full w-[280px] space-y-5 bg-white shadow-2xl ${isMenuOpen ? "translate-x-0" : "-translate-x-full"} transition-transform duration-500 ease-in-out`}
         >
-          <span className="flex items-center">
-            Đóng
-            <FaXmark className="h-5 w-5" />
-          </span>
-        </button>
-        <ul className="space-y-3">
-          {menuMobile.map((item) => (
-            <li key={item.path} className="p-2 hover:text-red-600">
-              <NavLink
-                to={item.path}
-                onClick={() => {
-                  if (item.action) item.action();
-                  setIsMenuOpen(false);
-                }}
-              >
-                <span className="flex items-center justify-between">
-                  {item.title} <FaGreaterThan className="size-3" />
-                </span>
-              </NavLink>
-              <hr />
-            </li>
-          ))}
-        </ul>
-        <div className="text-center">
-          <span>Ngôn ngữ: </span>
-          <button>En</button>
-          <span> | </span>
-          <button className="font-semibold text-primary">Vi</button>
+          <button
+            onClick={() => setIsMenuOpen(false)}
+            className="ml-auto flex px-2 py-4 font-semibold text-primary hover:text-red-600"
+          >
+            <span className="flex items-center">
+              Đóng
+              <FaXmark className="h-5 w-5" />
+            </span>
+          </button>
+          <ul className="space-y-3">
+            {menuMobile.map((item) => (
+              <li key={item.path} className="p-2 hover:text-red-600">
+                <NavLink
+                  to={item.path}
+                  onClick={() => {
+                    if (item.action) item.action();
+                    setIsMenuOpen(false);
+                  }}
+                >
+                  <span className="flex items-center justify-between">
+                    {item.title} <FaGreaterThan className="size-3" />
+                  </span>
+                </NavLink>
+                <hr />
+              </li>
+            ))}
+          </ul>
+          <div className="text-center">
+            <span>Ngôn ngữ: </span>
+            <button>En</button>
+            <span> | </span>
+            <button className="font-semibold text-primary">Vi</button>
+          </div>
         </div>
       </div>
     </header>

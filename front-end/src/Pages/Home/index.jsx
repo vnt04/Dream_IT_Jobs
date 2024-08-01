@@ -9,9 +9,15 @@ function Home() {
   const { newBlogs } = useContext(DataContext);
   return (
     <div className="space-y-6">
-      <QuickSearch />
-      <NewJobs />
-      <BestCompany />
+      <div className="bg-[#acf2ed]">
+        <QuickSearch />
+      </div>
+      <div className="bg-white">
+        <NewJobs />
+      </div>
+      <div className="bg-[#f5f5f5]">
+        <BestCompany />
+      </div>
       <div className="space-y-4 pb-10">
         <div className="container flex items-center justify-between">
           <h1 className="font-bold md:text-xl">Blog IT</h1>

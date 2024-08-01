@@ -8,7 +8,7 @@ function BestCompany() {
   const { mostFollow } = useContext(DataContext);
 
   return (
-    <div className="container bg-[#f5f5f5]">
+    <div className="container ">
       <div className="flex justify-between py-4">
         <div className="flex items-center space-x-1">
           <FaSun className="size-6 text-yellow-400 md:size-8" />

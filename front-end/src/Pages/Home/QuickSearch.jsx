@@ -3,7 +3,7 @@ import Tag from "../../components/Tag";
 
 function QuickSearch() {
   return (
-    <div className="container bg-[#acf2ed]">
+    <div className="container ">
       <h1 className="text-balance pb-2 pt-6 text-center font-bold text-blue-950 md:text-2xl">
         Việc làm IT trong mơ, nơi đam mê gặp gỡ cơ hội
       </h1>

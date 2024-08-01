@@ -12,7 +12,9 @@ function App() {
       <div className="w-full">
         <Outlet />
       </div>
-      <Footer />
+      <div className="bg-gray-300">
+        <Footer />
+      </div>
       <ToastContainer />
       <ScrollToTop />
     </>

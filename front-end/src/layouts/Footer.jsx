@@ -5,7 +5,7 @@ import { AiFillTikTok } from "react-icons/ai";
 
 function Footer() {
   return (
-    <div className="container bg-gray-300">
+    <div className="container">
       <div className="space-y-4 py-10 lg:grid lg:grid-cols-3 lg:gap-2">
         <div className="h-full space-y-2">
           <a href="/">
