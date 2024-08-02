@@ -8,7 +8,9 @@ function Jobs() {
   return (
     <div>
       <Search setResultSearch={setResultSearch} setShowResult={setShowResult} />
-      <ListJobs resultSearch={resultSearch} showResult={showResult} />
+      <div className="bg-[#f5f5f5]">
+        <ListJobs resultSearch={resultSearch} showResult={showResult} />
+      </div>
     </div>
   );
 }

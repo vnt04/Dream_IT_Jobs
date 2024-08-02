@@ -61,12 +61,12 @@ const Dropdown = ({ label, options, selectedValue, onSelect, type }) => {
     <div
       ref={dropdownRef}
       className={
-        "relative h-10 flex items-center justify-between border-[2px] border-primary rounded "
+        "relative flex h-10 items-center justify-between rounded border-[2px] border-primary"
       }
     >
       <button
         onClick={toggleDropdown}
-        className={`w-full h-full flex items-center justify-between px-3 ${isSelected ? "bg-gray-200 font-semibold" : ""}`}
+        className={`flex h-full w-full items-center justify-between px-3 ${isSelected ? "bg-gray-200 font-semibold" : ""}`}
       >
         <span>{multiLabel()}</span>
         <MdOutlineArrowDropDown
@@ -74,12 +74,12 @@ const Dropdown = ({ label, options, selectedValue, onSelect, type }) => {
         />
       </button>
       {isOpen && (
-        <div className="absolute bg-white transition-all ease-out opacity-100 rounded-xl w-full left-0 top-full translate-y-1 shadow-2xl z-10">
+        <div className="absolute left-0 top-full z-10 w-full translate-y-1 rounded-xl bg-white opacity-100 shadow-2xl transition-all ease-out">
           <ul>
             {options.map((option, index) => (
               <li
                 key={index}
-                className={`${type === "multi" ? "flex gap-2 items-center" : ""} cursor-pointer p-3 hover:bg-gray-100`}
+                className={`${type === "multi" ? "flex items-center gap-2" : ""} cursor-pointer p-3 hover:bg-gray-100`}
                 onClick={(event) => {
                   handleOptionClick(event, option);
                 }}
@@ -89,7 +89,7 @@ const Dropdown = ({ label, options, selectedValue, onSelect, type }) => {
                     type="checkbox"
                     checked={selectedValue.includes(option)}
                     onChange={(event) => handleOptionClick(event, option)}
-                    className="h-4 w-4 rounded checked:accent-teal-300 "
+                    className="h-4 w-4 rounded checked:accent-teal-300"
                   />
                 )}
                 <span className="line-clamp-1">{option.label}</span>

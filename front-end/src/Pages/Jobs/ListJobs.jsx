@@ -24,7 +24,7 @@ function ListJobs({ resultSearch, showResult }) {
   if (newest) {
     filterData.sort(
       (a, b) =>
-        calculateDayNumber(a.time_created) - calculateDayNumber(b.time_created)
+        calculateDayNumber(a.time_created) - calculateDayNumber(b.time_created),
     );
   }
   if (highestSalary) {
@@ -32,76 +32,87 @@ function ListJobs({ resultSearch, showResult }) {
   }
 
   return (
-    <div className="container bg-[#f5f5f5] ">
-      <h1 className="font-semibold py-2">
+    <div className="container">
+      <div className="py-2 font-semibold">
         Tìm thấy{" "}
         <span className="font-bold text-primary"> {currentData.length} </span>{" "}
         công việc phù hợp với bạn
-      </h1>
-
-      <div className="flex mb-3">
-        <h1 className="w-1/6 text-gray-500">Ưu tiên hiển thị:</h1>
-        <div className="w-1/6 flex items-center gap-2">
+      </div>
+      <div className="flex items-center space-x-4">
+        <h1 className="text-gray-500">Ưu tiên hiển thị:</h1>
+        <div className="flex items-center space-x-1">
           <input
             type="radio"
+            id="new"
             checked={newest}
             onClick={() => setNewest(!newest)}
             onChange={() => {}}
           />
-          <span>Tin mới nhất</span>
+          <label htmlFor="new">Tin mới nhất</label>
         </div>
-        <div className="w-1/6 flex items-center gap-2">
+        <div className="flex items-center space-x-1">
           <input
             type="radio"
+            id="salary"
             checked={highestSalary}
             onClick={() => setHighestSalary(!highestSalary)}
             onChange={() => {}}
           />
-          <span>Lương cao nhất</span>
+          <label htmlFor="salary">Lương cao nhất</label>
         </div>
       </div>
 
-      <div className="flex gap-4">
-        <div className="w-2/3">
+      <div className="grid grid-cols-1 gap-4 py-4 xl:grid-cols-3">
+        <div className="space-y-4 xl:col-span-2">
           {filterData.map((jobData) => (
             <div
               key={jobData._id}
-              className="h-48 flex mb-5 rounded-xl bg-white hover:bg-teal-100"
+              className="flex h-48 max-w-5xl space-x-2 rounded-xl bg-white hover:bg-teal-100"
             >
-              <div className="w-[30%] h-2/3">
+              <div className="h-2/3 w-1/4">
                 <img
                   src={`/src/assets/img-company/${jobData.company.logo}`}
-                  alt=""
-                  className="w-full h-full px-14 py-5"
+                  title={jobData.company.name}
+                  className="h-full w-full rounded-xl object-contain p-2"
                 />
               </div>
-              <div className="py-2 w-[60%]">
+              <div className="w-3/4 space-y-1 overflow-hidden py-2">
                 <Link
                   to={`/viec-lam-it/${jobData._id}`}
-                  className="font-bold text-xl text-teal-600"
+                  title={jobData.job_title}
+                  className="line-clamp-1 font-bold hover:text-primary"
                 >
                   {jobData.job_title}
                 </Link>
-                <div className="my-1 text-[16px]">{jobData.company.name}</div>
-                <span className="text-red-600">
-                  {jobData.min_salary == null
-                    ? "Lên tới "
-                    : formatCurrency(jobData.min_salary) + " - "}{" "}
-                </span>
-                <span className="text-red-600">
-                  {formatCurrency(jobData.max_salary)}
-                </span>
+                <Link to={`/cong-ty-IT/${jobData.company._id}`}>
+                  <h4
+                    title={jobData.company.name}
+                    className="line-clamp-1 font-semibold text-[#666] hover:text-[#aaa]"
+                  >
+                    {jobData.company.name}
+                  </h4>
+                </Link>
+                <div className="flex items-center space-x-1 overflow-hidden whitespace-nowrap">
+                  <span className="text-red-600">
+                    {jobData.min_salary == null
+                      ? "Lên tới "
+                      : formatCurrency(jobData.min_salary) + " - "}{" "}
+                  </span>
+                  <span className="text-red-600">
+                    {formatCurrency(jobData.max_salary)}
+                  </span>
+                </div>
                 <div>
                   {jobData.location} - {jobData.job_type}
                 </div>
-                <hr className="mt-2 w-full bg-gray-300 hover:bg-gray-500" />
-                <div className="py-2 flex justify-between">
-                  <div className="flex gap-3 mt-1">
+                <hr />
+                <div className="space-y-2 py-2 md:flex md:items-center md:justify-between">
+                  <div className="flex justify-start space-x-3 overflow-hidden whitespace-nowrap">
                     {jobData.tech_stack.map((tag, index) => (
                       <Tag key={index} name={tag} />
                     ))}
                   </div>
-                  <div className="text-sm flex items-center">
+                  <div className="mr-2 text-end text-sm">
                     Đăng {calculateDaysAgo(jobData.time_created)}
                   </div>
                 </div>
@@ -109,8 +120,8 @@ function ListJobs({ resultSearch, showResult }) {
             </div>
           ))}
         </div>
-        <div className="w-1/3 h-[840px]  bg-white">
-          <div className="py-2 items-center font-bold text-xl text-center text-white bg-primary ">
+        <div className="">
+          <div className="items-center bg-primary py-2 text-center text-xl font-bold text-white">
             Việc làm nổi bật
           </div>
           <JobCard jobCard={HighlightJobs} />

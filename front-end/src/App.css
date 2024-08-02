@@ -22,7 +22,7 @@ html {
     padding: 0px 10%;
   }
 }
-@media (min-width: 2500px) {
+@media (min-width: 2496px) {
   .container {
     padding: 0 5%;
     max-width: 1920px;
@@ -121,7 +121,12 @@ html {
   border: none;
   outline: none;
   width: 100%;
-  font-size: 16px;
+  font-size: 1em;
+}
+@media (max-width: 767px) {
+  .tagInputFieldClass {
+    font-size: 0.875em;
+  }
 }
 
 .selectedClass {

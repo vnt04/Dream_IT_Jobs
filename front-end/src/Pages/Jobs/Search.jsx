@@ -60,15 +60,15 @@ function Search({ setResultSearch, setShowResult }) {
   };
 
   return (
-    <div className="container">
-      <div className="flex h-auto items-center gap-2 rounded border-[2px] border-primary bg-white">
-        <div className="flex-1 pl-3 lg:text-base">
+    <div className="container space-y-2 md:space-y-3">
+      <div className="mt-8 flex h-14 items-center space-x-2 rounded-md border-[2px] border-primary bg-white px-2 lg:px-4">
+        <div className="flex-1">
           <ReactTags
             tags={tags}
             handleDelete={handleDelete}
             handleAddition={handleAddition}
             delimiters={delimiters}
-            placeholder="Tìm kiếm công việc theo kỹ năng ..."
+            placeholder="Tìm theo các Kỹ năng, Vị trí, Công ty,..."
             inputFieldPosition="inline"
             autocomplete
             classNames={{
@@ -81,58 +81,50 @@ function Search({ setResultSearch, setShowResult }) {
             }}
           />
         </div>
-        <div className="m-5">
+        <div className="">
           <button
             onClick={handleSearch}
-            className="flex h-10 items-center rounded border border-solid bg-primary px-4 text-[14px] font-bold text-white"
+            className="btn-1 flex items-center space-x-1"
           >
-            <FaSearch className="mx-2" />
-            Tìm kiếm
+            <FaSearch />
+            <span className="hidden md:block">Tìm kiếm</span>
           </button>
         </div>
       </div>
 
-      <div className="flex gap-2 py-2">
-        <div className="w-1/5">
-          <Dropdown
-            type="single"
-            label="Tất cả địa điểm"
-            options={locationOption}
-            selectedValue={selectedLocation}
-            onSelect={setSelectedLocation}
-          />
-        </div>
-        <div className="w-1/5">
-          <Dropdown
-            type="single"
-            label="Tất cả cấp bậc"
-            options={levelOptions}
-            selectedValue={selectedLevel}
-            onSelect={setSelectedLevel}
-          />
-        </div>
-        <div className="w-1/5">
-          <Dropdown
-            type="multi"
-            label="Tất cả loại công việc"
-            options={jobTypeOptions}
-            selectedValue={selectedJobType}
-            onSelect={setSelectedJobType}
-          />
-        </div>
-        <div className="w-1/5">
-          <Dropdown
-            type="multi"
-            label="Tất cả loại hợp đồng"
-            options={contractTypeOptions}
-            selectedValue={selectedContractType}
-            onSelect={setSelectedContractType}
-          />
-        </div>
+      <div className="mb-8 grid grid-cols-2 gap-2 text-sm md:gap-3 md:text-base xl:grid-cols-5">
+        <Dropdown
+          type="single"
+          label="Tất cả địa điểm"
+          options={locationOption}
+          selectedValue={selectedLocation}
+          onSelect={setSelectedLocation}
+        />
+        <Dropdown
+          type="single"
+          label="Tất cả cấp bậc"
+          options={levelOptions}
+          selectedValue={selectedLevel}
+          onSelect={setSelectedLevel}
+        />
+        <Dropdown
+          type="multi"
+          label="Tất cả loại công việc"
+          options={jobTypeOptions}
+          selectedValue={selectedJobType}
+          onSelect={setSelectedJobType}
+        />
+        <Dropdown
+          type="multi"
+          label="Tất cả loại hợp đồng"
+          options={contractTypeOptions}
+          selectedValue={selectedContractType}
+          onSelect={setSelectedContractType}
+        />
 
         <button
           onClick={handleDeleteFilter}
-          className="flex h-10 w-1/6 cursor-pointer items-center justify-center gap-2 rounded-sm bg-[#c2c2c2] font-bold text-red-500 hover:bg-gray-300"
+          className="mb-4 flex h-10 cursor-pointer items-center justify-center gap-2 rounded-sm bg-[#c2c2c2] font-bold text-red-500 hover:bg-gray-300 max-xl:col-span-2 lg:mb-8"
         >
           <FaFilterCircleXmark />
           <span>Xóa bộ lọc</span>
