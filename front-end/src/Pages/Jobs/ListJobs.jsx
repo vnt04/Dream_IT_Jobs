@@ -67,7 +67,7 @@ function ListJobs({ resultSearch, showResult }) {
           {filterData.map((jobData) => (
             <div
               key={jobData._id}
-              className="flex h-48 max-w-5xl space-x-2 rounded-xl bg-white hover:bg-teal-100"
+              className="flex h-48 space-x-2 rounded-xl bg-white hover:bg-teal-100"
             >
               <div className="h-2/3 w-1/4">
                 <img

@@ -19,7 +19,7 @@ const customStyle = {
     "&:hover": {
       border: "2px solid #d1d5db",
     },
-    height: "46px",
+    height: "48px",
   }),
   option: (provided, state) => ({
     ...provided,
@@ -50,17 +50,17 @@ function SearchCompany({ setResultSearch }) {
       .catch((error) => console.log(error));
   };
   return (
-    <div className="flex h-16 w-full mt-4 border rounded border-primary">
-      <div className="w-[92%] flex gap-2 p-2 ">
-        <div className="w-3/4 p-2 flex items-center gap-3 border rounded border-gray-300 hover:border-2">
-          <FaSearch className="text-gray-600 text-xl" />
-          <input
-            className="w-full h-full outline-none p-1 "
-            onChange={(e) => setCompanyName(e.target.value)}
-            placeholder="Nhập tên công ty bạn đang tìm kiếm ..."
-          ></input>
-        </div>
-        <div className="w-1/4 h-full">
+    <div className="mt-6 grid grid-rows-2 items-center space-y-1 text-sm lg:grid lg:grid-cols-2 lg:grid-rows-1 lg:space-x-2 lg:text-base">
+      <div className="flex h-12 w-full items-center space-x-3 rounded border border-primary p-2">
+        <FaSearch className="size-5 text-gray-600" />
+        <input
+          className="h-full w-full outline-none"
+          onChange={(e) => setCompanyName(e.target.value)}
+          placeholder="Nhập tên công ty bạn đang tìm kiếm ..."
+        ></input>
+      </div>
+      <div className="grid h-full grid-cols-4 space-x-2">
+        <div className="col-span-3">
           <Select
             styles={customStyle}
             placeholder="Địa điểm"
@@ -69,13 +69,13 @@ function SearchCompany({ setResultSearch }) {
             onChange={setSelected}
           />
         </div>
+        <button
+          onClick={handleSearch}
+          className="h-12 rounded bg-primary font-bold text-white hover:bg-[#299C8D]"
+        >
+          Tìm kiếm
+        </button>
       </div>
-      <button
-        onClick={handleSearch}
-        className="h-full w-[8%] bg-primary text-white font-bold hover:bg-[#299C8D] "
-      >
-        Tìm kiếm
-      </button>
     </div>
   );
 }
