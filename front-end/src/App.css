@@ -77,33 +77,6 @@ html {
   color: white;
 }
 
-/* Blog menu */
-.menu-blog {
-  width: 20%;
-  font-weight: bold;
-  border: 1px solid #aaa;
-  color: #555;
-  padding: 4px 0px;
-  border-radius: 1.5rem;
-}
-.menu-blog:hover {
-  color: var(--primary);
-  font-weight: bold;
-  border: 2px solid var(--primary);
-}
-.stickyBlog {
-  position: fixed;
-  top: 64px;
-  width: 100%;
-  height: 56px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  z-index: 1000;
-  background-color: white;
-  --tw-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  box-shadow: var(--tw-shadow);
-}
-
 /* Multi tag search */
 .tagsClass {
   display: flex;

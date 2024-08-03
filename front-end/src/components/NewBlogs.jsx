@@ -5,7 +5,7 @@ function NewBlogs({ data }) {
   return (
     <div className="container max-md:space-y-4 md:grid md:grid-cols-2 md:gap-4">
       <div title={data[0]?.title} className="rounded-xl">
-        <div className="zoom-container h-[60%]">
+        <div className="zoom-container max-h-[60%]">
           <img
             src={`/src/assets/blog/${data[0]?.poster}`}
             alt=""

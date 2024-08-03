@@ -1,15 +1,16 @@
 import { useContext, useState, useEffect } from "react";
 import { DataContext } from "../context/DataProvider";
-import { compareDate, getRows } from "../utils";
+import { compareDate } from "../utils";
 import NewBlogs from "../components/NewBlogs";
+import { FaFilter } from "react-icons/fa";
 
 function Blog() {
   const { dataBlog, newBlogs } = useContext(DataContext);
   const [stickyBlog, setStickyBlog] = useState(false);
   const [dataFilter, setDataFilter] = useState([]);
   const [filter, setFilter] = useState("");
+  const [filterMobile, setFilterMobile] = useState(false);
   const newFilter = dataFilter.slice(0, 4);
-  const rows = filter === "" ? getRows(dataBlog, 4) : getRows(dataFilter, 4);
 
   const getDataFilter = (input) => {
     const data = [];
@@ -46,60 +47,89 @@ function Blog() {
     };
   }, []);
   return (
-    <div className="">
-      <div className="h-80 relative flex justify-center">
+    <div className="w-full">
+      <div className="relative flex max-h-80 justify-center">
         <img
           src="/src/assets/blog/banner.jpg"
           alt="blog"
-          className="w-full h-auto object-center"
+          className="w-full max-w-[1680px] object-fill"
         />
-        <div className="absolute bottom-[5%] ">
-          <h1 className="font-bold text-3xl text-center text-[#022941]">
-            Cẩm nang ngành Công nghệ thông tin
+        <div className="absolute bottom-[5%] max-w-[60%] text-center">
+          <h1 className="font-bold md:text-2xl lg:text-3xl">
+            Cẩm nang ngành Công Nghệ Thông Tin
           </h1>
-          <h4 className="text-center px-96 text-black py-2">
+          <h4 className="text-balance text-black max-md:hidden">
             Khám phá thông tin hữu ích liên quan tới ngành công nghệ thông tin.
             Chia sẻ kinh nghiệm, kiến thức chuyên môn giúp bạn tìm được công
             việc phù hợp và phát triển bản thân.
           </h4>
         </div>
       </div>
+
       <div
-        className={`container h-14 flex gap-3 my-4 ${stickyBlog ? "stickyBlog" : ""}`}
+        className={`w-full bg-white ${stickyBlog ? "fixed top-20 z-[1000] opacity-100 shadow-lg" : ""}`}
       >
-        <button onClick={() => handleFilter("Lập trình")} className="menu-blog">
-          Lập trình
-        </button>
+        <div className={`container hidden h-14 justify-between lg:flex`}>
+          {[
+            "Lập trình",
+            "Kinh nghiệm phỏng vấn",
+            "Tổng quan ngành IT",
+            "Kỹ năng viết CV",
+            "Xu hướng công nghệ",
+          ].map((topic) => (
+            <button
+              key={topic}
+              onClick={() => {
+                handleFilter(topic);
+              }}
+              className="my-3 rounded-2xl border px-3 shadow-sm hover:bg-gray-50 hover:text-primary"
+            >
+              {topic}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Filter for medium screen */}
+      <div className="relative mr-2 flex justify-end py-2 lg:hidden">
         <button
-          onClick={() => handleFilter("Kinh nghiệm phỏng vấn")}
-          className="menu-blog"
+          onClick={() => {
+            setFilterMobile(!filterMobile);
+          }}
+          className="flex items-center space-x-2 rounded-xl border-2 border-primary px-6 py-2 hover:bg-gray-200"
         >
-          Kinh nghiệm phỏng vấn
+          <FaFilter />
+          <span className="font-bold">Bộ lọc</span>
         </button>
-        <button
-          onClick={() => handleFilter("Tổng quan ngành IT")}
-          className="menu-blog"
+
+        <div
+          className={`${filterMobile ? "" : "hidden"} absolute right-0 top-[90%] z-50 space-y-2 rounded-lg border-2 bg-white px-4 shadow-lg`}
         >
-          Tổng quan ngành IT
-        </button>
-        <button
-          onClick={() => handleFilter("Kỹ năng viết CV")}
-          className="menu-blog"
-        >
-          Kỹ năng viết CV
-        </button>
-        <button
-          onClick={() => handleFilter("Xu hướng công nghệ")}
-          className="menu-blog"
-        >
-          Xu hướng công nghệ
-        </button>
+          {[
+            "Lập trình",
+            "Kinh nghiệm phỏng vấn",
+            "Tổng quan ngành IT",
+            "Kỹ năng viết CV",
+            "Xu hướng công nghệ",
+          ].map((topic) => (
+            <button
+              key={topic}
+              onClick={() => {
+                handleFilter(topic);
+                setFilterMobile(false);
+              }}
+              className="block w-full hover:text-primary"
+            >
+              {topic}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div>
-        <h1 className="container font-bold text-2xl">
+        <h1 className="container text-2xl font-bold">
           Blog mới nhất{"    "}
-          <span className="font-bold text-primary text-[18px]"> {filter}</span>
+          <span className="text-[18px] font-bold text-primary"> {filter}</span>
         </h1>
         {filter === "" ? (
           <NewBlogs data={newBlogs} />
@@ -109,34 +139,37 @@ function Blog() {
       </div>
 
       {/* All blog */}
-      <div className="container bg-[#f5f5f5] ">
-        <span className="text-2xl font-bold">
-          Tất cả blog{"    "}
-          <span className="font-bold text-primary text-[18px]"> {filter}</span>
-        </span>
-        {rows.map((row, index) => (
-          <div key={index} className="flex items-center gap-4 ">
-            {row.map((data, index) => (
-              <div key={index} className="h-80 w-1/4 border rounded-xl mt-4 ">
-                <div className="h-[50%] ">
+      <div className="bg-[#f5f5f5] py-4">
+        <div className="container">
+          <span className="text-2xl font-bold">
+            Tất cả blog{"    "}
+            <span className="text-[18px] font-bold text-primary">
+              {" "}
+              {filter}
+            </span>
+          </span>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {dataBlog.map((data, index) => (
+              <div key={index} className="h-80 rounded-xl border-2">
+                <div className="h-[50%]">
                   <img
                     src={`/src/assets/blog/${data.poster}`}
                     alt="img"
-                    className="w-full h-full rounded-tl-xl rounded-tr-xl"
+                    className="h-full w-full rounded-tl-xl rounded-tr-xl object-cover"
                   />
                 </div>
                 <div className="mx-2 my-2">
-                  <div className="font-semibold text-primary block">
+                  <div className="line-clamp-1 font-semibold text-primary">
                     {data.field}
                   </div>
                   <a
                     href={data.link}
-                    className="font-bold line-clamp-2 hover:text-gray-600 "
+                    className="line-clamp-2 font-semibold hover:text-gray-600"
                   >
                     {data.title}
                   </a>
-                  <h5 className="text-sm line-clamp-2">{data.description}</h5>
-                  <div className="flex justify-between mt-2 items-center">
+                  <h5 className="line-clamp-2 text-sm">{data.description}</h5>
+                  <div className="mt-2 flex items-center justify-between">
                     <span className="font-semibold text-[#555]">
                       {data.cre}
                     </span>
@@ -146,7 +179,7 @@ function Blog() {
               </div>
             ))}
           </div>
-        ))}
+        </div>
       </div>
     </div>
   );
