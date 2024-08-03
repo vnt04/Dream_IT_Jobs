@@ -66,21 +66,21 @@ function Register() {
         displayName.value,
         position.value,
         mst.value,
-        () => setShowPopUp(true)
+        () => setShowPopUp(true),
       );
     }
   };
   return (
-    <div className="py-4 flex gap-4 justify-center">
+    <div className="flex py-4 max-lg:flex-col max-lg:items-center lg:flex lg:justify-center space-x-2">
       {/* Form Login recruiter */}
       <form
         onSubmit={handleLogin}
-        className="w-[600px] bg-white shadow-2xl rounded px-12 pt-6 pb-12 mb-4"
+        className="mb-4 max-w-[600px] rounded bg-white px-12 pb-12 pt-6 shadow-2xl"
       >
-        <h2 className="text-2xl text-primary font-semibold mb-2">
+        <h2 className="mb-2 text-2xl font-semibold text-primary">
           Đăng nhập để tuyển dụng ngay
         </h2>
-        <h3 className=" mb-6 text-gray-500">
+        <h3 className="mb-6 text-gray-500">
           Liên kết tài khoản của bạn để tiếp tục sử dụng dịch vụ tuyển dụng của
           Dream IT Jobs
         </h3>
@@ -94,24 +94,25 @@ function Register() {
           title="Mật khẩu"
           type="password"
           name="password"
-          placeholder="******************"
+          placeholder="•••••••••••••••••••••"
         />
-        <div className="flex gap-2 items-start mb-6">
+        <div className="mb-6 flex items-start gap-2">
           <input
             type="checkbox"
             checked={agreeLogin}
+            id="agree-to-login"
             onChange={() => {
               setAgreeLogin((pre) => !pre);
               setShowNoteLogin(false);
             }}
-            className="mt-2"
+            className="mt-1.5 checked:accent-primary"
           />
-          <h3 className=" items-start text-gray-500">
+          <label htmlFor="agree-to-login" className="items-start text-gray-500">
             Bằng việc đăng nhập, bạn đồng ý với{" "}
-            <span className="font-bold "> Điều Khoản Sử Dụng</span> và
-            <span className="font-bold "> Chính Sách Bảo Mật </span>
-            của <span className="text-primary font-bold"> Dream IT Jobs</span>.
-          </h3>
+            <span className="font-bold"> Điều Khoản Sử Dụng</span> và
+            <span className="font-bold"> Chính Sách Bảo Mật </span>
+            của <span className="font-bold text-primary"> Dream IT Jobs</span>.
+          </label>
         </div>
         {showNoteLogin && (
           <h1 className="py-2 text-red-500">
@@ -120,7 +121,7 @@ function Register() {
         )}
         <div className="grid gap-5">
           <a
-            className="text-end font-bold text-sm text-primary hover:text-teal-400"
+            className="text-end text-sm font-bold text-primary hover:text-teal-400"
             href="#"
           >
             Quên mật khẩu?
@@ -133,47 +134,41 @@ function Register() {
       {/* Form register recruiter */}
       <form
         onSubmit={handleRegister}
-        className="w-[600px] bg-white shadow-2xl rounded px-12 pt-6 pb-6 mb-4"
+        className="mb-4 max-w-[600px] rounded bg-white px-12 pb-6 pt-6 shadow-2xl"
       >
-        <h2 className="text-2xl text-primary font-semibold mb-2">
+        <h2 className="mb-2 text-2xl font-semibold text-primary">
           Đăng ký Tài khoản Nhà tuyển dụng
         </h2>
-        <h3 className=" mb-6 text-gray-500">
+        <h3 className="mb-6 text-gray-500">
           Tạo tài khoản ngay để tuyển dụng những lập trình viên hàng đầu
         </h3>
-        <div className="flex gap-1 justify-between">
-          <div className="w-2/3">
-            <InputTemplate
-              title="Tên công ty"
-              name="company"
-              type="text"
-              placeholder="Ví dụ: TMA Solution"
-            />
-          </div>
+        <div className="">
+          <InputTemplate
+            title="Tên công ty"
+            name="company"
+            type="text"
+            placeholder="Ví dụ: TMA Solution"
+          />
           <InputTemplate
             title="Mã số thuế"
             name="mst"
             type="text"
             placeholder="Ví dụ:0101778572"
           />
-        </div>
-        <div className="flex gap-1 justify-between">
-          <div className="w-2/3">
-            <InputTemplate
-              title="Họ và tên"
-              name="displayName"
-              type=""
-              placeholder="Nguyễn Văn A"
-            />
-          </div>
+
+          <InputTemplate
+            title="Họ và tên"
+            name="displayName"
+            type=""
+            placeholder="Nguyễn Văn A"
+          />
           <InputTemplate
             title="Vị trí hiện tại"
             name="position"
             type=""
             placeholder="Ví dụ: HR Specialist"
           />
-        </div>
-        <div className="flex justify-between">
+
           <InputTemplate
             title="Email ( vui lòng sử dụng email công ty)"
             name="email"
@@ -198,22 +193,23 @@ function Register() {
           type="password"
           placeholder="Nhập lại mật khẩu"
         />
-        <div className="flex gap-2 items-baseline">
+        <div className="flex items-baseline gap-2">
           <input
             type="checkbox"
+            id="agree-to-register"
             checked={agreeRegister}
             onChange={() => {
               setAgreeRegister((pre) => !pre);
               setShowNote(false);
             }}
-            className="mt-2"
+            className="mt-1.5 checked:accent-primary"
           />
-          <h3 className=" mb-2 text-gray-500">
+          <label htmlFor="agree-to-register" className="mb-2 text-gray-500">
             Tôi đã đọc và chấp thuận với
-            <span className="font-bold "> Điều Khoản Sử Dụng</span> và
-            <span className="font-bold "> Chính Sách Bảo Mật </span>
-            của <span className="text-primary font-bold"> Dream IT Jobs</span>.
-          </h3>
+            <span className="font-bold"> Điều Khoản Sử Dụng</span> và
+            <span className="font-bold"> Chính Sách Bảo Mật </span>
+            của <span className="font-bold text-primary"> Dream IT Jobs</span>.
+          </label>
         </div>
         {showNote && (
           <h1 className="py-2 text-red-500">
@@ -228,7 +224,7 @@ function Register() {
           Bộ phận CSKH của chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất!"
           footerActions={footerActions}
         />
-        <button className="w-full btn-1" type="submit">
+        <button className="btn-1 w-full" type="submit">
           Đăng ký
         </button>
       </form>
