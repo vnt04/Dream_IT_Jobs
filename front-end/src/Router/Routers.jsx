@@ -45,7 +45,7 @@ const router = createBrowserRouter([
         element: <MyCompany />,
       },
       {
-        path: "/cong-ty-IT/search",
+        path: "/cong-ty-it/search",
         element: <SearchResult />,
       },
       {

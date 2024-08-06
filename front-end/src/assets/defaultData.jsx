@@ -2,7 +2,7 @@ export const locationOption = [
   { value: "Hồ Chí Minh", label: "Hồ Chí Minh" },
   { value: "Hà Nội", label: "Hà Nội" },
   { value: "Đà Nẵng", label: "Đà Nẵng" },
-  { value: "Others", label: "Khác" },
+  { value: "Khác", label: "Khác" },
 ];
 
 export const levelOptions = [

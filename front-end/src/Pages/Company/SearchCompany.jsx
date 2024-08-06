@@ -1,16 +1,13 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
-import axios from "axios";
-import { FaSearch } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Select from "react-select";
+import { locationOption } from "../../assets/defaultData";
+import { FaSearch } from "react-icons/fa";
+import { ClipLoader } from "react-spinners";
+import axios from "axios";
 import apiEndpoint from "../../api";
 
-const location = [
-  { value: "Tất cả", label: "Tất cả" },
-  { value: "Hồ Chí Minh", label: "Hồ Chí Minh" },
-  { value: "Hà Nội", label: "Hà Nội" },
-  { value: "Đà Nẵng", label: "Đà Nẵng" },
-];
 const customStyle = {
   control: (provided, state) => ({
     ...provided,
@@ -38,42 +35,98 @@ const customStyle = {
   }),
 };
 
-function SearchCompany({ setResultSearch }) {
+function SearchCompany() {
   const [companyName, setCompanyName] = useState("");
   const [selected, setSelected] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [relativeCompany, setRelativeCompany] = useState([]);
+  const [showRelativeCompany, setShowRelativeCompany] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (companyName) {
+      axios
+        .get(`${apiEndpoint.search_company}?name=${companyName}`)
+        .then((response) => setRelativeCompany(response.data))
+        .catch((error) => console.log(error));
+    } else {
+      setRelativeCompany([]);
+    }
+  }, [companyName]);
+
   const handleSearch = () => {
+    setLoading(true);
     const name = companyName;
     const city = selected ? selected.value : null;
-    axios
-      .get(apiEndpoint.search_company, { params: { name, city } })
-      .then((response) => setResultSearch(response.data))
-      .catch((error) => console.log(error));
+    const searchParams = new URLSearchParams();
+    searchParams.append("name", name);
+    searchParams.append("city", city);
+    navigate(`/cong-ty-it/search?${searchParams.toString()}`, {
+      state: { companyName, city },
+    });
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
   };
+
   return (
     <div className="mt-6 grid grid-rows-2 items-center space-y-1 text-sm lg:grid lg:grid-cols-2 lg:grid-rows-1 lg:space-x-2 lg:text-base">
-      <div className="flex h-12 w-full items-center space-x-3 rounded border border-primary p-2">
+      <div className="relative flex h-12 w-full items-center space-x-3 rounded border border-primary p-2">
         <FaSearch className="size-5 text-gray-600" />
         <input
           className="h-full w-full outline-none"
-          onChange={(e) => setCompanyName(e.target.value)}
+          value={companyName}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              setCompanyName(e.target.value);
+              handleSearch();
+            }
+          }}
+          onChange={(e) => {
+            setCompanyName(e.target.value);
+            setShowRelativeCompany(true);
+          }}
           placeholder="Nhập tên công ty bạn đang tìm kiếm ..."
         ></input>
+        {relativeCompany?.length > 0 && showRelativeCompany && (
+          <div className="absolute right-0 top-[110%] z-50 flex w-full flex-col space-y-1 rounded-lg border bg-white shadow-2xl">
+            {relativeCompany.map((company) => (
+              <button
+                key={company._id}
+                onClick={() => {
+                  setCompanyName(company.name);
+                  setShowRelativeCompany(false);
+                }}
+                className="flex items-center space-x-4 p-2"
+              >
+                <FaSearch className="size-3" />
+                <span>{company.name}</span>
+              </button>
+            ))}
+          </div>
+        )}
       </div>
+
       <div className="grid h-full grid-cols-4 space-x-2">
         <div className="col-span-3">
           <Select
             styles={customStyle}
-            placeholder="Địa điểm"
-            options={location}
+            placeholder="Tất cả địa điểm"
+            options={locationOption}
             value={selected}
             onChange={setSelected}
           />
         </div>
         <button
           onClick={handleSearch}
-          className="h-12 rounded bg-primary font-bold text-white hover:bg-[#299C8D]"
+          className="flex h-12 items-center justify-center rounded bg-primary font-bold text-white hover:bg-[#299C8D]"
+          disabled={loading}
         >
-          Tìm kiếm
+          {loading ? (
+            <ClipLoader color="#ffffff" loading={loading} size={20} />
+          ) : (
+            "Tìm kiếm"
+          )}
         </button>
       </div>
     </div>

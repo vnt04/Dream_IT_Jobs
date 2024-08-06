@@ -37,13 +37,13 @@ function Navbar() {
       ? [
           { path: "/viec-lam-it", title: "Việc làm IT" },
           { path: "/dang-bai", title: "Đăng việc làm" },
-          { path: "/cong-ty-IT", title: "Công ty IT" },
+          { path: "/cong-ty-it", title: "Công ty IT" },
           { path: "/blog", title: "Blog IT" },
         ]
       : [
           { path: "/viec-lam-it", title: "Việc làm IT" },
           { path: "/ho-so-CV", title: "Hồ sơ & CV" },
-          { path: "/cong-ty-IT", title: "Công ty IT" },
+          { path: "/cong-ty-it", title: "Công ty IT" },
           { path: "/blog", title: "Blog IT" },
         ];
   const menuMobile = user
@@ -52,7 +52,7 @@ function Navbar() {
         user.role === "recruiter"
           ? { path: "/dang-bai", title: "Đăng việc làm" }
           : { path: "/ho-so-CV", title: "Hồ sơ & CV" },
-        { path: "/cong-ty-IT", title: "Công ty IT" },
+        { path: "/cong-ty-it", title: "Công ty IT" },
         { path: "/blog", title: "Blog IT" },
         { path: "/register", title: "Nhà tuyển dụng" },
         { path: "#", title: "Đăng xuất", action: handleLogout },
@@ -60,14 +60,14 @@ function Navbar() {
     : [
         { path: "/viec-lam-it", title: "Việc làm IT" },
         { path: "/ho-so-CV", title: "Hồ sơ & CV" },
-        { path: "/cong-ty-IT", title: "Công ty IT" },
+        { path: "/cong-ty-it", title: "Công ty IT" },
         { path: "/blog", title: "Blog IT" },
         { path: "/register", title: "Nhà tuyển dụng" },
         { path: "/login", title: "Đăng nhập" },
       ];
   return (
     <header className="sticky top-0 z-[1000] bg-white shadow-2xl">
-      <div className="screen4K:max-w-[2048px] mx-auto flex h-20 max-w-[1680px] items-center justify-between px-3 text-base md:px-6 lg:px-8 lg:font-semibold">
+      <div className="mx-auto flex h-20 max-w-[1680px] items-center justify-between px-3 text-base md:px-6 lg:px-8 lg:font-semibold screen4K:max-w-[2048px]">
         {/* Navbar for mobile  */}
         <div className="block lg:hidden">
           <button onClick={handleMenuToggle}>

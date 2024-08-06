@@ -68,7 +68,7 @@ function Search({ setResultSearch, setShowResult }) {
             handleDelete={handleDelete}
             handleAddition={handleAddition}
             delimiters={delimiters}
-            placeholder="Tìm theo các Kỹ năng, Vị trí, Công ty,..."
+            placeholder="Tìm kiếm theo Kỹ năng, Vị trí công việc..."
             inputFieldPosition="inline"
             autocomplete
             classNames={{

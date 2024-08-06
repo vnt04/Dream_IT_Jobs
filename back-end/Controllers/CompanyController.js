@@ -25,9 +25,11 @@ class CompanyController {
     if (name) {
       query.name = new RegExp(name, "i");
     }
-    if (city) {
-      query.city = new RegExp(city, "i");
+    if (city !== "null") {
+      query.location = new RegExp(city, "i");
     }
+    // query = {name:"",city:""}
+
     Company.find(query)
       .then((company) => res.json(company))
       .catch((error) => next(error));

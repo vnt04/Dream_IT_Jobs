@@ -119,14 +119,10 @@ html {
   cursor: text !important;
   margin-right: 10px;
 }
-.tagClass:hover {
-  gap: 0.5rem;
-  transition-duration: 500ms;
-}
 
 .removeClass {
   cursor: pointer;
-  margin-left: 8px;
+  margin-left: 1em;
   font-weight: bold;
 }
 

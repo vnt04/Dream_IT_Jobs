@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
 import Tag from "./Tag";
 
-function JobCard({ jobCard }) {
+function JobCard({ jobsList }) {
   return (
     <div className="">
-      {jobCard.map((jobData) => (
+      {jobsList.map((jobData) => (
         <div
           key={jobData._id}
           className="mb-4 flex h-40 cursor-pointer bg-white p-2"
