@@ -39,8 +39,8 @@ function SearchCompany() {
   const [companyName, setCompanyName] = useState("");
   const [selected, setSelected] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [relativeCompany, setRelativeCompany] = useState([]);
-  const [showRelativeCompany, setShowRelativeCompany] = useState(false);
+  const [relatedCompany, setRelatedCompany] = useState([]);
+  const [showRelatedCompany, setShowRelatedCompany] = useState(false);
   const relative = useRef(null);
   const navigate = useNavigate();
 
@@ -48,10 +48,10 @@ function SearchCompany() {
     if (companyName) {
       axios
         .get(`${apiEndpoint.search_company}?name=${companyName}`)
-        .then((response) => setRelativeCompany(response.data))
+        .then((response) => setRelatedCompany(response.data))
         .catch((error) => console.log(error));
     } else {
-      setRelativeCompany([]);
+      setRelatedCompany([]);
     }
   }, [companyName]);
 
@@ -63,21 +63,19 @@ function SearchCompany() {
   });
   const handleClickOutsideRelative = (e) => {
     if (relative && !relative.current.contains(e.target)) {
-      setRelativeCompany(false);
+      setRelatedCompany(false);
     }
   };
 
   const handleSearch = () => {
-    setRelativeCompany(false);
+    setRelatedCompany(false);
     setLoading(true);
     const name = companyName;
     const city = selected ? selected.value : null;
     const searchParams = new URLSearchParams();
     searchParams.append("name", name);
     searchParams.append("city", city);
-    navigate(`/cong-ty-it/search?${searchParams.toString()}`, {
-      state: { companyName, city },
-    });
+    navigate(`/cong-ty-it/search?${searchParams.toString()}`);
     setTimeout(() => {
       setLoading(false);
     }, 500);
@@ -98,21 +96,21 @@ function SearchCompany() {
           }}
           onChange={(e) => {
             setCompanyName(e.target.value);
-            setShowRelativeCompany(true);
+            setShowRelatedCompany(true);
           }}
           placeholder="Nhập tên công ty bạn đang tìm kiếm ..."
         ></input>
-        {relativeCompany?.length > 0 && showRelativeCompany && (
+        {relatedCompany?.length > 0 && showRelatedCompany && (
           <div
             ref={relative}
             className="absolute right-0 top-[110%] z-50 flex w-full flex-col space-y-1 rounded-lg border bg-white shadow-2xl"
           >
-            {relativeCompany.map((company) => (
+            {relatedCompany.map((company) => (
               <button
                 key={company._id}
                 onClick={() => {
                   setCompanyName(company.name);
-                  setShowRelativeCompany(false);
+                  setShowRelatedCompany(false);
                 }}
                 className="flex items-center space-x-4 p-2"
               >

@@ -10,8 +10,10 @@ function SearchResult() {
   const [resultSearch, setResultSearch] = useState([]);
   const [loading, setLoading] = useState(false);
   const location = useLocation();
-  const searchedKeyword = location.state.companyName;
-  const selectedLocation = location.state.city;
+  const query = new URLSearchParams(location.search);
+  const searchedKeyword = query.get("name");
+  const selectedLocation =
+    query.get("city") === "null" ? null : query.get("city");
 
   useEffect(() => {
     if (location.search.slice(1)) {
