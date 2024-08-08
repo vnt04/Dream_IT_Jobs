@@ -4,7 +4,7 @@ import Tag from "./Tag";
 function JobCard({ jobsList }) {
   return (
     <div className="">
-      {jobsList.map((jobData) => (
+      {jobsList?.map((jobData) => (
         <div
           key={jobData._id}
           className="mb-4 flex h-40 cursor-pointer bg-white p-2"

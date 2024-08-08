@@ -14,14 +14,15 @@ function SearchResult() {
   const selectedLocation = location.state.city;
 
   useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    if (searchParams.toString()) {
+    if (location.search.slice(1)) {
       setLoading(true);
       axios
-        .get(`${apiEndpoint.search_company}?${searchParams.toString()}`)
+        .get(
+          `${apiEndpoint.search_company}?${location.search.slice(1).toString()}`,
+        )
         .then((response) => {
+          setResultSearch(response.data);
           setTimeout(() => {
-            setResultSearch(response.data);
             setLoading(false);
           }, 500);
         })

@@ -72,56 +72,48 @@ class JobController {
   }
 
   async search(req, res, next) {
-    const {
-      tags,
-      selectedLocation,
-      selectedLevel,
-      selectedJobType,
-      selectedContractType,
-    } = req.query;
-
+    let { tech, location, level, jobType, contractType } = req.query;
     const filter = {};
 
-    if (tags) {
-      const tagList = JSON.parse(tags).map((tag) => new RegExp(tag.text, "i"));
-      if (tagList.length > 0) {
-        filter.tech_stack = { $in: tagList };
+    if (tech) {
+      tech = Array.isArray(tech) ? tech : [tech];
+      if (tech.length > 0) {
+        filter.tech_stack = { $in: tech.map((t) => new RegExp(`^${t}$`, "i")) };
       }
     }
 
-    const location = JSON.parse(selectedLocation);
-    if (selectedLocation && location.label !== "Tất cả địa điểm") {
-      filter.location = new RegExp(location.value, "i");
-    }
-
-    const level = JSON.parse(selectedLevel);
-    if (selectedLevel && level.label !== "Tất cả cấp bậc") {
-      filter.level = new RegExp(level.value, "i");
-    }
-
-    if (selectedJobType) {
-      const jobTypes = JSON.parse(selectedJobType).map(
-        (job) => new RegExp(job.value, "i")
-      );
-      if (jobTypes.length > 0) {
-        filter.job_type = { $in: jobTypes };
+    if (jobType) {
+      jobType = Array.isArray(jobType) ? jobType : [jobType];
+      if (jobType.length > 0) {
+        filter.job_type = {
+          $in: jobType.map((jt) => new RegExp(`^${jt}$`, "i")),
+        };
       }
     }
 
-    if (selectedContractType) {
-      const contractTypes = JSON.parse(selectedContractType).map(
-        (contract) => new RegExp(contract.value, "i")
-      );
-      if (contractTypes.length > 0) {
-        filter.contract = { $in: contractTypes };
+    if (contractType) {
+      contractType = Array.isArray(contractType)
+        ? contractType
+        : [contractType];
+      if (contractType.length > 0) {
+        filter.contract = {
+          $in: contractType.map((ct) => new RegExp(`^${ct}$`, "i")),
+        };
       }
     }
 
+    if (location && location !== "Tất cả địa điểm") {
+      filter.location = new RegExp(location, "i");
+    }
+
+    if (level && level !== "Tất cả cấp bậc") {
+      filter.level = new RegExp(level, "i");
+    }
     try {
       const results = await Job.find(filter).populate("company");
       res.json(results);
-    } catch (err) {
-      next(err);
+    } catch (error) {
+      next(error);
     }
   }
 }

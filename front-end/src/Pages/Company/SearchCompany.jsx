@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { locationOption } from "../../assets/defaultData";
@@ -41,6 +41,7 @@ function SearchCompany() {
   const [loading, setLoading] = useState(false);
   const [relativeCompany, setRelativeCompany] = useState([]);
   const [showRelativeCompany, setShowRelativeCompany] = useState(false);
+  const relative = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -54,7 +55,20 @@ function SearchCompany() {
     }
   }, [companyName]);
 
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutsideRelative);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutsideRelative);
+    };
+  });
+  const handleClickOutsideRelative = (e) => {
+    if (relative && !relative.current.contains(e.target)) {
+      setRelativeCompany(false);
+    }
+  };
+
   const handleSearch = () => {
+    setRelativeCompany(false);
     setLoading(true);
     const name = companyName;
     const city = selected ? selected.value : null;
@@ -89,7 +103,10 @@ function SearchCompany() {
           placeholder="Nhập tên công ty bạn đang tìm kiếm ..."
         ></input>
         {relativeCompany?.length > 0 && showRelativeCompany && (
-          <div className="absolute right-0 top-[110%] z-50 flex w-full flex-col space-y-1 rounded-lg border bg-white shadow-2xl">
+          <div
+            ref={relative}
+            className="absolute right-0 top-[110%] z-50 flex w-full flex-col space-y-1 rounded-lg border bg-white shadow-2xl"
+          >
             {relativeCompany.map((company) => (
               <button
                 key={company._id}

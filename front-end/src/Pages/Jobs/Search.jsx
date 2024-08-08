@@ -1,9 +1,7 @@
-/* eslint-disable react/prop-types */
+/* eslint-disable react-hooks/exhaustive-deps */
 import Dropdown from "../../components/DropDown";
-import { WithContext as ReactTags } from "react-tag-input";
-import { useState } from "react";
-import axios from "axios";
-import apiEndpoint from "../../api";
+import { WithContext as ReactTags, SEPARATORS } from "react-tag-input";
+import { useState, useEffect } from "react";
 import {
   locationOption,
   levelOptions,
@@ -12,52 +10,86 @@ import {
 } from "../../assets/defaultData";
 import { FaSearch } from "react-icons/fa";
 import { FaFilterCircleXmark } from "react-icons/fa6";
-const KeyCodes = {
-  comma: 188,
-  enter: 13,
-};
+import { useNavigate } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
 
-const delimiters = [KeyCodes.comma, KeyCodes.enter];
-
-function Search({ setResultSearch, setShowResult }) {
+function Search() {
   const [tags, setTags] = useState([]);
-  const [selectedLocation, setSelectedLocation] = useState([]);
-  const [selectedLevel, setSelectedLevel] = useState([]);
+  const [currentInput, setCurrentInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const [selectedLocation, setSelectedLocation] = useState({
+    label: "Tất cả địa điểm",
+    value: "Tất cả địa điểm",
+  });
+  const [selectedLevel, setSelectedLevel] = useState({
+    label: "Tất cả cấp bậc",
+    value: "Tất cả cấp bậc",
+  });
   const [selectedJobType, setSelectedJobType] = useState([]);
   const [selectedContractType, setSelectedContractType] = useState([]);
 
   const handleDelete = (i) => {
-    setTags(tags.filter((tag, index) => index !== i));
+    setTags((prevTags) => prevTags.filter((tag, index) => index !== i));
   };
 
   const handleAddition = (tag) => {
-    setTags([...tags, tag]);
+    setTags((currentTags) => [...currentTags, tag]);
   };
 
   const handleDeleteFilter = () => {
-    setSelectedLocation("Tất cả địa điểm");
-    setSelectedLevel("Tất cả cấp bậc");
+    setSelectedLocation({
+      label: "Tất cả địa điểm",
+      value: "Tất cả địa điểm",
+    });
+    setSelectedLevel({
+      label: "Tất cả cấp bậc",
+      value: "Tất cả cấp bậc",
+    });
     setSelectedJobType([]);
     setSelectedContractType([]);
   };
 
   const handleSearch = () => {
-    axios
-      .get(apiEndpoint.search_job, {
-        params: {
-          tags: JSON.stringify(tags),
-          selectedLocation: JSON.stringify(selectedLocation),
-          selectedLevel: JSON.stringify(selectedLevel),
-          selectedJobType: JSON.stringify(selectedJobType),
-          selectedContractType: JSON.stringify(selectedContractType),
-        },
-      })
-      .then((response) => {
-        setResultSearch(response.data);
-        setShowResult(true);
-      })
-      .catch((error) => console.log(error));
+    let updatedTags = [...tags];
+    if (currentInput) {
+      const newTag = {
+        id: currentInput,
+        text: currentInput,
+        className: "",
+      };
+      const isDuplicate = updatedTags.some((tag) => tag.text === newTag.text);
+
+      if (!isDuplicate) {
+        updatedTags = [...updatedTags, newTag];
+        setTags(updatedTags);
+      }
+      setCurrentInput("");
+    }
+    setLoading(true);
+    const searchParams = new URLSearchParams();
+    if (updatedTags.length > 0)
+      updatedTags.forEach((tag) => searchParams.append("tech", tag.text));
+    if (selectedLocation.value !== "Tất cả địa điểm")
+      searchParams.append("location", selectedLocation.value);
+    if (selectedLevel.value !== "Tất cả cấp bậc")
+      searchParams.append("level", selectedLevel.value);
+    if (selectedJobType.length > 0)
+      selectedJobType.map((type) => searchParams.append("jobType", type.value));
+    if (selectedContractType.length > 0)
+      selectedContractType.map((contract) =>
+        searchParams.append("contractType", contract.value),
+      );
+    navigate(`/viec-lam-it?${searchParams.toString()}`);
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
   };
+  useEffect(() => {
+    if (tags.length > 0) {
+      handleSearch();
+    }
+  }, [tags]);
 
   return (
     <div className="container space-y-2 md:space-y-3">
@@ -65,12 +97,15 @@ function Search({ setResultSearch, setShowResult }) {
         <div className="flex-1">
           <ReactTags
             tags={tags}
+            inputValue={currentInput}
             handleDelete={handleDelete}
             handleAddition={handleAddition}
-            delimiters={delimiters}
+            separators={[SEPARATORS.COMMA, SEPARATORS.ENTER]}
             placeholder="Tìm kiếm theo Kỹ năng, Vị trí công việc..."
             inputFieldPosition="inline"
-            autocomplete
+            handleInputChange={(e) => {
+              setCurrentInput(e);
+            }}
             classNames={{
               tags: "tagsClass",
               tagInput: "tagInputClass",
@@ -81,15 +116,16 @@ function Search({ setResultSearch, setShowResult }) {
             }}
           />
         </div>
-        <div className="">
-          <button
-            onClick={handleSearch}
-            className="btn-1 flex items-center space-x-1"
-          >
-            <FaSearch />
-            <span className="hidden md:block">Tìm kiếm</span>
-          </button>
-        </div>
+        <button onClick={handleSearch} className="btn-1" disabled={loading}>
+          {loading ? (
+            <ClipLoader color="#ffffff" loading={loading} size={10} />
+          ) : (
+            <div className="flex items-center space-x-1">
+              <FaSearch />
+              <span className="hidden md:block">Tìm kiếm</span>
+            </div>
+          )}
+        </button>
       </div>
 
       <div className="mb-8 grid grid-cols-2 gap-2 text-sm md:gap-3 md:text-base xl:grid-cols-5">
