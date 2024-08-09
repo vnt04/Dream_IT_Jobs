@@ -12,13 +12,13 @@ const useSignUp = () => {
     displayName,
     email,
     password,
-    confirmPassword
+    confirmPassword,
   ) => {
     if (checkConfirmPassword(password, confirmPassword)) {
       try {
         const uid = await createUser(email, password);
         if (uid) {
-          successSignUp();
+          successSignUp(email);
           const role = "candidate";
           await axios.post(apiEndpoint.sign_up, {
             uid,
@@ -42,13 +42,13 @@ const useSignUp = () => {
     displayName,
     position,
     mst,
-    onSuccess
+    onSuccess,
   ) => {
     if (checkConfirmPassword(password, confirmPassword)) {
       try {
         const uid = await createUser(email, password);
         if (uid) {
-          // successSignUp();
+          successSignUp();
           const role = "recruiter";
           await axios.post(apiEndpoint.sign_up, {
             uid,

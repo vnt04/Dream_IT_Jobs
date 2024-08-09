@@ -8,6 +8,7 @@ import JobDetail from "../Pages/Jobs/JobDetail";
 import Login from "../Pages/Account/Login";
 import Register from "../Pages/Account/Register";
 import SignUp from "../Pages/Account/SignUp";
+import EmailVerification from "../Pages/Account/EmailVerification";
 import PostJobs from "../Pages/PostJobs";
 import Company from "../Pages/Company";
 import Profile from "../Pages/Account/Profile";
@@ -68,6 +69,7 @@ const router = createBrowserRouter([
         path: "/sign-up",
         element: <SignUp />,
       },
+      { path: "/verify-email", element: <EmailVerification /> },
       {
         path: "/register",
         element: <Register />,

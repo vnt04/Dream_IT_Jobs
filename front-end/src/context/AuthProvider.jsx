@@ -11,6 +11,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  sendEmailVerification,
 } from "firebase/auth";
 import { DataContext } from "./DataProvider";
 
@@ -30,8 +31,9 @@ const AuthProvider = ({ children }) => {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
-        password
+        password,
       );
+      await sendEmailVerification(userCredential.user);
       const uid = userCredential.user.uid;
       await logOut();
       return uid;
@@ -40,7 +42,6 @@ const AuthProvider = ({ children }) => {
       throw error;
     }
   };
-
   const signUpWithGmail = () => {
     setLoading(true);
     return signInWithPopup(auth, googleProvider);
@@ -59,7 +60,6 @@ const AuthProvider = ({ children }) => {
     localStorage.removeItem("genius-token");
     return signOut(auth);
   };
-
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {

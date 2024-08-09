@@ -48,12 +48,12 @@ const useAuth = () => {
       },
     });
   };
-  const successSignUp = () => {
+  const successSignUp = (email) => {
     toast.success("Đăng kí tài khoản thành công!", {
-      autoClose: 1500,
+      autoClose: 1000,
       position: "top-center",
       onClose: () => {
-        navigate("/");
+        navigate(`/verify-email?email=${email}`);
       },
     });
   };

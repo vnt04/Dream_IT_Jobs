@@ -10,7 +10,7 @@ function Login() {
     const { email, password } = event.target.elements;
     loginWithEmail(email.value, password.value);
   };
-
+  
   return (
     <div className="flex items-center justify-center py-4">
       <form

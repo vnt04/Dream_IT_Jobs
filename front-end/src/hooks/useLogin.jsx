@@ -4,11 +4,13 @@ import axios from "axios";
 import apiEndpoint from "../api";
 import { AuthContext } from "../context/AuthProvider";
 import useAuth from "./useAuth";
+import { useNavigate } from "react-router-dom";
 
 const useLogin = () => {
   const { signUpWithGmail, signUpWithGithub, login, logOut } =
     useContext(AuthContext);
   const { handleAuthError, successLogin, successLogout } = useAuth();
+  const navigate = useNavigate();
   const role = "candidate";
 
   const loginWithGoogle = () => {
@@ -48,8 +50,11 @@ const useLogin = () => {
   };
   const loginWithEmail = (email, password) => {
     login(email, password)
-      .then(() => {
-        successLogin();
+      .then((result) => {
+        if (!result.user.emailVerified) {
+          logOut();
+          navigate(`/verify-email?email=${email}`);
+        } else successLogin();
       })
       .catch((error) => {
         handleAuthError(error);

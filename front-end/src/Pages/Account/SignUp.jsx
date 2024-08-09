@@ -15,19 +15,19 @@ function SignUp() {
       fullName.value,
       email.value,
       password.value,
-      confirmPassword.value
+      confirmPassword.value,
     );
   };
   return (
-    <div className="py-4 flex items-center justify-center">
+    <div className="flex items-center justify-center py-4">
       <form
         onSubmit={handleSignUp}
-        className="w-[600px] bg-white shadow-2xl rounded px-8 pt-8 pb-8 mb-2"
+        className="mb-2 w-[600px] rounded bg-white px-8 pb-8 pt-8 shadow-2xl"
       >
-        <h3 className="text-xl text-primary font-semibold mb-2">
+        <h3 className="mb-2 text-xl font-semibold text-primary">
           Chào mừng bạn đến với Dream IT Jobs
         </h3>
-        <h3 className=" mb-3 text-gray-500">
+        <h3 className="mb-3 text-gray-500">
           Cùng xây dựng một hồ sơ nổi bật và nhận được các cơ hội việc làm bạn
           mơ ước
         </h3>
@@ -56,24 +56,24 @@ function SignUp() {
           placeholder="Nhập lại mật khẩu"
         />
 
-        <button type="submit" className="w-full mt-4 btn-1 ">
+        <button type="submit" className="btn-1 mt-4 w-full">
           Đăng ký
         </button>
 
         {/* social login */}
-        <div className="mt-4 text-center w-full mx-auto">
+        <div className="mx-auto mt-4 w-full text-center">
           <p className="mb-4">Hoặc đăng nhập nhanh với</p>
 
-          <div className="flex items-center justify-center gap-4 w-full mx-auto">
+          <div className="mx-auto flex w-full items-center justify-center gap-4">
             <button
-              className="bg-red-500 text-white hover:bg-red-600 flex items-center gap-2 py-2 px-6 font-bold rounded focus:outline-none focus:shadow-outline"
+              className="focus:shadow-outline flex items-center gap-2 rounded bg-red-500 px-6 py-2 font-bold text-white hover:bg-red-600 focus:outline-none"
               type="button"
               onClick={loginWithGoogle}
             >
               <FaGoogle /> Google
             </button>
             <button
-              className="bg-gray-700 text-white hover:bg-gray-600 flex items-center gap-2 py-2 px-6 font-bold rounded focus:outline-none focus:shadow-outline"
+              className="focus:shadow-outline flex items-center gap-2 rounded bg-gray-700 px-6 py-2 font-bold text-white hover:bg-gray-600 focus:outline-none"
               onClick={loginWithGithub}
               type="button"
             >
@@ -81,7 +81,7 @@ function SignUp() {
             </button>
           </div>
         </div>
-        <div className="mt-4 flex gap-2 justify-center">
+        <div className="mt-4 flex justify-center gap-2">
           <h3>Bạn đã có tài khoản?</h3>
           <Link
             className="font-semibold text-primary hover:text-teal-400"
