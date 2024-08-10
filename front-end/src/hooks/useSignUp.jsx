@@ -48,7 +48,7 @@ const useSignUp = () => {
       try {
         const uid = await createUser(email, password);
         if (uid) {
-          successSignUp();
+          // successSignUp();
           const role = "recruiter";
           await axios.post(apiEndpoint.sign_up, {
             uid,

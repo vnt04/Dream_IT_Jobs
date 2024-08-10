@@ -9,7 +9,7 @@ import {
   techStack,
   jobTypeOptions,
   contractTypeOptions,
-} from "../assets/defaultData";
+} from "../resources/defaultData";
 import { DataContext } from "../context/DataProvider";
 import { AuthContext } from "../context/AuthProvider";
 import CustomModal from "../components/CustomModal"; // Import CustomModal

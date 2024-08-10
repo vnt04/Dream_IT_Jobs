@@ -5,8 +5,9 @@ import Tag from "../../components/Tag";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import apiEndpoint from "../../api";
-import { techStack } from "../../assets/defaultData";
+import { techStack } from "../../resources/defaultData";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 function QuickSearch() {
   const [relatedCompany, setRelatedCompany] = useState([]);
@@ -14,6 +15,7 @@ function QuickSearch() {
   const [showRelatedSearch, setShowRelatedSearch] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const related = useRef(null);
 
   useEffect(() => {
@@ -137,7 +139,7 @@ function QuickSearch() {
           )}
       </div>
       <div className="w-full space-y-2 pb-6 pt-4">
-        <span>Đề xuất từ khóa: </span>
+        <span>{t("recommended_key")}: </span>
         <div className="flex flex-wrap gap-2">
           {[
             "Java",

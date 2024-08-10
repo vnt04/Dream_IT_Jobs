@@ -2,7 +2,7 @@ import { useState } from "react";
 import InputTemplate from "../../components/InputTemplate";
 import Select from "react-select";
 import apiEndpoint from "../../api/index";
-import { locationOption, nation, techStack } from "../../assets/defaultData";
+import { locationOption, nation, techStack } from "../../resources/defaultData";
 import axios from "axios";
 
 function MyCompany() {
@@ -42,33 +42,33 @@ function MyCompany() {
   };
 
   return (
-    <div className="max-w-screen-2xl container mx-auto xl:px-24 px-4 bg-[#f5f5f5]">
-      <div className="pt-10 px-4 lg:px-16">
+    <div className="container mx-auto max-w-screen-2xl bg-[#f5f5f5] px-4 xl:px-24">
+      <div className="px-4 pt-10 lg:px-16">
         <form
           onSubmit={(e) => handleSubmit(e)}
-          className="w-full bg-white shadow-2xl rounded px-8 pt-4 pb-8 mb-2"
+          className="mb-2 w-full rounded bg-white px-8 pb-8 pt-4 shadow-2xl"
         >
-          <div className="flex gap-4 justify-between mb-4">
-            <div className="w-1/2 flex">
+          <div className="mb-4 flex justify-between gap-4">
+            <div className="flex w-1/2">
               <div className="grid">
-                <label className="block text-gray-700 text-sm font-bold mb-2">
+                <label className="mb-2 block text-sm font-bold text-gray-700">
                   Logo Công ty
                 </label>
                 <input type="file" onChange={handleFileChange} />
               </div>
-              <div className="border-[2px] rounded h-full w-1/2">
-                <img src="" id="image-preview" className="w-full h-full" />
+              <div className="h-full w-1/2 rounded border-[2px]">
+                <img src="" id="image-preview" className="h-full w-full" />
               </div>
             </div>
-            <div className="w-1/2 flex">
+            <div className="flex w-1/2">
               <div className="grid">
-                <label className="block text-gray-700 text-sm font-bold mb-2">
+                <label className="mb-2 block text-sm font-bold text-gray-700">
                   Banner
                 </label>
                 <input type="file" onChange={handleFileChange} />
               </div>
-              <div className="border-[2px] rounded h-full w-1/2">
-                <img src="" id="image-preview" className="w-full h-full" />
+              <div className="h-full w-1/2 rounded border-[2px]">
+                <img src="" id="image-preview" className="h-full w-full" />
               </div>
             </div>
           </div>
@@ -107,7 +107,7 @@ function MyCompany() {
             </div>
           </div>
           <div className="mb-2">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
+            <label className="mb-2 block text-sm font-bold text-gray-700">
               Công nghệ sử dụng
             </label>
             <Select
@@ -118,9 +118,9 @@ function MyCompany() {
             />
           </div>
           <InputTemplate title="Website link" name="website" type="text" />
-          <div className="flex gap-4 mb-2">
+          <div className="mb-2 flex gap-4">
             <div className="w-1/2">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
+              <label className="mb-2 block text-sm font-bold text-gray-700">
                 Địa điểm công ty
               </label>
               <Select
@@ -131,7 +131,7 @@ function MyCompany() {
               />
             </div>
             <div className="w-1/2">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
+              <label className="mb-2 block text-sm font-bold text-gray-700">
                 Quốc gia
               </label>
               <Select
@@ -166,7 +166,7 @@ function MyCompany() {
             rows={8}
           />
 
-          <button type="submit" className="w-full btn-1 mt-5">
+          <button type="submit" className="btn-1 mt-5 w-full">
             Cập nhật
           </button>
         </form>

@@ -7,11 +7,12 @@ import {
   levelOptions,
   jobTypeOptions,
   contractTypeOptions,
-} from "../../assets/defaultData";
+} from "../../resources/defaultData";
 import { FaSearch } from "react-icons/fa";
 import { FaFilterCircleXmark } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
+import { useTranslation } from "react-i18next";
 
 function Search() {
   const [tags, setTags] = useState([]);
@@ -28,6 +29,7 @@ function Search() {
   });
   const [selectedJobType, setSelectedJobType] = useState([]);
   const [selectedContractType, setSelectedContractType] = useState([]);
+  const { t } = useTranslation(["home", "job"]);
 
   const handleDelete = (i) => {
     setTags((prevTags) => prevTags.filter((tag, index) => index !== i));
@@ -122,7 +124,7 @@ function Search() {
           ) : (
             <div className="flex items-center space-x-1">
               <FaSearch />
-              <span className="hidden md:block">Tìm kiếm</span>
+              <span className="hidden md:block">{t("search")}</span>
             </div>
           )}
         </button>
@@ -163,7 +165,7 @@ function Search() {
           className="mb-4 flex h-10 cursor-pointer items-center justify-center gap-2 rounded-sm bg-[#c2c2c2] font-bold text-red-500 hover:bg-gray-300 max-xl:col-span-2 lg:mb-8"
         >
           <FaFilterCircleXmark />
-          <span>Xóa bộ lọc</span>
+          <span>{t("job:delete_filter")}</span>
         </button>
       </div>
     </div>

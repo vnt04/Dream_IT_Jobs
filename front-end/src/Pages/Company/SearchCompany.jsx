@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
-import { locationOption } from "../../assets/defaultData";
+import { locationOption } from "../../resources/defaultData";
 import { FaSearch } from "react-icons/fa";
 import { ClipLoader } from "react-spinners";
 import axios from "axios";

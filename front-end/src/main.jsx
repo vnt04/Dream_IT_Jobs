@@ -4,6 +4,7 @@ import "./index.css";
 import router from "./Router/Routers";
 import AuthProvider from "./context/AuthProvider";
 import DataProvider from "./context/DataProvider";
+import "./i18n/i18n";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <DataProvider>

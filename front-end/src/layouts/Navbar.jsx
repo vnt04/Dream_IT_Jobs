@@ -5,14 +5,16 @@ import { AuthContext } from "../context/AuthProvider";
 import User from "../Pages/Account/User";
 import { preventScroll } from "../utils";
 import useLogin from "../hooks/useLogin";
+import SwitchLanguage from "../components/SwitchLanguage";
+import { useTranslation } from "react-i18next";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
+  const { t } = useTranslation();
 
   const { user } = useContext(AuthContext);
   const { handleLogout } = useLogin();
-  console.log(user);
   const handleMenuToggle = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -35,36 +37,39 @@ function Navbar() {
   const navItems =
     user?.role === "recruiter"
       ? [
-          { path: "/viec-lam-it", title: "Việc làm IT" },
-          { path: "/dang-bai", title: "Đăng việc làm" },
-          { path: "/cong-ty-it", title: "Công ty IT" },
-          { path: "/blog", title: "Blog IT" },
+          { path: "/viec-lam-it", title: t("it_jobs") },
+          { path: "/dang-bai", title: t("post_job") },
+          { path: "/cong-ty-it", title: t("it_company") },
+          { path: "/blog", title: t("it_blog") },
         ]
       : [
-          { path: "/viec-lam-it", title: "Việc làm IT" },
-          { path: "/ho-so-CV", title: "Hồ sơ & CV" },
-          { path: "/cong-ty-it", title: "Công ty IT" },
-          { path: "/blog", title: "Blog IT" },
+          { path: "/viec-lam-it", title: t("it_jobs") },
+          { path: "/ho-so-CV", title: t("profile_CV") },
+          { path: "/cong-ty-it", title: t("it_company") },
+          { path: "/blog", title: t("it_blog") },
         ];
   const menuMobile = user
     ? [
-        { path: "/viec-lam-it", title: "Việc làm IT" },
+        { path: "/viec-lam-it", title: t("it_jobs") },
         user.role === "recruiter"
-          ? { path: "/dang-bai", title: "Đăng việc làm" }
-          : { path: "/ho-so-CV", title: "Hồ sơ & CV" },
-        { path: "/cong-ty-it", title: "Công ty IT" },
-        { path: "/blog", title: "Blog IT" },
-        { path: "/register", title: "Nhà tuyển dụng" },
-        { path: "#", title: "Đăng xuất", action: handleLogout },
+          ? { path: "/dang-bai", title: t("post_job") }
+          : { path: "/ho-so-CV", title: t("profile_CV") },
+        { path: "/cong-ty-it", title: t("it_company") },
+        { path: "/blog", title: t("it_blog") },
+        user.role === "candidate"
+          ? { path: "/register", title: t("for_employers") }
+          : { path: "/", title: t("posted_job") },
+        { path: "#", title: t("logout"), action: handleLogout },
       ]
     : [
-        { path: "/viec-lam-it", title: "Việc làm IT" },
-        { path: "/ho-so-CV", title: "Hồ sơ & CV" },
-        { path: "/cong-ty-it", title: "Công ty IT" },
-        { path: "/blog", title: "Blog IT" },
-        { path: "/register", title: "Nhà tuyển dụng" },
-        { path: "/login", title: "Đăng nhập" },
+        { path: "/viec-lam-it", title: t("it_jobs") },
+        { path: "/ho-so-CV", title: t("profile_CV") },
+        { path: "/cong-ty-it", title: t("it_company") },
+        { path: "/blog", title: t("it_blog") },
+        { path: "/register", title: t("for_employers") },
+        { path: "/login", title: t("login") },
       ];
+
   return (
     <header className="sticky top-0 z-[1000] bg-white shadow-2xl">
       <div className="mx-auto flex h-20 max-w-[1680px] items-center justify-between px-3 text-base md:px-6 lg:px-8 lg:font-semibold screen4K:max-w-[2048px]">
@@ -114,19 +119,15 @@ function Navbar() {
           ) : (
             <div className="flex lg:gap-2">
               <Link to="/register" className="btn-2 hidden lg:block">
-                Nhà tuyển dụng
+                {t("for_employers")}
               </Link>
               <Link to="/login" className="btn-1">
-                Đăng nhập
+                {t("login")}
               </Link>
             </div>
           )}
           <div className="hidden lg:block">
-            <Link to="/eng">En</Link>
-            <span className="font-normal"> | </span>
-            <Link to="/vie" className="text-primary">
-              Vi
-            </Link>
+            <SwitchLanguage />
           </div>
         </div>
         {/* NavItems menu mobile */}
@@ -162,10 +163,7 @@ function Navbar() {
             ))}
           </ul>
           <div className="text-center">
-            <span>Ngôn ngữ: </span>
-            <button>En</button>
-            <span> | </span>
-            <button className="font-semibold text-primary">Vi</button>
+            <SwitchLanguage />
           </div>
         </div>
       </div>

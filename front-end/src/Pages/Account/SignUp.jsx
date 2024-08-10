@@ -1,22 +1,30 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
 import InputTemplate from "../../components/InputTemplate";
 import { FaGithub, FaGoogle } from "react-icons/fa6";
 import useLogin from "../../hooks/useLogin";
 import useSignUp from "../../hooks/useSignUp";
+import { ClipLoader } from "react-spinners";
 
 function SignUp() {
   const { loginWithGoogle, loginWithGithub } = useLogin();
   const { signUpCandidate } = useSignUp();
+  const [loading, setLoading] = useState(false);
+
   const handleSignUp = (event) => {
     event.preventDefault();
+    setLoading(true);
     const { fullName, email, password, confirmPassword } =
       event.target.elements;
-    signUpCandidate(
-      fullName.value,
-      email.value,
-      password.value,
-      confirmPassword.value,
-    );
+    setTimeout(() => {
+      signUpCandidate(
+        fullName.value,
+        email.value,
+        password.value,
+        confirmPassword.value,
+      );
+      setLoading(false);
+    }, 500);
   };
   return (
     <div className="flex items-center justify-center py-4">
@@ -56,8 +64,12 @@ function SignUp() {
           placeholder="Nhập lại mật khẩu"
         />
 
-        <button type="submit" className="btn-1 mt-4 w-full">
-          Đăng ký
+        <button type="submit" className="btn-1 mt-4 w-full" disabled={loading}>
+          {loading ? (
+            <ClipLoader color="#ffffff" loading={loading} size={20} />
+          ) : (
+            <span>Đăng kí</span>
+          )}
         </button>
 
         {/* social login */}

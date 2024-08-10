@@ -18,6 +18,7 @@ import MyJobs from "../Pages/Account/MyJobs";
 import SearchResult from "../Pages/Company/SearchResult";
 import CompanyDetail from "../Pages/Company/CompanyDetail";
 import MyCompany from "../Pages/Account/MyCompany";
+import ForgotPassword from "../Pages/Account/ForgotPassword";
 
 const router = createBrowserRouter([
   {
@@ -70,6 +71,7 @@ const router = createBrowserRouter([
         element: <SignUp />,
       },
       { path: "/verify-email", element: <EmailVerification /> },
+      { path: "/password", element: <ForgotPassword /> },
       {
         path: "/register",
         element: <Register />,

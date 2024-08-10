@@ -11,6 +11,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  sendPasswordResetEmail,
   sendEmailVerification,
 } from "firebase/auth";
 import { DataContext } from "./DataProvider";
@@ -24,6 +25,7 @@ const gitHubProvider = new GithubAuthProvider();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [lastActivityTime, setLastActivityTime] = useState(Date.now());
   const { getUserInfo } = useContext(DataContext);
 
   const createUser = async (email, password) => {
@@ -46,7 +48,9 @@ const AuthProvider = ({ children }) => {
     setLoading(true);
     return signInWithPopup(auth, googleProvider);
   };
-
+  const resetPassword = (email) => {
+    return sendPasswordResetEmail(auth, email);
+  };
   const signUpWithGithub = () => {
     setLoading(true);
     return signInWithPopup(auth, gitHubProvider);
@@ -60,6 +64,31 @@ const AuthProvider = ({ children }) => {
     localStorage.removeItem("genius-token");
     return signOut(auth);
   };
+  useEffect(() => {
+    const updateLastActivityTime = () => setLastActivityTime(Date.now());
+    window.addEventListener("mousemove", updateLastActivityTime);
+    window.addEventListener("keypress", updateLastActivityTime);
+    window.addEventListener("click", updateLastActivityTime);
+
+    return () => {
+      window.removeEventListener("mousemove", updateLastActivityTime);
+      window.removeEventListener("keypress", updateLastActivityTime);
+      window.removeEventListener("click", updateLastActivityTime);
+    };
+  }, []);
+
+  useEffect(() => {
+    const maxInactiveTime = 1 * 60 * 1000; // 15 phút
+
+    const interval = setInterval(() => {
+      if (Date.now() - lastActivityTime > maxInactiveTime) {
+        logOut();
+        clearInterval(interval);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [lastActivityTime]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -87,6 +116,7 @@ const AuthProvider = ({ children }) => {
     login,
     logOut,
     signUpWithGmail,
+    resetPassword,
     signUpWithGithub,
   };
 

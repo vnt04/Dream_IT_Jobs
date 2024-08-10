@@ -1,16 +1,23 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import InputTemplate from "../../components/InputTemplate";
 import useLogin from "../../hooks/useLogin";
 import { FaGithub, FaGoogle } from "react-icons/fa6";
+import { ClipLoader } from "react-spinners";
 
 function Login() {
   const { loginWithGoogle, loginWithGithub, loginWithEmail } = useLogin();
+  const [loading, setLoading] = useState(false);
+
   const handleLogin = (event) => {
     event.preventDefault();
+    setLoading(true);
     const { email, password } = event.target.elements;
     loginWithEmail(email.value, password.value);
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
   };
-  
   return (
     <div className="flex items-center justify-center py-4">
       <form
@@ -36,15 +43,19 @@ function Login() {
           type="password"
           placeholder="•••••••••••••••••••••"
         />
-        <a
+        <Link
           className="mb-8 flex justify-end text-sm font-bold text-primary hover:text-teal-400"
-          href="#"
+          to={"/password"}
         >
           Quên mật khẩu?
-        </a>
+        </Link>
 
-        <button type="submit" className="btn-1 w-full">
-          Đăng nhập
+        <button type="submit" className="btn-1 w-full" disabled={loading}>
+          {loading ? (
+            <ClipLoader color="#ffffff" loading={loading} size={20} />
+          ) : (
+            <span>Đăng nhập</span>
+          )}
         </button>
         {/* social login */}
         <div className="mx-auto mt-8 w-full text-center">
@@ -67,7 +78,7 @@ function Login() {
             </button>
           </div>
         </div>
-        <div className="mt-4 text-center sm:flex sm:space-x-2 sm:justify-center">
+        <div className="mt-4 text-center sm:flex sm:justify-center sm:space-x-2">
           <h3>Bạn chưa có tài khoản?</h3>
           <Link
             className="font-semibold text-primary hover:text-teal-400"
