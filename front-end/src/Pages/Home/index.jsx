@@ -22,7 +22,7 @@ function Home() {
         <div className="container flex items-center justify-between">
           <h1 className="font-bold md:text-xl">Blog IT</h1>
           <a
-            href={"/blog-IT"}
+            href={"/blog"}
             className="text-sm font-semibold text-red-400 underline hover:text-red-600 md:text-base"
           >
             Xem tất cả

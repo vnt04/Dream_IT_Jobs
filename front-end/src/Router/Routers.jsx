@@ -19,6 +19,7 @@ import SearchResult from "../Pages/Company/SearchResult";
 import CompanyDetail from "../Pages/Company/CompanyDetail";
 import MyCompany from "../Pages/Account/MyCompany";
 import ForgotPassword from "../Pages/Account/ForgotPassword";
+import BlankPage from "../components/BlankPage";
 
 const router = createBrowserRouter([
   {
@@ -72,6 +73,7 @@ const router = createBrowserRouter([
       },
       { path: "/verify-email", element: <EmailVerification /> },
       { path: "/password", element: <ForgotPassword /> },
+      { path: "/blank", element: <BlankPage /> },
       {
         path: "/register",
         element: <Register />,

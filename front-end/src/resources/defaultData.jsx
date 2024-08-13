@@ -60,6 +60,109 @@ export const techStack = [
   { value: "UI/UX", label: "UI/UX" },
 ];
 
+export const templateCV = [
+  {
+    image: "src/assets/template/t1.jpg",
+    mainStyle: "Hiện đại",
+    styles: ["Sáng tạo", "Tinh tế", "+3"],
+  },
+  {
+    image: "src/assets/template/t2.jpg",
+    mainStyle: "Tối giản",
+    styles: ["Thanh lịch", "Gọn gàng", "+5"],
+  },
+  {
+    image: "src/assets/template/t3.jpg",
+    mainStyle: "Cổ điển",
+    styles: ["Trang nhã", "Đậm chất", "+2"],
+  },
+  {
+    image: "src/assets/template/t4.jpg",
+    mainStyle: "Sáng tạo",
+    styles: ["Phóng khoáng", "Năng động", "+6"],
+  },
+  {
+    image: "src/assets/template/t5.jpg",
+    mainStyle: "Chuyên nghiệp",
+    styles: ["Trang trọng", "Hiện đại", "+4"],
+  },
+  {
+    image: "src/assets/template/t6.jpg",
+    mainStyle: "Đơn giản",
+    styles: ["Thân thiện", "Dễ đọc", "+3"],
+  },
+  {
+    image: "src/assets/template/t7.jpg",
+    mainStyle: "Thanh lịch",
+    styles: ["Tinh tế", "Cổ điển", "+2"],
+  },
+  {
+    image: "src/assets/template/t8.jpg",
+    mainStyle: "Phá cách",
+    styles: ["Độc đáo", "Năng động", "+5"],
+  },
+  {
+    image: "src/assets/template/t9.jpg",
+    mainStyle: "Cân đối",
+    styles: ["Hài hòa", "Chuyên nghiệp", "+3"],
+  },
+  {
+    image: "src/assets/template/t10.jpg",
+    mainStyle: "Độc đáo",
+    styles: ["Sáng tạo", "Nổi bật", "+4"],
+  },
+  {
+    image: "src/assets/template/t11.jpg",
+    mainStyle: "Trẻ trung",
+    styles: ["Hiện đại", "Năng động", "+3"],
+  },
+  {
+    image: "src/assets/template/t12.jpg",
+    mainStyle: "Nhẹ nhàng",
+    styles: ["Tinh tế", "Thanh thoát", "+2"],
+  },
+  {
+    image: "src/assets/template/t13.jpg",
+    mainStyle: "Bắt mắt",
+    styles: ["Sáng tạo", "Sắc nét", "+5"],
+  },
+  {
+    image: "src/assets/template/t14.jpg",
+    mainStyle: "Mạnh mẽ",
+    styles: ["Đậm chất", "Ấn tượng", "+4"],
+  },
+  {
+    image: "src/assets/template/t15.jpg",
+    mainStyle: "Nổi bật",
+    styles: ["Sáng tạo", "Phá cách", "+6"],
+  },
+  {
+    image: "src/assets/template/t16.jpg",
+    mainStyle: "Trang nhã",
+    styles: ["Cổ điển", "Thanh lịch", "+3"],
+  },
+  {
+    image: "src/assets/template/t17.jpg",
+    mainStyle: "Tinh tế",
+    styles: ["Đơn giản", "Hiện đại", "+4"],
+  },
+  {
+    image: "src/assets/template/t18.jpg",
+    mainStyle: "Ấn tượng",
+    styles: ["Nổi bật", "Sáng tạo", "+5"],
+  },
+  {
+    image: "src/assets/template/t19.jpg",
+    mainStyle: "Phong cách",
+    styles: ["Thời thượng", "Độc đáo", "+2"],
+  },
+  {
+    image: "src/assets/template/t20.jpg",
+    mainStyle: "Sắc nét",
+    styles: ["Tối giản", "Bắt mắt", "+3"],
+  },
+];
+
 export const nation = [
   {
     flag: "https://twemoji.maxcdn.com/2/svg/1f1e6-1f1e8.svg",
