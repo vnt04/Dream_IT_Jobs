@@ -4,6 +4,7 @@ import Navbar from "./layouts/Navbar";
 import Footer from "./layouts/Footer";
 import { ToastContainer } from "react-toastify";
 import ScrollToTop from "./components/ScrollToTop";
+import ScrollToTopWithRouter from "./components/ScrollToTopWithRouter";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       </div>
       <ToastContainer />
       <ScrollToTop />
+      <ScrollToTopWithRouter />
     </>
   );
 }
