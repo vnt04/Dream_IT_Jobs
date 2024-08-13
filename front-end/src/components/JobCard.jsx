@@ -3,20 +3,20 @@ import Tag from "./Tag";
 
 function JobCard({ jobsList }) {
   return (
-    <div className="">
+    <div className="bg-[#f5f5f5]">
       {jobsList?.map((jobData) => (
         <div
           key={jobData._id}
-          className="mb-4 flex h-40 cursor-pointer bg-white p-2"
+          className="mb-4 flex h-40 cursor-pointer bg-white py-2"
         >
-          <div className="w-1/3">
+          <div className="w-1/4">
             <img
               src={`/src/assets/img-company/${jobData.company.logo}`}
               title=""
-              className="h-full w-full object-contain p-5"
+              className="h-full w-full object-contain p-1"
             />
           </div>
-          <div className="w-2/3 space-y-2">
+          <div className="w-3/4 space-y-2">
             <a
               href={`/viec-lam-it/${jobData._id}`}
               title={jobData.job_title}

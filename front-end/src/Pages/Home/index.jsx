@@ -15,7 +15,7 @@ function Home() {
       <div className="bg-white">
         <NewJobs />
       </div>
-      <div className="bg-[#f5f5f5]">
+      <div className="bg-[#f5f5f5] py-4">
         <BestCompany />
       </div>
       <div className="space-y-4 pb-10">

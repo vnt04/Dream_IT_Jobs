@@ -156,7 +156,7 @@ html {
   margin-bottom: 8px;
 }
 .content-company-header {
-  height: 60px;
+  height: auto;
   font-weight: bold;
   font-size: 20px;
   padding: 14px 0px;
@@ -168,12 +168,4 @@ html {
 
 .content-company-info {
   font-weight: 500;
-}
-
-.create-job-flex {
-  @apply flex flex-col items-center justify-between gap-8 lg:flex-row;
-}
-
-.create-job-input {
-  @apply block w-full flex-1 bg-white py-1.5 pl-3 text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm sm:leading-6;
 }

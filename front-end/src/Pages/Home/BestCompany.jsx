@@ -8,7 +8,7 @@ function BestCompany() {
   const { mostFollow } = useContext(DataContext);
 
   return (
-    <div className="container ">
+    <div className="container">
       <div className="flex justify-between py-4">
         <div className="flex items-center space-x-1">
           <FaSun className="size-6 text-yellow-400 md:size-8" />
@@ -33,7 +33,7 @@ function BestCompany() {
               <img
                 src={`/src/assets/img-company/${data.logo}`}
                 alt=""
-                className="h-full w-full p-4 object-contain"
+                className="h-full w-full object-contain p-4"
               />
               <CiBookmark className="size-8" />
             </a>
@@ -51,16 +51,6 @@ function BestCompany() {
             </div>
           </div>
         ))}
-      </div>
-
-      <div className="flex items-center justify-center gap-3 py-4">
-        <button className="h-8 w-8 rounded-[50%] border border-solid border-teal-600 text-[18px] font-bold text-teal-600">
-          &lt;
-        </button>
-        <div className="text-sm italic">1 / 3 trang</div>
-        <button className="h-8 w-8 rounded-[50%] border border-solid border-teal-600 text-[18px] font-bold text-teal-600">
-          &gt;
-        </button>
       </div>
     </div>
   );

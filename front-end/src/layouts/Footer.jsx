@@ -1,5 +1,5 @@
 import { FaSquareFacebook } from "react-icons/fa6";
-import { FaInstagramSquare, FaTwitterSquare } from "react-icons/fa";
+import { FaInstagramSquare, FaLinkedin } from "react-icons/fa";
 import { IoLogoYoutube } from "react-icons/io";
 import { AiFillTikTok } from "react-icons/ai";
 
@@ -16,10 +16,10 @@ function Footer() {
             />
           </a>
           <div>
-            Địa chỉ: QTSC Building 1, Khu Công viên phần mềm Quang Trung, P. Tân
-            Chánh Hiệp, Q.12, TP.HCM, Việt Nam
+            Địa chỉ: 862 Lê Đức Thọ, Phường 15, Quận Gò Vấp, Thành phố Hồ Chí
+            Minh
           </div>
-          <div>Liên hệ: 028 6273 3496 - contact@dreamitjobs.vn</div>
+          <div>Liên hệ: 0981253214 - contact@dreamitjobs.vn</div>
           <div>
             <h1 className="font-bold">Chứng nhận bởi</h1>
             <img
@@ -68,21 +68,24 @@ function Footer() {
               Theo dõi chúng tôi tại
             </h1>
             <div className="mb-4 flex justify-center gap-2">
-              <FaSquareFacebook className="size-10" />
-              <FaInstagramSquare className="size-10" />
-              <IoLogoYoutube className="size-10" />
+              <a href="https://www.facebook.com/van.nghiep.5836/">
+                <FaSquareFacebook className="size-10 cursor-pointer" />
+              </a>
+              <a href="https://www.instagram.com/vannghiep_0305/">
+                <FaInstagramSquare className="size-10 cursor-pointer" />
+              </a>
+              <a href="https://www.linkedin.com/in/tranvannghiep/">
+                <FaLinkedin className="size-10 cursor-pointer" />
+              </a>
             </div>
             <div className="flex justify-center gap-2">
-              <AiFillTikTok className="size-10" />
-              <FaTwitterSquare className="size-10" />
+              <IoLogoYoutube className="size-10 cursor-pointer" />
+              <AiFillTikTok className="size-10 cursor-pointer" />
             </div>
           </div>
         </div>
       </div>
-      <h1 className="h-20 text-center">
-        Copyright © CÔNG TY CỔ PHẦN APPLANCER / ĐKKD: 031 303 2338 - Cấp ngày:
-        27/11/2014
-      </h1>
+      <h1 className="h-20 text-center">Copyright © Tran Van Nghiep - 2024</h1>
     </div>
   );
 }

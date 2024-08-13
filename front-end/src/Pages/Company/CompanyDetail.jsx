@@ -17,7 +17,7 @@ function CompanyDetail() {
   const { dataJobs, dataCompany, dataRecruiter } = useContext(DataContext);
   const { user } = useContext(AuthContext);
   const currentCompany = dataCompany.find(
-    (company) => company._id === companyID
+    (company) => company._id === companyID,
   );
   const isMyCompany =
     dataRecruiter.find((re) => re.uid === user?.uid)?.company_id === companyID;
@@ -27,94 +27,152 @@ function CompanyDetail() {
     if (data.company._id === companyID) hasJobs.push(data);
   });
 
+  const mockReviews = [
+    {
+      star: 5,
+      goodReview:
+        "Môi trường làm việc năng động, cơ hội phát triển bản thân cao.",
+      badReview:
+        "Cường độ công việc đôi khi khá cao, cần quản lý thời gian tốt.",
+    },
+    {
+      star: 3,
+      goodReview:
+        "Đồng nghiệp thân thiện, dễ gần, hỗ trợ nhau trong công việc.",
+      badReview: "Quy trình làm việc còn chậm, cần cải thiện tính hiệu quả.",
+    },
+    {
+      star: 4,
+      goodReview: "Chế độ đãi ngộ tốt, nhiều phúc lợi cho nhân viên.",
+      badReview: "Khối lượng công việc nhiều, đôi khi cảm thấy quá tải.",
+    },
+    {
+      star: 2,
+      goodReview: "Linh hoạt về thời gian làm việc, có thể làm việc từ xa.",
+      badReview: "Lương chưa thực sự cạnh tranh, cần cân nhắc tăng lương.",
+    },
+    {
+      star: 4,
+      goodReview:
+        "Môi trường học hỏi và phát triển tốt cho các lập trình viên trẻ.",
+      badReview: "Văn phòng ở xa trung tâm, không thuận tiện cho việc đi lại.",
+    },
+  ];
+  const starAverage =
+    mockReviews.reduce((accumulator, review) => accumulator + review.star, 0) /
+    mockReviews.length;
+  const percentStar = (starIndex, average) => {
+    if (starIndex <= average) {
+      return 100;
+    } else if (starIndex - average > 1) {
+      return 0;
+    } else {
+      return (average - (starIndex - 1)) * 100;
+    }
+  };
   return (
-    <div className="bg-primary">
-      <div className="container h-56 w-full flex ">
-        <div className="h-full flex items-center gap-4">
-          <div className="w-40 h-40">
-            <img
-              src={`/src/assets/img-company/${currentCompany?.logo}`}
-              alt=""
-              className="rounded shadow-2xl w-full h-full"
-            />
-          </div>
-          <div className="text-white">
-            <h3 className="font-bold text-3xl">{currentCompany?.name}</h3>
-            <div className="mb-5 mt-4 flex gap-10 items-center">
-              <div className="flex items-center gap-1">
-                <IoLocationOutline className="text-gray-700 size-4" />
-                {currentCompany?.location.join(" - ")}
-              </div>
-              <div className="flex items-center gap-2 underline">
-                <MdOutlineWorkHistory className="text-gray-700 size-5" />
-                {hasJobs?.length} việc làm đang tuyển dụng
-              </div>
-              <div className="flex items-center gap-2">
-                4.9{" "}
-                <div className="flex gap-0.5 text-yellow-400">
-                  <FaStar /> <FaStar />
-                  <FaStar />
-                  <FaStar />
-                  <FaStar />
+    <div className="">
+      <div className="bg-primary">
+        <div className="container">
+          <div className="grid gap-4 py-4 md:flex">
+            <div className="h-40 w-40">
+              <img
+                src={`/src/assets/img-company/${currentCompany?.logo}`}
+                alt=""
+                className="h-full w-full rounded shadow-2xl"
+              />
+            </div>
+            <div className="space-y-2 text-white">
+              <h3 className="text-2xl font-bold">{currentCompany?.name}</h3>
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <IoLocationOutline className="size-4 text-gray-700" />
+                  {currentCompany?.location.join(" - ")}
                 </div>
-                <span>(1324 đánh giá)</span>
+                <div className="flex items-center gap-2 underline">
+                  <MdOutlineWorkHistory className="size-5 text-gray-700" />
+                  {hasJobs?.length} việc làm đang tuyển dụng
+                </div>
+                <div className="flex items-center gap-3">
+                  <FaBookmark className="size-4" />
+                  {currentCompany?.follow} followers
+                </div>
+                <div className="flex items-center gap-2">
+                  {starAverage}{" "}
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <div key={star} className="relative">
+                      <div className="left-0 top-0 h-full w-full text-gray-300">
+                        <FaStar size={16} />
+                      </div>
+                      <div
+                        className="absolute left-0 top-0 h-full overflow-hidden"
+                        style={{ width: `${percentStar(star, starAverage)}%` }}
+                      >
+                        <FaStar fill="#ffc107" size={16} />
+                      </div>
+                    </div>
+                  ))}
+                  <span>({mockReviews.length} đánh giá)</span>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <FaBookmark />
-                {currentCompany?.follow} followers
+              <div>
+                {!isMyCompany ? (
+                  <div className="flex gap-4 pb-4 pt-2">
+                    <button className="rounded bg-red-600 px-12 py-2 font-bold text-white hover:bg-red-700">
+                      Viết đánh giá
+                    </button>
+                    <button className="rounded border bg-white px-12 py-2 font-bold text-red-600 hover:bg-gray-200">
+                      Theo dõi
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <Link
+                      to={`/cong-ty-IT/${companyID}/update`}
+                      className="rounded bg-red-600 px-12 py-2 font-bold text-white hover:bg-red-700"
+                    >
+                      Cập nhật thông tin công ty
+                    </Link>
+                  </div>
+                )}
               </div>
             </div>
-            {!isMyCompany ? (
-              <div className="flex gap-4">
-                <button className="py-2 px-12 font-bold rounded bg-red-600 hover:bg-red-700">
-                  Viết đánh giá
-                </button>
-                <button className="py-2 px-12 font-bold border rounded bg-white text-red-600 hover:bg-gray-200">
-                  Theo dõi
-                </button>
-              </div>
-            ) : (
-              <div>
-                <Link
-                  to={`/cong-ty-IT/${companyID}/update`}
-                  className="py-2 px-12 font-bold rounded bg-red-600 hover:bg-red-700"
-                >
-                  Cập nhật thông tin công ty
-                </Link>
-              </div>
-            )}
           </div>
         </div>
       </div>
-      <div className="container flex gap-4 bg-[#f5f5f5] ">
-        <div className="w-2/3">
-          <div className="h-20 content-company text-[#555] font-bold flex items-center gap-8">
-            <button
-              onClick={() => {
-                setShowInfo(true);
-                setShowReview(false);
-              }}
-              className={`${showInfo ? "company-detail-active" : ""}`}
-            >
-              Giới thiệu
-            </button>
-            <button
-              onClick={() => {
-                setShowInfo(false);
-                setShowReview(true);
-              }}
-              className={`${showReview ? "company-detail-active" : ""}`}
-            >
-              Đánh giá{" "}
-              <span className="bg-gray-200 px-2 py-1 rounded-2xl">1324</span>
-            </button>
-          </div>
-          {showInfo && (
-            <>
-              <div className="h-52 content-company">
-                <div className="content-company-header">Thông tin chung</div>
-                <div className="my-4">
-                  <div className="grid grid-cols-3 mb-4">
+
+      <div className="bg-[#f5f5f5]">
+        <div className="container xl:grid xl:grid-cols-3 xl:gap-4">
+          {/*  */}
+          <div className="py-4 xl:col-span-2">
+            <div className="content-company flex items-center gap-8 py-4 font-bold text-[#555]">
+              <button
+                onClick={() => {
+                  setShowInfo(true);
+                  setShowReview(false);
+                }}
+                className={`${showInfo ? "company-detail-active" : ""}`}
+              >
+                Giới thiệu
+              </button>
+              <button
+                onClick={() => {
+                  setShowInfo(false);
+                  setShowReview(true);
+                }}
+                className={`${showReview ? "company-detail-active" : ""}`}
+              >
+                Đánh giá{" "}
+                <span className="rounded-2xl bg-gray-200 px-2 py-1">
+                  {mockReviews.length}
+                </span>
+              </button>
+            </div>
+            {showInfo && (
+              <>
+                <div className="content-company">
+                  <div className="content-company-header">Thông tin chung</div>
+                  <div className="my-4 grid grid-cols-2 gap-2 md:grid-cols-3">
                     <div>
                       <div className="content-company-label">
                         Mô hình công ty
@@ -139,8 +197,6 @@ function CompanyDetail() {
                         {currentCompany?.scale} nhân viên
                       </div>
                     </div>
-                  </div>
-                  <div className="grid grid-cols-3">
                     <div>
                       <div className="content-company-label">Quốc gia</div>
                       <div className="content-company-info">
@@ -165,69 +221,76 @@ function CompanyDetail() {
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="h-auto content-company">
-                <div className="content-company-header">Giới thiệu công ty</div>
-                <p className="py-4">
-                  {currentCompany?.description
-                    .split("\n")
-                    .map((line, index) => (
-                      <span key={index}>
-                        {line}
-                        <br />
-                      </span>
+
+                <div className="content-company">
+                  <div className="content-company-header">
+                    Giới thiệu công ty
+                  </div>
+                  <p className="py-4">
+                    {currentCompany?.description
+                      .split("\n")
+                      .map((line, index) => (
+                        <span key={index}>
+                          {line}
+                          <br />
+                        </span>
+                      ))}
+                  </p>
+                </div>
+                <div className="content-company">
+                  <div className="content-company-header">Chuyên môn</div>
+                  <div className="flex flex-wrap items-center gap-2 py-4">
+                    {currentCompany?.tech_stack.map((tech, index) => (
+                      <Tag key={index} name={tech} />
                     ))}
-                </p>
-              </div>
-
-              <div className="content-company">
-                <div className="content-company-header">Chuyên môn</div>
-                <div className="flex items-center gap-4 py-4">
-                  {currentCompany?.tech_stack.map((tech, index) => (
-                    <Tag key={index} name={tech} />
-                  ))}
+                  </div>
                 </div>
-              </div>
-
-              <div className="content-company">
-                <div className="content-company-header">Chế độ đãi ngộ</div>
-                <ul className="list-disc mt-2 ml-6">
-                  {currentCompany?.benefit.split("\n").map((line, index) => (
-                    <li key={index}>{line}</li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="content-company">
-                <div className="content-company-header">Thông tin liên hệ</div>
-                <div className="grid mb-2">
-                  <strong>Website</strong>
-                  <a href={currentCompany?.website} className="">
-                    {currentCompany?.website}
-                  </a>
+                <div className="content-company">
+                  <div className="content-company-header">Chế độ đãi ngộ</div>
+                  <ul className="ml-6 mt-2 list-disc">
+                    {currentCompany?.benefit.split("\n").map((line, index) => (
+                      <li key={index}>{line}</li>
+                    ))}
+                  </ul>
                 </div>
-                <div className="grid mb-2">
-                  <strong>Địa điểm</strong>
-                  {currentCompany?.address.map((add, index) => (
-                    <div key={index} className="flex items-center gap-2">
-                      <IoLocationOutline />
-                      {add}
-                    </div>
-                  ))}
+                <div className="content-company">
+                  <div className="content-company-header">
+                    Thông tin liên hệ
+                  </div>
+                  <div className="mb-2 grid">
+                    <strong>Website</strong>
+                    <a href={currentCompany?.website} className="">
+                      {currentCompany?.website}
+                    </a>
+                  </div>
+                  <div className="mb-2 grid">
+                    <strong>Địa điểm</strong>
+                    {currentCompany?.address.map((add, index) => (
+                      <div key={index} className="flex items-center gap-2">
+                        <IoLocationOutline />
+                        {add}
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </>
-          )}
-          {showReview && <Review />}
-        </div>
-        <div className="w-1/3 h-auto">
-          <div className="max-h-14 mb-7">
-            <h1 className="text-2xl text-center font-bold py-6">
+              </>
+            )}
+            {showReview && (
+              <Review
+                listReviews={mockReviews}
+                starAverage={starAverage}
+                percentStar={percentStar}
+              />
+            )}
+          </div>
+          <div className="">
+            <h1 className="py-6 text-xl font-bold lg:text-center">
               {hasJobs.length} việc làm đang tuyển dụng
             </h1>
-          </div>
-          <div className="bg-white">
-            <JobCard jobCard={hasJobs} />
+
+            <div className="bg-white shadow-2xl">
+              <JobCard jobsList={hasJobs} />
+            </div>
           </div>
         </div>
       </div>
