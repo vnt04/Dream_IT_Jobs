@@ -1,12 +1,20 @@
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { DataContext } from "../../context/DataProvider";
+import { AuthContext } from "../../context/AuthProvider";
 import { FaSun } from "react-icons/fa";
 import { CiBookmark } from "react-icons/ci";
 import Tag from "../../components/Tag";
 
 function BestCompany() {
   const { mostFollow } = useContext(DataContext);
-
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const handleFollowCompany = () => {
+    if (!user) {
+      navigate("/login");
+    }
+  };
   return (
     <div className="container">
       <div className="flex justify-between py-4">
@@ -29,14 +37,20 @@ function BestCompany() {
             key={index}
             className="h-64 space-y-2 rounded-xl border-[2px] bg-white p-4"
           >
-            <a href={`/cong-ty-IT/${data._id}`} className="flex h-32 w-full">
-              <img
-                src={`/src/assets/img-company/${data.logo}`}
-                alt=""
-                className="h-full w-full object-contain p-4"
+            <div className="flex h-32 w-full">
+              <a href={`/cong-ty-IT/${data._id}`} className="w-full">
+                <img
+                  src={`/src/assets/img-company/${data.logo}`}
+                  alt=""
+                  className="h-full w-full object-contain p-4"
+                />
+              </a>
+              <CiBookmark
+                className="size-8 cursor-pointer hover:text-red-500"
+                title="Follow công ty này"
+                onClick={handleFollowCompany}
               />
-              <CiBookmark className="size-8" />
-            </a>
+            </div>
             <a
               href={`/cong-ty-IT/${data._id}`}
               className="line-clamp-1 text-[18px] font-bold"

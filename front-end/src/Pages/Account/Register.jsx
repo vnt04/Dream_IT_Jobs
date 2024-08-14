@@ -3,6 +3,7 @@ import InputTemplate from "../../components/InputTemplate";
 import CustomModal from "../../components/CustomModal";
 import useLogin from "../../hooks/useLogin";
 import useSignUp from "../../hooks/useSignUp";
+import { Link } from "react-router-dom";
 
 function Register() {
   const { loginWithEmail } = useLogin();
@@ -71,7 +72,7 @@ function Register() {
     }
   };
   return (
-    <div className="flex py-4 max-lg:flex-col max-lg:items-center lg:flex lg:justify-center space-x-2">
+    <div className="flex space-x-2 py-4 max-lg:flex-col max-lg:items-center lg:flex lg:justify-center">
       {/* Form Login recruiter */}
       <form
         onSubmit={handleLogin}
@@ -120,12 +121,12 @@ function Register() {
           </h1>
         )}
         <div className="grid gap-5">
-          <a
+          <Link
             className="text-end text-sm font-bold text-primary hover:text-teal-400"
-            href="#"
+            to={"/password"}
           >
             Quên mật khẩu?
-          </a>
+          </Link>
           <button className="btn-1" type="submit">
             Đăng nhập
           </button>

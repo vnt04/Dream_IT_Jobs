@@ -55,9 +55,23 @@ const AuthProvider = ({ children }) => {
     setLoading(true);
     return signInWithPopup(auth, gitHubProvider);
   };
-  const login = (email, password) => {
+  const login = async (email, password) => {
     setLoading(true);
-    return signInWithEmailAndPassword(auth, email, password);
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+      const token = await userCredential.user.getIdToken();
+      localStorage.setItem("genius-token", token);
+      return userCredential;
+    } catch (error) {
+      console.error("Login failed:", error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
   };
 
   const logOut = () => {

@@ -1,5 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Tag from "../../components/Tag";
 import JobCard from "../../components/JobCard";
 import { DataContext } from "../../context/DataProvider";
@@ -16,6 +17,13 @@ function CompanyDetail() {
   const { companyID } = useParams();
   const { dataJobs, dataCompany, dataRecruiter } = useContext(DataContext);
   const { user } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+  const handleFollowCompany = () => {
+    if (!user) {
+      navigate("/login");
+    }
+  };
   const currentCompany = dataCompany.find(
     (company) => company._id === companyID,
   );
@@ -121,7 +129,10 @@ function CompanyDetail() {
                     <button className="rounded bg-red-600 px-12 py-2 font-bold text-white hover:bg-red-700">
                       Viết đánh giá
                     </button>
-                    <button className="rounded border bg-white px-12 py-2 font-bold text-red-600 hover:bg-gray-200">
+                    <button
+                      onClick={handleFollowCompany}
+                      className="rounded border bg-white px-12 py-2 font-bold text-red-600 hover:bg-gray-200"
+                    >
                       Theo dõi
                     </button>
                   </div>

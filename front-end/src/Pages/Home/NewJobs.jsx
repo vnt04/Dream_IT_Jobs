@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { DataContext } from "../../context/DataProvider";
+import { AuthContext } from "../../context/AuthProvider";
 import Tag from "../../components/Tag";
-import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import { formatCurrency, calculateDaysAgo } from "../../utils";
 import { BsFire } from "react-icons/bs";
@@ -12,8 +12,15 @@ import { PiMoneyWavy } from "react-icons/pi";
 
 function NewJobs() {
   const { newJobs } = useContext(DataContext);
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const handleSaveJob = () => {
+    if (!user) {
+      navigate("/login");
+    }
+  };
   return (
-    <div className="container ">
+    <div className="container">
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center space-x-1">
           <BsFire className="size-6 text-red-500 md:size-8" />
@@ -84,11 +91,10 @@ function NewJobs() {
               <div className="flex items-center justify-end gap-2 px-2 text-sm text-[#555]">
                 {calculateDaysAgo(job.time_created)}
                 <CiHeart
-                  data-tooltip-id="save-job"
-                  data-tooltip-content="Lưu công việc này"
-                  className="size-5 cursor-pointer hover:text-red-500"
+                  className="size-6 cursor-pointer hover:text-red-500"
+                  title="Lưu công việc này"
+                  onClick={handleSaveJob}
                 />
-                <Tooltip id="save-job" className="rounded-xl" />
               </div>
             </div>
           </div>

@@ -7,7 +7,7 @@ function JobCard({ jobsList }) {
       {jobsList?.map((jobData) => (
         <div
           key={jobData._id}
-          className="mb-4 flex h-40 cursor-pointer bg-white py-2"
+          className="mb-4 flex h-40 cursor-pointer bg-white py-4"
         >
           <div className="w-1/4">
             <img

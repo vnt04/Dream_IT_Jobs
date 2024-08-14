@@ -1,6 +1,6 @@
 // all api endpoint
 
-const base_url = "http://localhost:5000";
+const base_url = "http://localhost:5000/api/v1";
 
 const apiEndpoint = {
   all_jobs: `${base_url}/job`,

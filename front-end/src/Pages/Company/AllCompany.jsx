@@ -108,7 +108,7 @@ function AllCompany() {
       </section>
 
       <section className="pt-20" id="section-best-follow-company">
-        <span className="text-xl font-bold">
+        <span className="mb-2 text-xl font-bold">
           Các công ty được theo dõi nhiều
         </span>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -153,8 +153,10 @@ function AllCompany() {
         </div>
       </section>
 
-      <section className="pt-20" id="section-newJobs-company">
-        <span className="text-xl font-bold">Các công ty đang tuyển dụng</span>
+      <section className="mb-10 pt-20" id="section-newJobs-company">
+        <span className="mb-2 text-xl font-bold">
+          Các công ty đang tuyển dụng
+        </span>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {hasJob.map((data, index) => (
             <a

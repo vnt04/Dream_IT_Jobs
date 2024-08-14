@@ -6,7 +6,7 @@ const Company = require("../Models/companyModel");
 class UserController {
   index(req, res, next) {
     User.find({})
-      .then((user) => res.json(user))
+      .then((user) => res.status(200).json(user))
       .catch((error) => next(error));
   }
 
@@ -37,7 +37,7 @@ class UserController {
       const existRecruiter = await Recruiter.findOne({ uid });
 
       if (existUser || existCandidate || existRecruiter) {
-        return res.status(201).json({ message: "Email already exists" });
+        return res.status(409).json({ message: "Email already exists" });
       }
 
       const user = await newUser.save();
@@ -89,13 +89,13 @@ class UserController {
         res.status(201).json(user);
       }
     } catch (error) {
-      next(error);
+      res.status(400).json({ message: "Failed to create user", error });
     }
   }
 
   userInfo(req, res, next) {
     User.findById(req.params.uid)
-      .then((user) => res.json(user))
+      .then((user) => res.status(200).json(user))
       .catch((error) => next(error));
   }
 }

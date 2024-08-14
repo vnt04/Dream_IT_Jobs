@@ -1,9 +1,19 @@
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthProvider";
 import CVTemplate from "../components/CVTemplate";
 import { templateCV } from "../resources/defaultData";
 
 function ProfileCV() {
   const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
+  const handleCV = () => {
+    if (!user) {
+      navigate("/login");
+    } else {
+      navigate("/blank");
+    }
+  };
   return (
     <div className="container">
       <div className="py-4 text-center lg:py-8">
@@ -23,7 +33,7 @@ function ProfileCV() {
               Dễ dàng tạo cho mình một CV chuyên nghiệp của lập trình viên.
             </h4>
             <button
-              onClick={() => navigate("/blank")}
+              onClick={handleCV}
               className="w-full rounded-xl border border-primary p-2 text-primary hover:bg-gray-200"
             >
               Khám phá ngay &gt;
@@ -36,7 +46,7 @@ function ProfileCV() {
               của lập trình viên.
             </h4>
             <button
-              onClick={() => navigate("/blank")}
+              onClick={handleCV}
               className="w-full rounded-xl border border-primary p-2 text-primary hover:bg-gray-200"
             >
               Khám phá ngay &gt;
@@ -74,9 +84,9 @@ function ProfileCV() {
         ))}
       </div>
       <div className="text-center">
-        <a href="/blank" className="btn-1">
+        <button onClick={handleCV} className="btn-1">
           Tạo CV ngay{" "}
-        </a>
+        </button>
       </div>
       <div>
         <div>
@@ -90,9 +100,9 @@ function ProfileCV() {
             </h4>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4 py-8">
+          <div className="grid gap-4 py-8 sm:grid-cols-2 xl:grid-cols-4">
             {templateCV.map((template, index) => (
-              <CVTemplate key={index} template={template} />
+              <CVTemplate key={index} template={template} handleCV={handleCV} />
             ))}
           </div>
         </div>

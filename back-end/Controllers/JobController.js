@@ -4,7 +4,7 @@ class JobController {
   async index(req, res, next) {
     try {
       const jobs = await Job.find().populate("company");
-      res.json(jobs);
+      res.status(200).json(jobs);
     } catch (error) {
       next(error);
     }
@@ -18,7 +18,7 @@ class JobController {
       if (!job) {
         return res.status(404).json({ message: "Job not found!" });
       }
-      res.json(job);
+      res.status(200).json(job);
     } catch (error) {
       next(error);
     }
@@ -67,7 +67,7 @@ class JobController {
       const job = await newJob.save();
       res.status(201).json({ acknowledged: true, job });
     } catch (error) {
-      next(error);
+      res.status(400).json({ message: "Fail to post new job!", error });
     }
   }
 
@@ -111,9 +111,9 @@ class JobController {
     }
     try {
       const results = await Job.find(filter).populate("company");
-      res.json(results);
+      res.status(200).json(results);
     } catch (error) {
-      next(error);
+      res.status(500).json({ message: "Server error:", error });
     }
   }
 }

@@ -5,11 +5,11 @@ const blogRouter = require("./blog");
 const recruiterRouter = require("./recruiter");
 
 function route(app) {
-  app.use("/job", jobRouter);
-  app.use("/user", userRouter);
-  app.use("/recruiter", recruiterRouter);
-  app.use("/company", companyRouter);
-  app.use("/blog", blogRouter);
+  app.use("/api/v1/job", jobRouter);
+  app.use("/api/v1/user", userRouter);
+  app.use("/api/v1/recruiter", recruiterRouter);
+  app.use("/api/v1/company", companyRouter);
+  app.use("/api/v1/blog", blogRouter);
 }
 
 module.exports = route;
