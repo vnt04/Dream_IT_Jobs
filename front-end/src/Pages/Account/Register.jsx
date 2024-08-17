@@ -1,19 +1,22 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { loginRequest } from "../../redux/actions/authActions";
+
 import InputTemplate from "../../components/InputTemplate";
 import CustomModal from "../../components/CustomModal";
-import useLogin from "../../hooks/useLogin";
 import useSignUp from "../../hooks/useSignUp";
-import { Link } from "react-router-dom";
 
 function Register() {
-  const { loginWithEmail } = useLogin();
-  const { signUpRecruiter } = useSignUp();
-
   const [agreeRegister, setAgreeRegister] = useState(false);
   const [agreeLogin, setAgreeLogin] = useState(false);
   const [showNote, setShowNote] = useState(false);
   const [showNoteLogin, setShowNoteLogin] = useState(false);
   const [showPopUp, setShowPopUp] = useState(false);
+
+  const dispatch = useDispatch();
+  const { user, loading, error } = useSelector((state) => state.authReducer);
+  const { signUpRecruiter } = useSignUp();
 
   const handleClose = () => {
     setShowPopUp(false);
@@ -39,7 +42,7 @@ function Register() {
       setShowNoteLogin((pre) => !pre);
     } else {
       const { email, password } = event.target.elements;
-      loginWithEmail(email.value, password.value);
+      dispatch(loginRequest(email.value, password.value));
     }
   };
 

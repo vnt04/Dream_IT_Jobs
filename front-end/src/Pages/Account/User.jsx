@@ -1,9 +1,11 @@
 /* eslint-disable react/prop-types */
 import { useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import useLogin from "../../hooks/useLogin";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../../redux/actions/authActions";
+
 import { DataContext } from "../../context/DataProvider";
-import { preventScroll } from "../../utils";
+import { preventScroll } from "../../utils/index";
 import { FaChevronDown } from "react-icons/fa6";
 import { BiFile, BiLogOut, BiWallet } from "react-icons/bi";
 import { HiOutlineBuildingOffice2 } from "react-icons/hi2";
@@ -14,13 +16,17 @@ import { RiAccountPinBoxLine } from "react-icons/ri";
 function User({ displayName, url, role, uid }) {
   const [isOpenProfileManage, setIsOpenProfileManage] = useState(false);
   const profileManage = useRef(null);
-  const { handleLogout } = useLogin();
+  const dispatch = useDispatch();
   const { dataRecruiter, dataCompany } = useContext(DataContext);
 
   const recruiter = dataRecruiter.find((r) => r.uid === uid);
   const currentCompany = dataCompany.find(
     (com) => com._id === recruiter?.company_id,
   );
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+  };
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutsideUP);
     return () => {

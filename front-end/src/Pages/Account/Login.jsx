@@ -1,23 +1,37 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import InputTemplate from "../../components/InputTemplate";
-import useLogin from "../../hooks/useLogin";
+import {
+  loginRequest,
+  loginWithGithub,
+  loginWithGoogle,
+} from "../../redux/actions/authActions";
+import useNotification from "../../hooks/useNotification";
+
 import { FaGithub, FaGoogle } from "react-icons/fa6";
 import { ClipLoader } from "react-spinners";
 
 function Login() {
-  const { loginWithGoogle, loginWithGithub, loginWithEmail } = useLogin();
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const { user, loading, error } = useSelector((state) => state.authReducer);
+  const { errorHandler, successLogin } = useNotification();
 
   const handleLogin = (event) => {
     event.preventDefault();
-    setLoading(true);
     const { email, password } = event.target.elements;
-    loginWithEmail(email.value, password.value);
-    setTimeout(() => {
-      setLoading(false);
-    }, 500);
+    dispatch(loginRequest(email.value, password.value));
   };
+
+  useEffect(() => {
+    if (user.email) {
+      successLogin();
+    } else if (error) {
+      errorHandler(error);
+    }
+  });
+
   return (
     <div className="flex items-center justify-center py-4">
       <form
@@ -52,7 +66,7 @@ function Login() {
 
         <button type="submit" className="btn-1 w-full" disabled={loading}>
           {loading ? (
-            <ClipLoader color="#ffffff" loading={loading} size={20} />
+            <ClipLoader color="#ffffff" loading={loading} size={25} />
           ) : (
             <span>Đăng nhập</span>
           )}
@@ -64,14 +78,14 @@ function Login() {
           <div className="mx-auto flex w-full items-center justify-center gap-4">
             <button
               className="focus:shadow-outline flex items-center gap-2 rounded bg-red-500 px-6 py-2 font-bold text-white hover:bg-red-600 focus:outline-none"
-              onClick={loginWithGoogle}
+              onClick={() => dispatch(loginWithGoogle())}
               type="button"
             >
               <FaGoogle /> Google
             </button>
             <button
               className="focus:shadow-outline flex items-center gap-2 rounded bg-gray-700 px-6 py-2 font-bold text-white hover:bg-gray-600 focus:outline-none"
-              onClick={loginWithGithub}
+              onClick={() => dispatch(loginWithGithub())}
               type="button"
             >
               <FaGithub /> Github

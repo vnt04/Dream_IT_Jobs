@@ -7,7 +7,7 @@ import {
   calculateDaysAgo,
   formatCurrency,
   calculateDayNumber,
-} from "../../utils";
+} from "../../utils/index";
 import JobCard from "../../components/JobCard";
 import axios from "axios";
 import apiEndpoint from "../../api";

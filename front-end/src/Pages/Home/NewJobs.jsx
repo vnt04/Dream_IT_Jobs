@@ -4,7 +4,7 @@ import { DataContext } from "../../context/DataProvider";
 import { AuthContext } from "../../context/AuthProvider";
 import Tag from "../../components/Tag";
 import "react-tooltip/dist/react-tooltip.css";
-import { formatCurrency, calculateDaysAgo } from "../../utils";
+import { formatCurrency, calculateDaysAgo } from "../../utils/index";
 import { BsFire } from "react-icons/bs";
 import { CiHeart } from "react-icons/ci";
 import { IoLocation } from "react-icons/io5";

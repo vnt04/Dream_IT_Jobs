@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import { DataContext } from "../context/DataProvider";
-import { compareDate } from "../utils";
+import { compareDate } from "../utils/index";
 import NewBlogs from "../components/NewBlogs";
 import { FaFilter } from "react-icons/fa";
 

@@ -2,12 +2,11 @@ import { useContext } from "react";
 import axios from "axios";
 import apiEndpoint from "../api";
 import { AuthContext } from "../context/AuthProvider";
-import useAuth from "./useAuth";
+import useNotification from "./useNotification";
 
 const useSignUp = () => {
   const { createUser } = useContext(AuthContext);
-  const { successSignUp, handleAuthError, checkConfirmPassword } = useAuth();
-
+  const { errorHandler, successSignUp, checkConfirmPassword } = useNotification;
   const signUpCandidate = async (
     displayName,
     email,
@@ -28,7 +27,7 @@ const useSignUp = () => {
           });
         }
       } catch (error) {
-        handleAuthError(error);
+        errorHandler(error);
       }
     }
   };
@@ -63,7 +62,7 @@ const useSignUp = () => {
           onSuccess();
         }
       } catch (error) {
-        handleAuthError(error);
+        errorHandler(error);
       }
     }
   };

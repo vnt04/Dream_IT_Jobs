@@ -1,15 +1,20 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import {
+  loginWithGithub,
+  loginWithGoogle,
+} from "../../redux/actions/authActions";
+
 import InputTemplate from "../../components/InputTemplate";
 import { FaGithub, FaGoogle } from "react-icons/fa6";
-import useLogin from "../../hooks/useLogin";
 import useSignUp from "../../hooks/useSignUp";
 import { ClipLoader } from "react-spinners";
 
 function SignUp() {
-  const { loginWithGoogle, loginWithGithub } = useLogin();
-  const { signUpCandidate } = useSignUp();
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const { signUpCandidate } = useSignUp();
 
   const handleSignUp = (event) => {
     event.preventDefault();
@@ -80,13 +85,13 @@ function SignUp() {
             <button
               className="focus:shadow-outline flex items-center gap-2 rounded bg-red-500 px-6 py-2 font-bold text-white hover:bg-red-600 focus:outline-none"
               type="button"
-              onClick={loginWithGoogle}
+              onClick={() => dispatch(loginWithGoogle())}
             >
               <FaGoogle /> Google
             </button>
             <button
               className="focus:shadow-outline flex items-center gap-2 rounded bg-gray-700 px-6 py-2 font-bold text-white hover:bg-gray-600 focus:outline-none"
-              onClick={loginWithGithub}
+              onClick={() => dispatch(loginWithGithub())}
               type="button"
             >
               <FaGithub /> Github

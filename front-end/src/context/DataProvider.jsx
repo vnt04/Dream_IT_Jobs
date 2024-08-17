@@ -49,7 +49,7 @@ const DataProvider = ({ children }) => {
   const newJobs = [...dataJobs]
     .sort(
       (a, b) =>
-        calculateDayNumber(a.time_created) - calculateDayNumber(b.time_created)
+        calculateDayNumber(a.time_created) - calculateDayNumber(b.time_created),
     )
     .slice(0, 12);
   const getDataUsers = () => {

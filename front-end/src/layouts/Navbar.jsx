@@ -1,24 +1,28 @@
 import { useState, useContext, useEffect, useRef } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../redux/actions/authActions";
+
 import { FaBars, FaXmark, FaBell, FaGreaterThan } from "react-icons/fa6";
 import { AuthContext } from "../context/AuthProvider";
 import User from "../Pages/Account/User";
-import { preventScroll } from "../utils";
-import useLogin from "../hooks/useLogin";
+import { preventScroll } from "../utils/index";
 import SwitchLanguage from "../components/SwitchLanguage";
-import { useTranslation } from "react-i18next";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const dispatch = useDispatch();
   const menuRef = useRef(null);
   const { t } = useTranslation();
-
   const { user } = useContext(AuthContext);
-  const { handleLogout } = useLogin();
+
   const handleMenuToggle = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-
+  const handleLogout = () => {
+    dispatch(logoutUser());
+  };
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {

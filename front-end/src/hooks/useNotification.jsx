@@ -1,32 +1,29 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const useAuth = () => {
-  const location = useLocation();
+export const useNotification = () => {
   const navigate = useNavigate();
-
+  const location = useLocation();
   const from = location.state?.from?.pathname || "/";
 
-  const handleAuthError = (error) => {
+  const errorHandler = (error) => {
     let errorMessage = "";
-    console.log(error.code);
-    if (error.code) {
-      switch (error.code) {
-        case "auth/invalid-credential":
+    if (error) {
+      switch (error) {
+        case "Firebase: Error (auth/invalid-credential).":
           errorMessage = "Sai email hoặc mật khẩu !";
           break;
-        case "auth/email-already-in-use":
+        case "Firebase: Error (auth/email-already-in-use).":
           errorMessage = "Địa chỉ email đã được sử dụng !";
           break;
-        case "auth/account-exists-with-different-credential":
+        case "Firebase: Error (auth/account-exists-with-different-credential).":
           errorMessage = "Địa chỉ email đã được sử dụng !";
           break;
-        case "auth/network-request-failed":
+        case "Firebase: Error (auth/network-request-failed).":
           errorMessage = "Lỗi kết nối mạng. Vui lòng kiểm tra kết nối của bạn.";
           break;
-        case "auth/invalid-email":
+        case "Firebase: Error (auth/invalid-email).":
           errorMessage = "Địa chỉ email không tồn tại !";
           break;
         default:
@@ -48,6 +45,7 @@ const useAuth = () => {
       },
     });
   };
+
   const successSignUp = (email) => {
     toast.success("Đăng kí tài khoản thành công!", {
       autoClose: 1000,
@@ -57,6 +55,7 @@ const useAuth = () => {
       },
     });
   };
+
   const checkConfirmPassword = (password, confirmPassword) => {
     if (password !== confirmPassword) {
       toast.error("Mật khẩu không trùng khớp", {
@@ -67,8 +66,9 @@ const useAuth = () => {
     }
     return true;
   };
+
   const successLogout = () => {
-    toast.error("Đăng xuất thành công!", {
+    toast.success("Đăng xuất thành công!", {
       autoClose: 1000,
       position: "top-right",
       onClose: () => {
@@ -76,8 +76,9 @@ const useAuth = () => {
       },
     });
   };
+
   return {
-    handleAuthError,
+    errorHandler,
     successLogin,
     successSignUp,
     checkConfirmPassword,
@@ -85,4 +86,4 @@ const useAuth = () => {
   };
 };
 
-export default useAuth;
+export default useNotification;

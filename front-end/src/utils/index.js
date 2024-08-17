@@ -1,6 +1,8 @@
 import { formatDistanceToNow, differenceInDays } from "date-fns";
 import { vi } from "date-fns/locale";
 
+
+
 export const preventScroll = (condition) => {
   if (condition) {
     document.body.style.overflow = "hidden";
@@ -30,14 +32,6 @@ export const formatCurrency = (number) => {
     style: "currency",
     currency: "VND",
   });
-};
-
-export const getRows = (original, number) => {
-  const rows = [];
-  for (let i = 0; i < original?.length; i += number) {
-    rows.push(original.slice(i, i + number));
-  }
-  return rows;
 };
 
 const parseDate = (dateString) => {
