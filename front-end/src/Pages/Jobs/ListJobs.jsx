@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { getJobs } from "../../redux/actions/jobActions";
 import Tag from "../../components/Tag";
-import { DataContext } from "../../context/DataProvider";
 import {
   calculateDaysAgo,
   formatCurrency,
@@ -14,11 +15,15 @@ import apiEndpoint from "../../api";
 import { RingLoader } from "react-spinners";
 
 function ListJobs() {
-  const { dataJobs } = useContext(DataContext);
+  const dispatch = useDispatch();
+  const { dataJobs, loading } = useSelector((state) => state.job);
+  useEffect(() => {
+    dispatch(getJobs());
+  }, [dispatch]);
+
   const [resultSearch, setResultSearch] = useState(dataJobs);
   const [newest, setNewest] = useState(false);
   const [highestSalary, setHighestSalary] = useState(false);
-  const [loading, setLoading] = useState(false);
   const location = useLocation();
   const query = new URLSearchParams(location.search);
   const techQuery = query.getAll("tech").join(" , ");
@@ -40,18 +45,18 @@ function ListJobs() {
 
   useEffect(() => {
     if (location.search.slice(1)) {
-      setLoading(true);
+      // setLoading(true);
       axios
         .get(`${apiEndpoint.search_job}?${location.search.slice(1)}`)
         .then((response) => {
           setResultSearch(response.data);
           setTimeout(() => {
-            setLoading(false);
+            // setLoading(false);
           }, 1000);
         })
         .catch((error) => {
           console.log(error);
-          setLoading(false);
+          // setLoading(false);
         });
     }
   }, [location.search]);

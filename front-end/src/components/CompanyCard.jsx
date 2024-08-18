@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
+import { useSelector } from "react-redux";
+
 import { FaLongArrowAltRight } from "react-icons/fa";
 import { CiBookmark } from "react-icons/ci";
-import { useContext } from "react";
-import { DataContext } from "../context/DataProvider";
 
 function CompanyCard({ companyList }) {
-  const { dataJobs } = useContext(DataContext);
+  const { dataJobs } = useSelector((state) => state.job);
   const getJobInCompany = (company_id) => {
     return dataJobs.filter((job) => company_id === job.company._id).length;
   };

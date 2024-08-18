@@ -1,11 +1,10 @@
-import { useState, useContext, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../redux/actions/authActions";
 
 import { FaBars, FaXmark, FaBell, FaGreaterThan } from "react-icons/fa6";
-import { AuthContext } from "../context/AuthProvider";
 import User from "../Pages/Account/User";
 import { preventScroll } from "../utils/index";
 import SwitchLanguage from "../components/SwitchLanguage";
@@ -15,7 +14,9 @@ function Navbar() {
   const dispatch = useDispatch();
   const menuRef = useRef(null);
   const { t } = useTranslation();
-  const { user } = useContext(AuthContext);
+
+  const { user } = useSelector((state) => state.auth);
+  console.log(user);
 
   const handleMenuToggle = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -114,10 +115,10 @@ function Navbar() {
             <div className="flex items-center gap-2">
               <FaBell />
               <User
-                displayName={user.displayName}
-                url={user.avatar}
-                role={user.role}
-                uid={user.uid}
+              // displayName={user.displayName}
+              // url={user.avatar}
+              // role={user.role}
+              // uid={user.uid}
               />
             </div>
           ) : (

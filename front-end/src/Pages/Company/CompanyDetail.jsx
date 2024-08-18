@@ -1,22 +1,23 @@
 import { useParams, Link } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Tag from "../../components/Tag";
 import JobCard from "../../components/JobCard";
-import { DataContext } from "../../context/DataProvider";
-import { AuthContext } from "../../context/AuthProvider";
 import { IoLocationOutline } from "react-icons/io5";
 import { MdOutlineWorkHistory } from "react-icons/md";
 import { FaStar, FaBookmark } from "react-icons/fa";
 import Review from "./Review";
+import { useSelector } from "react-redux";
 
 function CompanyDetail() {
   const [showInfo, setShowInfo] = useState(true);
   const [showReview, setShowReview] = useState(false);
 
   const { companyID } = useParams();
-  const { dataJobs, dataCompany, dataRecruiter } = useContext(DataContext);
-  const { user } = useContext(AuthContext);
+  const { dataJobs } = useSelector((state) => state.job);
+  const { dataCompany } = useSelector((state) => state.company);
+  const { user } = useSelector((state) => state.auth);
+  const { dataRecruiters } = useSelector((state) => state.recruiter);
 
   const navigate = useNavigate();
   const handleFollowCompany = () => {
@@ -28,7 +29,7 @@ function CompanyDetail() {
     (company) => company._id === companyID,
   );
   const isMyCompany =
-    dataRecruiter.find((re) => re.uid === user?.uid)?.company_id === companyID;
+    dataRecruiters.find((re) => re.uid === user?.uid)?.company_id === companyID;
 
   const hasJobs = [];
   dataJobs.map((data) => {

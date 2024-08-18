@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
-import { AuthContext } from "../context/AuthProvider";
+import { useSelector } from "react-redux";
+
 import CVTemplate from "../components/CVTemplate";
 import { templateCV } from "../resources/defaultData";
 
 function ProfileCV() {
   const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
+  const { user } = useSelector((state) => state.auth);
   const handleCV = () => {
     if (!user) {
       navigate("/login");

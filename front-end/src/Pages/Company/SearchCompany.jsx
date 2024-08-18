@@ -56,11 +56,15 @@ function SearchCompany() {
   }, [companyName]);
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutsideRelative);
+    if (relatedCompany.length > 0) {
+      document.addEventListener("mousedown", handleClickOutsideRelative);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutsideRelative);
+    }
     return () => {
       document.removeEventListener("mousedown", handleClickOutsideRelative);
     };
-  });
+  }, [relatedCompany]);
   const handleClickOutsideRelative = (e) => {
     if (relative && !relative.current.contains(e.target)) {
       setRelatedCompany(false);

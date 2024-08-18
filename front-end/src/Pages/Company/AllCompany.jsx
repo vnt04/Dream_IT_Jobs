@@ -1,12 +1,25 @@
 /* eslint-disable react/prop-types */
-import { useContext, useState } from "react";
-import { DataContext } from "../../context/DataProvider";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getCompany } from "../../redux/actions/companyActions";
+import { getJobs } from "../../redux/actions/jobActions";
+
 import { CiBookmark } from "react-icons/ci";
 import { FaLongArrowAltRight } from "react-icons/fa";
 
 function AllCompany() {
   const [activeSection, setActiveSection] = useState("#section-best-company");
-  const { dataCompany, mostFollow, dataJobs } = useContext(DataContext);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getCompany);
+    dispatch(getJobs);
+  });
+  const { dataCompany } = useSelector((state) => state.company);
+  const { dataJobs } = useSelector((state) => state.job);
+
+  const mostFollow = [...dataCompany];
+  mostFollow.sort((a, b) => a - b);
 
   const getJobInCompany = (companyID) => {
     let number = 0;

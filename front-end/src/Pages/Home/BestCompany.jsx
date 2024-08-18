@@ -1,14 +1,22 @@
-import { useContext } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { DataContext } from "../../context/DataProvider";
-import { AuthContext } from "../../context/AuthProvider";
+import { useDispatch, useSelector } from "react-redux";
+import { getCompany } from "../../redux/actions/companyActions";
 import { FaSun } from "react-icons/fa";
 import { CiBookmark } from "react-icons/ci";
 import Tag from "../../components/Tag";
 
 function BestCompany() {
-  const { mostFollow } = useContext(DataContext);
-  const { user } = useContext(AuthContext);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getCompany());
+  },[dispatch]);
+  const { dataCompany } = useSelector((state) => state.company);
+  const mostFollow = [...dataCompany];
+  mostFollow.sort((a, b) => a - b);
+
+  const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const handleFollowCompany = () => {
     if (!user) {

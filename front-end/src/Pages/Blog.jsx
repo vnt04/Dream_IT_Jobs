@@ -1,20 +1,28 @@
-import { useContext, useState, useEffect } from "react";
-import { DataContext } from "../context/DataProvider";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getBlogs } from "../redux/actions/blogActions";
 import { compareDate } from "../utils/index";
 import NewBlogs from "../components/NewBlogs";
 import { FaFilter } from "react-icons/fa";
 
 function Blog() {
-  const { dataBlog, newBlogs } = useContext(DataContext);
   const [stickyBlog, setStickyBlog] = useState(false);
   const [dataFilter, setDataFilter] = useState([]);
   const [filter, setFilter] = useState("");
   const [filterMobile, setFilterMobile] = useState(false);
   const newFilter = dataFilter.slice(0, 4);
 
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getBlogs());
+  }, [dispatch]);
+  const { dataBlogs } = useSelector((state) => state.blog);
+  const newBlogs = [...dataBlogs];
+  newBlogs.sort((a, b) => compareDate(a.time, b.time));
+
   const getDataFilter = (input) => {
     const data = [];
-    dataBlog.map((blog) => {
+    dataBlogs.map((blog) => {
       if (blog.field === input) {
         data.push(blog);
       }
@@ -149,7 +157,7 @@ function Blog() {
             </span>
           </span>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {dataBlog.map((data, index) => (
+            {dataBlogs.map((data, index) => (
               <div key={index} className="h-80 rounded-xl border-2">
                 <div className="h-[50%]">
                   <img

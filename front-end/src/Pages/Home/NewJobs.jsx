@@ -1,7 +1,8 @@
+import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useContext } from "react";
-import { DataContext } from "../../context/DataProvider";
-import { AuthContext } from "../../context/AuthProvider";
+import { useDispatch, useSelector } from "react-redux";
+import { getJobs } from "../../redux/actions/jobActions";
+
 import Tag from "../../components/Tag";
 import "react-tooltip/dist/react-tooltip.css";
 import { formatCurrency, calculateDaysAgo } from "../../utils/index";
@@ -9,10 +10,22 @@ import { BsFire } from "react-icons/bs";
 import { CiHeart } from "react-icons/ci";
 import { IoLocation } from "react-icons/io5";
 import { PiMoneyWavy } from "react-icons/pi";
+import { calculateDayNumber } from "../../utils/index";
 
 function NewJobs() {
-  const { newJobs } = useContext(DataContext);
-  const { user } = useContext(AuthContext);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getJobs());
+  }, [dispatch]);
+  const { dataJobs } = useSelector((state) => state.job);
+  const newJobs = [...dataJobs]
+    .sort(
+      (a, b) =>
+        calculateDayNumber(a.time_created) - calculateDayNumber(b.time_created),
+    )
+    .slice(0, 12);
+
+  const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const handleSaveJob = () => {
     if (!user) {

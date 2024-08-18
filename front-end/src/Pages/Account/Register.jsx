@@ -15,7 +15,7 @@ function Register() {
   const [showPopUp, setShowPopUp] = useState(false);
 
   const dispatch = useDispatch();
-  const { user, loading, error } = useSelector((state) => state.authReducer);
+  const { user, loading, error } = useSelector((state) => state.auth);
   const { signUpRecruiter } = useSignUp();
 
   const handleClose = () => {

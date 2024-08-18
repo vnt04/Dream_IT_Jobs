@@ -1,21 +1,17 @@
 import {
   LOGIN_REQUEST,
   LOGIN_WITH_GOOGLE,
+  LOGIN_WITH_GITHUB,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
+  SIGNUP_REQUEST,
+  SIGNUP_SUCCESS,
+  SIGNUP_FAILURE,
   LOGOUT,
-  LOGIN_WITH_GITHUB,
 } from "../actions/authActions";
 
 const initialState = {
-  user: {
-    uid: null,
-    email: null,
-    displayName: null,
-    accessToken: null,
-    emailVerified: false,
-    photoURL: null,
-  },
+  user: null,
   loading: false,
   error: null,
 };
@@ -37,6 +33,24 @@ const authReducer = (state = initialState, action) => {
         user: action.payload,
       };
     case LOGIN_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    case SIGNUP_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case SIGNUP_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+      };
+    case SIGNUP_FAILURE:
       return {
         ...state,
         loading: false,

@@ -2,7 +2,6 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 import apiEndpoint from "../api";
-import { calculateDayNumber, compareDate } from "../utils/index";
 
 export const DataContext = createContext();
 
@@ -46,12 +45,7 @@ const DataProvider = ({ children }) => {
         setLoading(false);
       });
   };
-  const newJobs = [...dataJobs]
-    .sort(
-      (a, b) =>
-        calculateDayNumber(a.time_created) - calculateDayNumber(b.time_created),
-    )
-    .slice(0, 12);
+
   const getDataUsers = () => {
     axios
       .get(apiEndpoint.all_user)
@@ -102,8 +96,7 @@ const DataProvider = ({ children }) => {
       .then((response) => setDataBlog(response.data))
       .catch((error) => console.log(error));
   };
-  const newBlogs = [...dataBlog];
-  newBlogs.sort((a, b) => compareDate(a.time, b.time));
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -115,8 +108,6 @@ const DataProvider = ({ children }) => {
     mostFollow,
     dataBlog,
     loading,
-    newJobs,
-    newBlogs,
     dataRecruiter,
   };
   return (

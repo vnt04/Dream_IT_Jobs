@@ -1,10 +1,9 @@
 /* eslint-disable react/prop-types */
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../redux/actions/authActions";
 
-import { DataContext } from "../../context/DataProvider";
 import { preventScroll } from "../../utils/index";
 import { FaChevronDown } from "react-icons/fa6";
 import { BiFile, BiLogOut, BiWallet } from "react-icons/bi";
@@ -13,17 +12,19 @@ import { AiOutlineFileDone } from "react-icons/ai";
 import { HiOutlineBookmarkAlt } from "react-icons/hi";
 import { RiAccountPinBoxLine } from "react-icons/ri";
 
-function User({ displayName, url, role, uid }) {
+function User() {
   const [isOpenProfileManage, setIsOpenProfileManage] = useState(false);
   const profileManage = useRef(null);
   const dispatch = useDispatch();
-  const { dataRecruiter, dataCompany } = useContext(DataContext);
+  const { dataCompany } = useSelector((state) => state.company);
+  const { dataRecruiters } = useSelector((state) => state.recruiter);
+  const { user } = useSelector((state) => state.auth);
 
-  const recruiter = dataRecruiter.find((r) => r.uid === uid);
+  const recruiter = dataRecruiters.find((r) => r.uid === user.uid);
   const currentCompany = dataCompany.find(
     (com) => com._id === recruiter?.company_id,
   );
-
+  console.log(user);
   const handleLogout = () => {
     dispatch(logoutUser());
   };
@@ -43,7 +44,7 @@ function User({ displayName, url, role, uid }) {
     preventScroll(isOpenProfileManage);
   }, [isOpenProfileManage]);
   const userMenu =
-    role === "candidate"
+    user.role === "candidate"
       ? [
           {
             icon: <RiAccountPinBoxLine />,
@@ -68,7 +69,7 @@ function User({ displayName, url, role, uid }) {
           {
             icon: <HiOutlineBuildingOffice2 />,
             title: "Công ty của tôi",
-            route: `/cong-ty-IT/${recruiter.company_id}`,
+            route: `/cong-ty-IT/${recruiter?.company_id}`,
           },
           { icon: <BiWallet />, title: "Ví tuyển dụng" },
           { icon: <AiOutlineFileDone />, title: "Việc làm đã đăng" },
@@ -81,8 +82,12 @@ function User({ displayName, url, role, uid }) {
         onClick={() => setIsOpenProfileManage((currentState) => !currentState)}
         className="group/button flex max-w-[100px] items-center gap-2 rounded p-2 hover:bg-gray-100 lg:max-w-none"
       >
-        {url ? (
-          <img className="max-h-7 rounded-full" src={url} alt="user" />
+        {user.photoURL ? (
+          <img
+            className="max-h-7 rounded-full"
+            src={user.photoURL}
+            alt="user"
+          />
         ) : currentCompany?.logo ? (
           <img
             className="max-h-7 border"
@@ -97,7 +102,9 @@ function User({ displayName, url, role, uid }) {
           />
         )}
 
-        <span className="hidden font-semibold lg:block">{displayName}</span>
+        <span className="hidden font-semibold lg:block">
+          {user.displayName}
+        </span>
         <FaChevronDown
           className={`transition duration-500 ${isOpenProfileManage ? "rotate-180" : ""}`}
         />

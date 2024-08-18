@@ -15,7 +15,7 @@ import { ClipLoader } from "react-spinners";
 
 function Login() {
   const dispatch = useDispatch();
-  const { user, loading, error } = useSelector((state) => state.authReducer);
+  const { user, loading, error } = useSelector((state) => state.auth);
   const { errorHandler, successLogin } = useNotification();
 
   const handleLogin = (event) => {
@@ -25,7 +25,7 @@ function Login() {
   };
 
   useEffect(() => {
-    if (user.email) {
+    if (user) {
       successLogin();
     } else if (error) {
       errorHandler(error);

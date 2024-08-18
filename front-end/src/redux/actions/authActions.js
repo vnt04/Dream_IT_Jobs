@@ -3,6 +3,11 @@ export const LOGIN_WITH_GOOGLE = "LOGIN_WITH_GOOGLE";
 export const LOGIN_WITH_GITHUB = "LOGIN_WITH_GITHUB";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
+
+export const SIGNUP_REQUEST = "SIGNUP_REQUEST";
+export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS";
+export const SIGNUP_FAILURE = "SIGNUP_FAILURE";
+
 export const LOGOUT = "LOGOUT";
 
 export const loginRequest = (email, password) => {
@@ -35,10 +40,46 @@ export const loginFailure = (error) => {
   };
 };
 
+export const signUpRequest = (
+  email,
+  password,
+  confirmPassword,
+  company,
+  phone,
+  displayName,
+  position,
+  mst,
+) => {
+  return {
+    type: SIGNUP_REQUEST,
+    payload: {
+      email,
+      password,
+      confirmPassword,
+      company,
+      phone,
+      displayName,
+      position,
+      mst,
+    },
+  };
+};
+
+export const signUpSuccess = () => {
+  return {
+    type: SIGNUP_SUCCESS,
+  };
+};
+
+export const signUpFailure = (error) => {
+  return {
+    type: SIGNUP_FAILURE,
+    payload: error,
+  };
+};
+
 export const logoutUser = () => {
   return {
     type: LOGOUT,
   };
 };
-
-

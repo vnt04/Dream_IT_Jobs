@@ -1,12 +1,22 @@
-import { useContext } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getBlogs } from "../../redux/actions/blogActions";
+
+import { compareDate } from "../../utils/index";
 import NewBlogs from "../../components/NewBlogs";
 import BestCompany from "./BestCompany";
 import NewJobs from "./NewJobs";
 import QuickSearch from "./QuickSearch";
-import { DataContext } from "../../context/DataProvider";
 
 function Home() {
-  const { newBlogs } = useContext(DataContext);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getBlogs());
+  }, [dispatch]);
+  const { dataBlogs } = useSelector((state) => state.blog);
+  const newBlogs = [...dataBlogs];
+  newBlogs.sort((a, b) => compareDate(a.time, b.time));
+
   return (
     <div className="space-y-6">
       <div className="bg-[#acf2ed]">
