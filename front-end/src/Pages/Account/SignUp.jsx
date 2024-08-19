@@ -1,36 +1,40 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   loginWithGithub,
   loginWithGoogle,
+  signUpRequest,
 } from "../../redux/actions/authActions";
+import useNotification from "../../hooks/useNotification";
 
 import InputTemplate from "../../components/InputTemplate";
 import { FaGithub, FaGoogle } from "react-icons/fa6";
-import useSignUp from "../../hooks/useSignUp";
 import { ClipLoader } from "react-spinners";
+import { useEffect } from "react";
 
 function SignUp() {
-  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const { signUpCandidate } = useSignUp();
+  const { checkConfirmPassword, errorHandler, successSignUp } =
+    useNotification();
+  const { loading, error, signUpSuccess } = useSelector((state) => state.auth);
 
   const handleSignUp = (event) => {
     event.preventDefault();
-    setLoading(true);
     const { fullName, email, password, confirmPassword } =
       event.target.elements;
-    setTimeout(() => {
-      signUpCandidate(
-        fullName.value,
-        email.value,
-        password.value,
-        confirmPassword.value,
-      );
-      setLoading(false);
-    }, 500);
+    if (checkConfirmPassword(password.value, confirmPassword.value)) {
+      dispatch(signUpRequest(email.value, password.value, fullName.value));
+    }
   };
+  useEffect(() => {
+    if (error) {
+      console.log(error);
+      errorHandler(error);
+    }
+    if (signUpSuccess) {
+      successSignUp("tranvannghiep@gmail.com");
+    }
+  }, [error, errorHandler, successSignUp, signUpSuccess]);
   return (
     <div className="flex items-center justify-center py-4">
       <form

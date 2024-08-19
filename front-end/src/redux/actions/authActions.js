@@ -43,24 +43,14 @@ export const loginFailure = (error) => {
 export const signUpRequest = (
   email,
   password,
-  confirmPassword,
-  company,
-  phone,
   displayName,
-  position,
-  mst,
 ) => {
   return {
     type: SIGNUP_REQUEST,
     payload: {
       email,
       password,
-      confirmPassword,
-      company,
-      phone,
       displayName,
-      position,
-      mst,
     },
   };
 };

@@ -94,7 +94,7 @@ class UserController {
   }
 
   userInfo(req, res, next) {
-    User.findById(req.params.uid)
+    User.find({ uid: req.params.uid })
       .then((user) => res.status(200).json(user))
       .catch((error) => next(error));
   }

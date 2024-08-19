@@ -72,7 +72,7 @@ export const useNotification = () => {
       autoClose: 1000,
       position: "top-right",
       onClose: () => {
-        navigate(from, { replace: true });
+        window.location.href = from;
       },
     });
   };

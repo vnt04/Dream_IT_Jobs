@@ -11,9 +11,12 @@ import {
 } from "../actions/authActions";
 
 const initialState = {
-  user: null,
+  user: localStorage.getItem("current-user")
+    ? JSON.parse(localStorage.getItem("current-user"))
+    : null,
   loading: false,
   error: null,
+  signUpSuccess: false,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -31,6 +34,7 @@ const authReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         user: action.payload,
+        error: null,
       };
     case LOGIN_FAILURE:
       return {
@@ -49,6 +53,7 @@ const authReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: null,
+        signUpSuccess: true,
       };
     case SIGNUP_FAILURE:
       return {
@@ -57,10 +62,8 @@ const authReducer = (state = initialState, action) => {
         error: action.payload,
       };
     case LOGOUT:
-      return {
-        ...state,
-        user: initialState.user,
-      };
+      return initialState;
+
     default:
       return state;
   }

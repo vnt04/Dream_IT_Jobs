@@ -23,15 +23,18 @@ function Login() {
     const { email, password } = event.target.elements;
     dispatch(loginRequest(email.value, password.value));
   };
-
   useEffect(() => {
     if (user) {
+      localStorage.setItem("current-user", JSON.stringify(user));
       successLogin();
-    } else if (error) {
+    } else {
+      localStorage.removeItem("current-user");
+    }
+    if (error) {
+      console.log(error);
       errorHandler(error);
     }
   });
-
   return (
     <div className="flex items-center justify-center py-4">
       <form

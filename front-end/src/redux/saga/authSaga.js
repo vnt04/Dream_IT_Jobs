@@ -7,6 +7,10 @@ import {
   loginFailure,
   loginSuccess,
   LOGOUT,
+  logoutUser,
+  SIGNUP_REQUEST,
+  signUpFailure,
+  signUpSuccess,
 } from "../actions/authActions";
 import {
   getAuth,
@@ -15,6 +19,8 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
 } from "firebase/auth";
 import app from "../../firebase/firebase.config";
 import apiEndpoint from "../../api";
@@ -22,6 +28,45 @@ import apiEndpoint from "../../api";
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 const gitHubProvider = new GithubAuthProvider();
+
+function* createUser(email, password) {
+  try {
+    const userCredential = yield call(
+      createUserWithEmailAndPassword,
+      auth,
+      email,
+      password,
+    );
+    const uid = userCredential.user.uid;
+    yield call(sendEmailVerification(userCredential.user));
+    yield put(logoutUser());
+    return uid;
+  } catch (error) {
+    yield put(signUpFailure(error.message));
+  }
+}
+
+function* signUpSaga(action) {
+  try {
+    const uid = yield call(
+      createUser,
+      action.payload.email,
+      action.payload.password,
+    );
+    if (uid) {
+      const role = "candidate";
+      yield call(axios.post, apiEndpoint.sign_up, {
+        uid,
+        email: action.payload.email,
+        displayName: action.payload.displayName,
+        role,
+      });
+      yield put(signUpSuccess());
+    }
+  } catch (error) {
+    yield put(signUpFailure(error.message));
+  }
+}
 
 const successPayload = (user) => {
   return {
@@ -43,7 +88,20 @@ function* loginSaga(action) {
       email,
       password,
     );
-    yield put(loginSuccess(successPayload(userCredential.user)));
+    const response = yield call(
+      axios.get,
+      apiEndpoint.user_info(userCredential.user.uid),
+    );
+    const userData = response.data;
+    yield put(
+      loginSuccess(
+        successPayload({
+          ...userCredential.user,
+          displayName: userData[0].displayName,
+          photoURL: userData[0].photoURL,
+        }),
+      ),
+    );
   } catch (error) {
     yield put(loginFailure(error.message));
   }
@@ -95,6 +153,7 @@ function* loginWithGithubSaga() {
 function* logoutSaga() {
   try {
     yield call(signOut, auth);
+    localStorage.removeItem("current-user");
   } catch (error) {
     console.log(error);
   }
@@ -104,6 +163,9 @@ function* authSaga() {
   yield takeLatest(LOGIN_REQUEST, loginSaga);
   yield takeLatest(LOGIN_WITH_GOOGLE, loginWithGoogleSaga);
   yield takeLatest(LOGIN_WITH_GITHUB, loginWithGithubSaga);
+
+  yield takeLatest(SIGNUP_REQUEST, signUpSaga);
+
   yield takeLatest(LOGOUT, logoutSaga);
 }
 

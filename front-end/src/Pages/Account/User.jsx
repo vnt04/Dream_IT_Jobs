@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../redux/actions/authActions";
+import useNotification from "../../hooks/useNotification";
 
 import { preventScroll } from "../../utils/index";
 import { FaChevronDown } from "react-icons/fa6";
@@ -16,17 +17,19 @@ function User() {
   const [isOpenProfileManage, setIsOpenProfileManage] = useState(false);
   const profileManage = useRef(null);
   const dispatch = useDispatch();
+  const { successLogout } = useNotification();
   const { dataCompany } = useSelector((state) => state.company);
   const { dataRecruiters } = useSelector((state) => state.recruiter);
-  const { user } = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.auth.user);
 
   const recruiter = dataRecruiters.find((r) => r.uid === user.uid);
   const currentCompany = dataCompany.find(
     (com) => com._id === recruiter?.company_id,
   );
-  console.log(user);
+
   const handleLogout = () => {
     dispatch(logoutUser());
+    successLogout();
   };
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutsideUP);
@@ -44,7 +47,7 @@ function User() {
     preventScroll(isOpenProfileManage);
   }, [isOpenProfileManage]);
   const userMenu =
-    user.role === "candidate"
+    user?.role === "candidate"
       ? [
           {
             icon: <RiAccountPinBoxLine />,
@@ -82,7 +85,7 @@ function User() {
         onClick={() => setIsOpenProfileManage((currentState) => !currentState)}
         className="group/button flex max-w-[100px] items-center gap-2 rounded p-2 hover:bg-gray-100 lg:max-w-none"
       >
-        {user.photoURL ? (
+        {user?.photoURL ? (
           <img
             className="max-h-7 rounded-full"
             src={user.photoURL}
@@ -103,7 +106,7 @@ function User() {
         )}
 
         <span className="hidden font-semibold lg:block">
-          {user.displayName}
+          {user?.displayName}
         </span>
         <FaChevronDown
           className={`transition duration-500 ${isOpenProfileManage ? "rotate-180" : ""}`}

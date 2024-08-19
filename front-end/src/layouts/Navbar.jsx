@@ -3,6 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../redux/actions/authActions";
+import useNotification from "../hooks/useNotification";
 
 import { FaBars, FaXmark, FaBell, FaGreaterThan } from "react-icons/fa6";
 import User from "../Pages/Account/User";
@@ -14,15 +15,16 @@ function Navbar() {
   const dispatch = useDispatch();
   const menuRef = useRef(null);
   const { t } = useTranslation();
+  const { successLogout } = useNotification();
 
-  const { user } = useSelector((state) => state.auth);
-  console.log(user);
-
+  const user = useSelector((state) => state.auth.user);
   const handleMenuToggle = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
   const handleLogout = () => {
     dispatch(logoutUser());
+    successLogout();
   };
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
