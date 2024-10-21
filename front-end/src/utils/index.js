@@ -20,7 +20,7 @@ export const calculateDaysAgo = (timeCreated) => {
   });
 };
 
-export const calculateDayNumber = (timeCreated) => {
+export  const calculateDayNumber = (timeCreated) => {
   return differenceInDays(
     new Date(),
     new Date(timeCreated.$date || timeCreated),

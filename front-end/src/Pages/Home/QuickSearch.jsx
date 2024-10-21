@@ -57,19 +57,24 @@ function QuickSearch() {
       setShowRelatedSearch(false);
     }
   };
+
+  const showClearButton = inputValue !== "" ? "" : "hidden";
+
   return (
     <div className="container">
       <h1 className="text-balance pb-2 pt-6 text-center font-bold text-blue-950 md:text-2xl">
         Việc làm IT trong mơ, nơi đam mê gặp gỡ cơ hội
       </h1>
       <div className="relative flex h-16 items-center space-x-2 rounded-md bg-white px-2 lg:px-4">
-        <div className="flex-1">
+        <div className="flex flex-1">
           <input
             type="text"
+            onFocus={() => setShowRelatedSearch(true)}
             onChange={(e) => {
               setInputValue(e.target.value);
               setShowRelatedSearch(true);
             }}
+            value={inputValue}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 setInputValue(e.target.value);
@@ -79,6 +84,12 @@ function QuickSearch() {
             className="w-full border-none text-[14px] outline-none md:text-base"
             placeholder="Nhập từ khóa theo kỹ năng, chức vụ, công ty..."
           />
+          <button
+            onClick={() => setInputValue("")}
+            className={`mx-2 ${showClearButton} text-gray-400`}
+          >
+            X
+          </button>
         </div>
         <button
           onClick={handleSearch}
@@ -106,7 +117,7 @@ function QuickSearch() {
                         key={skill.label}
                         href={`/viec-lam-it?tech=${skill.value}`}
                         onClick={() => setShowRelatedSearch(false)}
-                        className="flex items-center space-x-4 p-2"
+                        className="flex w-full items-center space-x-4 p-2 hover:bg-gray-100"
                       >
                         <FaSearch className="size-3" />
                         <span>{skill.label}</span>
@@ -123,7 +134,7 @@ function QuickSearch() {
                   <div className="flex flex-col items-start">
                     {relatedCompany.slice(0, 5).map((company) => (
                       <a
-                        className="flex items-center space-x-4 p-2"
+                        className="flex w-full items-center space-x-4 p-2 hover:bg-gray-100"
                         key={company.name}
                         href={`/cong-ty-it/${company._id}`}
                         onClick={() => setShowRelatedSearch(false)}

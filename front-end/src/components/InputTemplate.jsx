@@ -12,14 +12,14 @@ const InputTemplate = ({
 }) => {
   return (
     <div className="mb-3">
-      <label className="mb-2 block text-sm font-bold text-gray-700">
-        {title}
-      </label>
+      <label className="label-input-style">{title}</label>
+
       {isTextArea ? (
         <textarea
-          className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+          className="input-style"
           name={name}
           id={id}
+          title={title}
           type={type}
           placeholder={placeholder}
           cols={cols}
@@ -27,9 +27,10 @@ const InputTemplate = ({
         ></textarea>
       ) : (
         <input
-          className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+          className="input-style"
           name={name}
           id={id}
+          title={title}
           type={type}
           placeholder={placeholder}
           required

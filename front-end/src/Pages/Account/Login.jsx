@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import InputTemplate from "../../components/InputTemplate";
 import {
   loginRequest,
   loginWithGithub,
@@ -12,17 +11,41 @@ import useNotification from "../../hooks/useNotification";
 
 import { FaGithub, FaGoogle } from "react-icons/fa6";
 import { ClipLoader } from "react-spinners";
+import EnterEmail from "../../components/EnterEmail";
+import EnterPassword from "../../components/EnterPassword";
 
 function Login() {
+  const [formState, setFormState] = useState({
+    email: "",
+    emailValidated: false,
+    goodEmail: false,
+    password: "",
+    passwordValidated: false,
+    goodPassword: false,
+  });
+
   const dispatch = useDispatch();
   const { user, loading, error } = useSelector((state) => state.auth);
   const { errorHandler, successLogin } = useNotification();
 
   const handleLogin = (event) => {
     event.preventDefault();
-    const { email, password } = event.target.elements;
-    dispatch(loginRequest(email.value, password.value));
+    setFormState((preFormState) => ({
+      ...preFormState,
+      emailValidated: true,
+      passwordValidated: true,
+    }));
+
+    if (formState.goodEmail && formState.goodPassword) {
+      setFormState((preFormState) => ({
+        ...preFormState,
+        emailValidated: false,
+        passwordValidated: false,
+      }));
+      dispatch(loginRequest(formState.email, formState.password));
+    }
   };
+
   useEffect(() => {
     if (user) {
       localStorage.setItem("current-user", JSON.stringify(user));
@@ -38,8 +61,8 @@ function Login() {
   return (
     <div className="flex items-center justify-center py-4">
       <form
-        onSubmit={handleLogin}
         className="mb-4 max-w-[600px] rounded bg-white px-12 pb-12 pt-12 shadow-2xl"
+        noValidate
       >
         <h3 className="mb-2 text-xl font-semibold text-primary">
           Chào mừng bạn đã quay trở lại
@@ -48,26 +71,45 @@ function Login() {
           Cùng xây dựng một hồ sơ nổi bật và nhận được các cơ hội việc làm bạn
           mơ ước
         </h3>
-        <InputTemplate
-          title="Email"
-          name="email"
-          type="email"
+        {/* Email login */}
+        <EnterEmail
           placeholder="name@gmail.com"
+          onChange={(e) =>
+            setFormState((preFormState) => ({
+              ...preFormState,
+              email: e.target.value,
+            }))
+          }
+          value={formState.email}
+          showErrorMessage={formState.emailValidated}
+          onGoodEmail={setFormState}
         />
-        <InputTemplate
-          title="Mật khẩu"
-          name="password"
-          type="password"
+
+        {/* Password login */}
+        <EnterPassword
+          value={formState.password}
           placeholder="•••••••••••••••••••••"
+          onChange={(e) =>
+            setFormState((preFormState) => ({
+              ...preFormState,
+              password: e.target.value,
+            }))
+          }
+          showErrorMessage={formState.passwordValidated}
+          onGoodPassword={setFormState}
         />
+
         <Link
           className="mb-8 flex justify-end text-sm font-bold text-primary hover:text-teal-400"
           to={"/password"}
         >
           Quên mật khẩu?
         </Link>
-
-        <button type="submit" className="btn-1 w-full" disabled={loading}>
+        <button
+          onClick={handleLogin}
+          className="btn-1 w-full"
+          disabled={loading}
+        >
           {loading ? (
             <ClipLoader color="#ffffff" loading={loading} size={25} />
           ) : (
