@@ -5,6 +5,9 @@ import { LuEye, LuEyeOff } from "react-icons/lu";
 const EnterPassword = ({
   placeholder,
   value,
+  id,
+  name,
+  title,
   onChange,
   onGoodPassword,
   showErrorMessage,
@@ -34,19 +37,22 @@ const EnterPassword = ({
   }
 
   useEffect(() => {
-    onGoodPassword((preState) => ({ ...preState, goodPassword: isValid }));
-  }, [isValid, onGoodPassword]);
+    onGoodPassword((preState) => ({
+      ...preState,
+      [id === "password" ? "goodPassword" : "goodConfirmPassword"]: isValid,
+    }));
+  }, [isValid, id, onGoodPassword]);
 
   return (
     <div className="mb-3">
-      <label className="label-input-style">Mật khẩu</label>
+      <label className="label-input-style">{title}</label>
 
       <div className="relative">
         <input
           className={`input-style ${validationStyle}`}
-          title="Password"
-          id="password"
-          name="password"
+          id={id}
+          name={name}
+          title={title}
           type={type}
           placeholder={placeholder}
           required

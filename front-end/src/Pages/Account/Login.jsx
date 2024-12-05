@@ -58,6 +58,7 @@ function Login() {
       errorHandler(error);
     }
   });
+
   return (
     <div className="flex items-center justify-center py-4">
       <form
@@ -88,6 +89,7 @@ function Login() {
         {/* Password login */}
         <EnterPassword
           value={formState.password}
+          title="Mật khẩu"
           placeholder="•••••••••••••••••••••"
           onChange={(e) =>
             setFormState((preFormState) => ({
@@ -99,12 +101,14 @@ function Login() {
           onGoodPassword={setFormState}
         />
 
-        <Link
-          className="mb-8 flex justify-end text-sm font-bold text-primary hover:text-teal-400"
-          to={"/password"}
-        >
-          Quên mật khẩu?
-        </Link>
+        <div className="mb-8 flex justify-end">
+          <Link
+            className="text-sm font-bold text-primary hover:text-teal-400"
+            to={"/password"}
+          >
+            Quên mật khẩu?
+          </Link>
+        </div>
         <button
           onClick={handleLogin}
           className="btn-1 w-full"
@@ -116,6 +120,7 @@ function Login() {
             <span>Đăng nhập</span>
           )}
         </button>
+
         {/* social login */}
         <div className="mx-auto mt-8 w-full text-center">
           <p className="mb-4">Hoặc đăng nhập nhanh với</p>

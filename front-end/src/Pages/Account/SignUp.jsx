@@ -8,9 +8,11 @@ import {
 import useNotification from "../../hooks/useNotification";
 
 import InputTemplate from "../../components/InputTemplate";
+import EnterEmail from "../../components/EnterEmail";
+import EnterPassword from "../../components/EnterPassword";
 import { FaGithub, FaGoogle } from "react-icons/fa6";
 import { ClipLoader } from "react-spinners";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function SignUp() {
   const dispatch = useDispatch();
@@ -18,12 +20,47 @@ function SignUp() {
     useNotification();
   const { loading, error, signUpSuccess } = useSelector((state) => state.auth);
 
+  const [signUpForm, setSignUpForm] = useState({
+    email: "",
+    emailValidated: false,
+    goodEmail: false,
+    password: "",
+    passwordValidated: false,
+    goodPassword: false,
+    confirmPassword: "",
+    confirmPasswordValidated: false,
+    goodConfirmPassword: false,
+  });
+
   const handleSignUp = (event) => {
     event.preventDefault();
-    const { fullName, email, password, confirmPassword } =
-      event.target.elements;
-    if (checkConfirmPassword(password.value, confirmPassword.value)) {
-      dispatch(signUpRequest(email.value, password.value, fullName.value));
+    const { fullName } = event.target.elements | "";
+
+    setSignUpForm((preFormState) => ({
+      ...preFormState,
+      emailValidated: true,
+      passwordValidated: true,
+      confirmPasswordValidated: true,
+    }));
+
+    if (
+      signUpForm.goodEmail &&
+      signUpForm.goodPassword &&
+      signUpForm.goodConfirmPassword
+    ) {
+      if (
+        checkConfirmPassword(signUpForm.password, signUpForm.confirmPassword)
+      ) {
+        setSignUpForm((preFormState) => ({
+          ...preFormState,
+          emailValidated: false,
+          passwordValidated: false,
+          confirmPasswordValidated: false,
+        }));
+        dispatch(
+          signUpRequest(signUpForm.email, signUpForm.password, fullName),
+        );
+      }
     }
   };
   useEffect(() => {
@@ -39,6 +76,7 @@ function SignUp() {
     <div className="flex items-center justify-center py-4">
       <form
         onSubmit={handleSignUp}
+        noValidate
         className="mb-2 w-[600px] rounded bg-white px-8 pb-8 pt-8 shadow-2xl"
       >
         <h3 className="mb-2 text-xl font-semibold text-primary">
@@ -54,23 +92,45 @@ function SignUp() {
           type="text"
           placeholder="Nhập họ tên"
         />
-        <InputTemplate
-          title="Email"
-          id="email"
-          type="email"
+        <EnterEmail
           placeholder="name@gmail.com"
+          onChange={(e) =>
+            setSignUpForm((preFormState) => ({
+              ...preFormState,
+              email: e.target.value,
+            }))
+          }
+          value={signUpForm.email}
+          showErrorMessage={signUpForm.emailValidated}
+          onGoodEmail={setSignUpForm}
         />
-        <InputTemplate
-          title="Mật khẩu"
+        <EnterPassword
           id="password"
-          type="password"
+          title="Mật khẩu"
+          value={signUpForm.password}
           placeholder="Nhập mật khẩu"
+          onChange={(e) =>
+            setSignUpForm((preFormState) => ({
+              ...preFormState,
+              password: e.target.value,
+            }))
+          }
+          showErrorMessage={signUpForm.passwordValidated}
+          onGoodPassword={setSignUpForm}
         />
-        <InputTemplate
-          title="Xác nhận lại mật khẩu"
+        <EnterPassword
+          value={signUpForm.confirmPassword}
           id="confirmPassword"
-          type="password"
+          title="Nhập lại mật khẩu"
           placeholder="Nhập lại mật khẩu"
+          onChange={(e) =>
+            setSignUpForm((preFormState) => ({
+              ...preFormState,
+              confirmPassword: e.target.value,
+            }))
+          }
+          showErrorMessage={signUpForm.confirmPasswordValidated}
+          onGoodPassword={setSignUpForm}
         />
 
         <button type="submit" className="btn-1 mt-4 w-full" disabled={loading}>
