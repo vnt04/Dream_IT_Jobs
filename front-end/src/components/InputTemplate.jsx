@@ -8,6 +8,7 @@ const InputTemplate = ({
   isTextArea,
   cols,
   rows,
+  onChange,
   value,
 }) => {
   return (
@@ -23,6 +24,7 @@ const InputTemplate = ({
           type={type}
           placeholder={placeholder}
           cols={cols}
+          onChange={onChange}
           rows={rows}
         ></textarea>
       ) : (
@@ -32,6 +34,7 @@ const InputTemplate = ({
           id={id}
           title={title}
           type={type}
+          onChange={onChange}
           placeholder={placeholder}
           required
           value={value}

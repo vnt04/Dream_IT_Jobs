@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   loginWithGithub,
   loginWithGoogle,
+  resetState,
   signUpRequest,
 } from "../../redux/actions/authActions";
 import useNotification from "../../hooks/useNotification";
@@ -21,6 +22,7 @@ function SignUp() {
   const { loading, error, signUpSuccess } = useSelector((state) => state.auth);
 
   const [signUpForm, setSignUpForm] = useState({
+    displayName: "",
     email: "",
     emailValidated: false,
     goodEmail: false,
@@ -34,8 +36,6 @@ function SignUp() {
 
   const handleSignUp = (event) => {
     event.preventDefault();
-    const { fullName } = event.target.elements | "";
-
     setSignUpForm((preFormState) => ({
       ...preFormState,
       emailValidated: true,
@@ -57,25 +57,42 @@ function SignUp() {
           passwordValidated: false,
           confirmPasswordValidated: false,
         }));
+
         dispatch(
-          signUpRequest(signUpForm.email, signUpForm.password, fullName),
+          signUpRequest(
+            signUpForm.email,
+            signUpForm.password,
+            signUpForm.displayName,
+          ),
         );
       }
     }
   };
   useEffect(() => {
     if (error) {
-      console.log(error);
       errorHandler(error);
     }
     if (signUpSuccess) {
-      successSignUp("tranvannghiep@gmail.com");
+      successSignUp(signUpForm.email);
     }
-  }, [error, errorHandler, successSignUp, signUpSuccess]);
+
+    dispatch(resetState());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error, signUpSuccess]);
+
+  const onChange = (event) => {
+    const input = event.target;
+
+    setSignUpForm((preData) => ({
+      ...preData,
+      [input.name]: input.value,
+    }));
+  };
+
   return (
     <div className="flex items-center justify-center py-4">
       <form
-        onSubmit={handleSignUp}
+        type="submit"
         noValidate
         className="mb-2 w-[600px] rounded bg-white px-8 pb-8 pt-8 shadow-2xl"
       >
@@ -88,52 +105,46 @@ function SignUp() {
         </h3>
         <InputTemplate
           title="Họ tên"
-          id="fullName"
+          id="displayName"
+          name="displayName"
           type="text"
           placeholder="Nhập họ tên"
+          onChange={onChange}
+          value={signUpForm.displayName}
         />
         <EnterEmail
           placeholder="name@gmail.com"
-          onChange={(e) =>
-            setSignUpForm((preFormState) => ({
-              ...preFormState,
-              email: e.target.value,
-            }))
-          }
+          onChange={onChange}
           value={signUpForm.email}
           showErrorMessage={signUpForm.emailValidated}
           onGoodEmail={setSignUpForm}
         />
         <EnterPassword
+          name="password"
           id="password"
           title="Mật khẩu"
           value={signUpForm.password}
           placeholder="Nhập mật khẩu"
-          onChange={(e) =>
-            setSignUpForm((preFormState) => ({
-              ...preFormState,
-              password: e.target.value,
-            }))
-          }
+          onChange={onChange}
           showErrorMessage={signUpForm.passwordValidated}
           onGoodPassword={setSignUpForm}
         />
         <EnterPassword
           value={signUpForm.confirmPassword}
+          name="confirmPassword"
           id="confirmPassword"
           title="Nhập lại mật khẩu"
           placeholder="Nhập lại mật khẩu"
-          onChange={(e) =>
-            setSignUpForm((preFormState) => ({
-              ...preFormState,
-              confirmPassword: e.target.value,
-            }))
-          }
+          onChange={onChange}
           showErrorMessage={signUpForm.confirmPasswordValidated}
           onGoodPassword={setSignUpForm}
         />
 
-        <button type="submit" className="btn-1 mt-4 w-full" disabled={loading}>
+        <button
+          onClick={handleSignUp}
+          className="btn-1 mt-4 w-full"
+          disabled={loading}
+        >
           {loading ? (
             <ClipLoader color="#ffffff" loading={loading} size={20} />
           ) : (

@@ -1,102 +1,154 @@
+const crypto = require("crypto");
 const User = require("../Models/userModel");
-const Candidate = require("../Models/candidateModel");
-const Recruiter = require("../Models/recruiterModel");
-const Company = require("../Models/companyModel");
+
+const {
+  userSignUpSchema,
+  userLoginSchema,
+} = require("../validations/userValidation");
+const {
+  hashPassword,
+  comparePassword,
+  generateToken,
+} = require("../helper/auth");
+const sendMail = require("../helper/mail");
 
 class UserController {
-  index(req, res, next) {
-    User.find({})
-      .then((user) => res.status(200).json(user))
-      .catch((error) => next(error));
-  }
-
-  async signUp(req, res, next) {
-    const {
-      uid,
-      email,
-      displayName,
-      role,
-      company,
-      phone,
-      position,
-      photoURL,
-      mst,
-    } = req.body;
-
-    const newUser = new User({
-      uid,
-      email,
-      displayName,
-      avatar: photoURL,
-      role,
-    });
-
+  index = async (req, res, next) => {
     try {
-      const existUser = await User.findOne({ email });
-      const existCandidate = await Candidate.findOne({ uid });
-      const existRecruiter = await Recruiter.findOne({ uid });
+      const { id, email } = req.query;
 
-      if (existUser || existCandidate || existRecruiter) {
-        return res.status(409).json({ message: "Email already exists" });
+      if (id) {
+        return this.getUserById(id, res, next);
       }
 
-      const user = await newUser.save();
-
-      if (role === "candidate") {
-        const newCandidate = new Candidate({
-          uid,
-        });
-        const candidate = await newCandidate.save();
-        res.status(201).json(candidate);
-      } else if (role === "recruiter") {
-        let companyRecord = await Company.findOne({ mst });
-
-        if (!companyRecord) {
-          companyRecord = new Company({
-            name: company,
-            mst,
-            logo: "",
-            banner: "",
-            model: "",
-            scale: 1,
-            work_time: "",
-            over_time: "",
-            tech_stack: [],
-            address: [],
-            location: [],
-            field: "",
-            follow: 0,
-            description: "",
-            benefit: "",
-            website: "",
-            nation: "",
-            review_id: null,
-          });
-          await companyRecord.save();
-        }
-
-        const newRecruiter = new Recruiter({
-          uid,
-          company,
-          phone,
-          position,
-          company_id: companyRecord._id,
-        });
-
-        const recruiter = await newRecruiter.save();
-        res.status(201).json(recruiter);
-      } else {
-        res.status(201).json(user);
+      if (email) {
+        return this.getUserByEmail(email, res, next);
       }
+
+      const users = await User.find({});
+      return res.status(200).json({ message: "All users", users });
     } catch (error) {
-      res.status(400).json({ message: "Failed to create user", error });
+      next(error);
+    }
+  };
+
+  async userLogin(req, res, next) {
+    try {
+      const loginData = await userLoginSchema.validateAsync(req.body);
+
+      const foundUser = await User.findOne({ email: loginData.email });
+      if (!foundUser) {
+        return res.status(401).json({ message: "Invalid Email" });
+      }
+
+      if (!comparePassword(loginData.password, foundUser.password)) {
+        return res.status(401).json({ message: "Wrong Password." });
+      }
+
+      // generate token and refresh-token
+      const payload = {
+        sub: foundUser.id,
+        role: foundUser.role,
+      };
+
+      const data = await generateToken(payload);
+
+      return res.status(200).json({ message: "Login successfully.", data });
+    } catch (error) {
+      next(error);
     }
   }
 
-  userInfo(req, res, next) {
-    User.find({ uid: req.params.uid })
-      .then((user) => res.status(200).json(user))
-      .catch((error) => next(error));
+  async userSignUp(req, res, next) {
+    try {
+      //body has {displayName, email, password}
+      const newUser = await userSignUpSchema.validateAsync(req.body);
+      const emailToken = crypto.randomBytes(64).toString("hex");
+
+      // check if user exist
+      const exist = await User.findOne({ email: newUser.email });
+      if (exist) {
+        return res.status(400).json({ message: "Email exists." });
+      }
+
+      // hash password
+      newUser.password = hashPassword(newUser.password);
+
+      //save new user to db
+      const userCreated = await User.create({
+        ...newUser,
+        role: "candidate",
+        emailToken,
+      });
+
+      //verify email
+
+      sendMail(newUser.email, emailToken);
+
+      if (userCreated) {
+        return res
+          .status(201)
+          .json({ message: "User created successfully.", userCreated });
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async verifyEmail(req, res, next) {
+    try {
+      const emailToken = req.body.emailToken;
+
+      if (!emailToken) {
+        return res
+          .status(400)
+          .json({ status: "Failed", error: "Empty request." });
+      }
+
+      const user = await User.findOne({ emailToken });
+      console.log(user);
+
+      if (!user) {
+        return res
+          .status(404)
+          .json({ status: "Failed", error: "User not found." });
+      }
+
+      await User.updateOne(
+        { emailToken },
+        { isVerifiedEmail: true, emailToken: null }
+      );
+
+      return res
+        .status(200)
+        .json({ status: "Success", message: "User verified successfully." });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getUserById(id, res, next) {
+    try {
+      const user = await User.findById(id);
+      if (user) {
+        return res.status(200).json(user);
+      }
+      return res.status(404).json({ message: "User is not found." });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getUserByEmail(email, res, next) {
+    try {
+      const user = await User.findOne({ email });
+      if (user) {
+        return res.status(200).json(user);
+      }
+      return res.status(404).json({ message: "User is not found." });
+    } catch (error) {
+      next(error);
+    }
   }
 }
 

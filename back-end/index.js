@@ -1,12 +1,13 @@
-const express = require('express')
-const app = express()
-const cors = require('cors')
-require('dotenv').config()
-const connectDatabase = require('./config/connectDB')
-const route = require('./Routes')
-const morgan = require('morgan');
+const express = require("express");
+const app = express();
+const cors = require("cors");
+require("dotenv").config();
+const connectDatabase = require("./config/connectDB");
+const route = require("./Routes");
+const morgan = require("morgan");
+const errorMiddleware = require("./Middleware/errorMiddleware");
 
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 5000;
 
 // middleware
 app.use(cors());
@@ -17,9 +18,9 @@ app.use(express.urlencoded({ extended: true }));
 connectDatabase();
 route(app);
 
+app.use(morgan("dev"));
 
-app.use(morgan('dev'));
-
+app.use(errorMiddleware);
 app.listen(port, () => {
-  console.log(`This app listening on port ${port}`)
-})
+  console.log(`This app listening on port ${port}`);
+});

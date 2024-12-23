@@ -1,4 +1,5 @@
 import { call, put, takeLatest } from "redux-saga/effects";
+import jwt from "jsonwebtoken";
 import axios from "axios";
 import {
   LOGIN_REQUEST,
@@ -7,7 +8,6 @@ import {
   loginFailure,
   loginSuccess,
   LOGOUT,
-  logoutUser,
   SIGNUP_REQUEST,
   signUpFailure,
   signUpSuccess,
@@ -16,65 +16,35 @@ import {
   getAuth,
   GoogleAuthProvider,
   GithubAuthProvider,
-  signInWithEmailAndPassword,
   signInWithPopup,
-  signOut,
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
 } from "firebase/auth";
 import app from "../../firebase/firebase.config";
 import apiEndpoint from "../../api";
+import userApi from "../../api/userApi";
 
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 const gitHubProvider = new GithubAuthProvider();
 
-function* createUser(email, password) {
-  try {
-    const userCredential = yield call(
-      createUserWithEmailAndPassword,
-      auth,
-      email,
-      password,
-    );
-    const uid = userCredential.user.uid;
-    yield call(sendEmailVerification(userCredential.user));
-    yield put(logoutUser());
-    return uid;
-  } catch (error) {
-    yield put(signUpFailure(error.message));
-  }
-}
-
 function* signUpSaga(action) {
   try {
-    const uid = yield call(
-      createUser,
-      action.payload.email,
-      action.payload.password,
+    const userData = action.payload;
+    yield call(
+      userApi.signUp,
+      userData.displayName,
+      userData.email,
+      userData.password,
     );
-    if (uid) {
-      const role = "candidate";
-      yield call(axios.post, apiEndpoint.sign_up, {
-        uid,
-        email: action.payload.email,
-        displayName: action.payload.displayName,
-        role,
-      });
-      yield put(signUpSuccess());
-    }
+    yield put(signUpSuccess());
   } catch (error) {
-    yield put(signUpFailure(error.message));
+    yield put(signUpFailure(error.response.data.message));
   }
 }
 
 const successPayload = (user) => {
   return {
-    uid: user.uid,
     email: user.email,
     displayName: user.displayName,
-    accessToken: user.accessToken,
-    emailVerified: user.emailVerified,
     photoURL: user.photoURL,
   };
 };
@@ -82,28 +52,28 @@ const successPayload = (user) => {
 function* loginSaga(action) {
   try {
     const { email, password } = action.payload;
-    const userCredential = yield call(
-      signInWithEmailAndPassword,
-      auth,
-      email,
-      password,
-    );
-    const response = yield call(
-      axios.get,
-      apiEndpoint.user_info(userCredential.user.uid),
-    );
-    const userData = response.data;
-    yield put(
-      loginSuccess(
-        successPayload({
-          ...userCredential.user,
-          displayName: userData[0].displayName,
-          photoURL: userData[0].photoURL,
-        }),
-      ),
-    );
+
+    const response = yield call(userApi.login, email, password);
+    const userPayload = jwt.decode(response.access_token);
+
+    localStorage.setItem("access_token", response.access_token);
+    const userLogin = yield call(userApi.getUserById, userPayload.sub);
+
+    if (userLogin) {
+      const isEmailVerified = yield call(
+        userApi.isVerifiedEmail,
+        userLogin.email,
+      );
+      if (isEmailVerified) {
+        yield put(loginSuccess(successPayload(userLogin)));
+      } else {
+        yield call(userApi.signOut);
+        window.location.href = `/verify-email?email=${userLogin.email}`;
+      }
+    }
   } catch (error) {
-    yield put(loginFailure(error.message));
+    // console.log(error.response.data.message);
+    yield put(loginFailure(error.response.data.message));
   }
 }
 
@@ -125,7 +95,8 @@ function* loginWithGoogleSaga() {
       yield put(loginSuccess(successPayload(userCredential.user)));
     }
   } catch (error) {
-    yield put(loginFailure(error.message));
+    console.log(error.response.data.message);
+    yield put(loginFailure(error.response.data.message));
   }
 }
 
@@ -152,8 +123,7 @@ function* loginWithGithubSaga() {
 
 function* logoutSaga() {
   try {
-    yield call(signOut, auth);
-    localStorage.removeItem("current-user");
+    yield call(userApi.signOut);
   } catch (error) {
     console.log(error);
   }

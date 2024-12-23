@@ -1,36 +1,41 @@
+const { boolean } = require("joi");
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema({
-  //uid is id of user has saved on firebase authentication, it is instead of ObjectID in mongoDB
-  uid: {
-    type: String,
-    required: true,
+const userSchema = new mongoose.Schema(
+  {
+    displayName: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    password: {
+      type: String,
+      require: true,
+    },
+    refresh_token: {
+      type: String,
+      default: null,
+    },
+    role: {
+      type: String,
+      required: true,
+    },
+    avatar: {
+      type: String,
+      default: null,
+    },
+    isVerifiedEmail: {
+      type: Boolean,
+      default: false,
+    },
+    emailToken: {
+      type: String,
+    },
   },
-  displayName: {
-    type: String,
-    required: true,
-    default: "Tài khoản",
-  },
-  email: {
-    type: String,
-    required: true,
-  },
-  role: {
-    type: String,
-    required: true,
-  },
-  avatar: {
-    type: String,
-    default: null,
-  },
-  created_at: {
-    type: Date,
-    default: Date.now,
-  },
-  updated_at: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  { timestamps: true }
+);
 
 module.exports = mongoose.model("User", userSchema);

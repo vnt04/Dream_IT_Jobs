@@ -1,29 +1,23 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export const useNotification = () => {
-  const navigate = useNavigate();
   const location = useLocation();
+  const navigate = useNavigate();
   const from = location.state?.from?.pathname || "/";
 
   const errorHandler = (error) => {
     let errorMessage = "";
     if (error) {
       switch (error) {
-        case "Firebase: Error (auth/invalid-credential).":
-          errorMessage = "Sai email hoặc mật khẩu !";
+        case "Wrong Password.":
+          errorMessage = "Sai mật khẩu !";
           break;
-        case "Firebase: Error (auth/email-already-in-use).":
+        case "Email exists.":
           errorMessage = "Địa chỉ email đã được sử dụng !";
           break;
-        case "Firebase: Error (auth/account-exists-with-different-credential).":
-          errorMessage = "Địa chỉ email đã được sử dụng !";
-          break;
-        case "Firebase: Error (auth/network-request-failed).":
-          errorMessage = "Lỗi kết nối mạng. Vui lòng kiểm tra kết nối của bạn.";
-          break;
-        case "Firebase: Error (auth/invalid-email).":
+        case "Invalid Email":
           errorMessage = "Địa chỉ email không tồn tại !";
           break;
         default:

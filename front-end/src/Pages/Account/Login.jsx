@@ -6,6 +6,7 @@ import {
   loginRequest,
   loginWithGithub,
   loginWithGoogle,
+  resetState,
 } from "../../redux/actions/authActions";
 import useNotification from "../../hooks/useNotification";
 
@@ -25,7 +26,9 @@ function Login() {
   });
 
   const dispatch = useDispatch();
-  const { user, loading, error } = useSelector((state) => state.auth);
+  const { user, loading, error, loginSuccess } = useSelector(
+    (state) => state.auth,
+  );
   const { errorHandler, successLogin } = useNotification();
 
   const handleLogin = (event) => {
@@ -35,7 +38,6 @@ function Login() {
       emailValidated: true,
       passwordValidated: true,
     }));
-
     if (formState.goodEmail && formState.goodPassword) {
       setFormState((preFormState) => ({
         ...preFormState,
@@ -47,21 +49,22 @@ function Login() {
   };
 
   useEffect(() => {
-    if (user) {
+    if (loginSuccess) {
       localStorage.setItem("current-user", JSON.stringify(user));
       successLogin();
     } else {
       localStorage.removeItem("current-user");
     }
     if (error) {
-      console.log(error);
       errorHandler(error);
+      dispatch(resetState());
     }
-  });
+  }, [error, loginSuccess]);
 
   return (
     <div className="flex items-center justify-center py-4">
       <form
+        type="submit"
         className="mb-4 max-w-[600px] rounded bg-white px-12 pb-12 pt-12 shadow-2xl"
         noValidate
       >
@@ -89,6 +92,7 @@ function Login() {
         {/* Password login */}
         <EnterPassword
           value={formState.password}
+          id="password"
           title="Mật khẩu"
           placeholder="•••••••••••••••••••••"
           onChange={(e) =>

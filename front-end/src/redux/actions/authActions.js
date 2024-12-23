@@ -9,6 +9,7 @@ export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS";
 export const SIGNUP_FAILURE = "SIGNUP_FAILURE";
 
 export const LOGOUT = "LOGOUT";
+export const RESET = "RESET";
 
 export const loginRequest = (email, password) => {
   return {
@@ -40,11 +41,7 @@ export const loginFailure = (error) => {
   };
 };
 
-export const signUpRequest = (
-  email,
-  password,
-  displayName,
-) => {
+export const signUpRequest = (email, password, displayName) => {
   return {
     type: SIGNUP_REQUEST,
     payload: {
@@ -72,4 +69,8 @@ export const logoutUser = () => {
   return {
     type: LOGOUT,
   };
+};
+
+export const resetState = () => {
+  return { type: RESET };
 };

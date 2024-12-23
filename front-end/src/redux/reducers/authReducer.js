@@ -8,6 +8,7 @@ import {
   SIGNUP_SUCCESS,
   SIGNUP_FAILURE,
   LOGOUT,
+  RESET,
 } from "../actions/authActions";
 
 const initialState = {
@@ -17,6 +18,7 @@ const initialState = {
   loading: false,
   error: null,
   signUpSuccess: false,
+  loginSuccess: false,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -35,6 +37,7 @@ const authReducer = (state = initialState, action) => {
         loading: false,
         user: action.payload,
         error: null,
+        loginSuccess: true,
       };
     case LOGIN_FAILURE:
       return {
@@ -61,7 +64,9 @@ const authReducer = (state = initialState, action) => {
         loading: false,
         error: action.payload,
       };
+
     case LOGOUT:
+    case RESET:
       return initialState;
 
     default:

@@ -5,7 +5,6 @@ import { loginRequest } from "../../redux/actions/authActions";
 
 import InputTemplate from "../../components/InputTemplate";
 import CustomModal from "../../components/CustomModal";
-import useSignUp from "../../hooks/useSignUp";
 
 function Register() {
   const [agreeRegister, setAgreeRegister] = useState(false);
@@ -16,7 +15,6 @@ function Register() {
 
   const dispatch = useDispatch();
   const { user, loading, error } = useSelector((state) => state.auth);
-  const { signUpRecruiter } = useSignUp();
 
   const handleClose = () => {
     setShowPopUp(false);
@@ -79,6 +77,7 @@ function Register() {
       {/* Form Login recruiter */}
       <form
         onSubmit={handleLogin}
+        noValidate
         className="mb-4 max-w-[600px] rounded bg-white px-12 pb-12 pt-6 shadow-2xl"
       >
         <h2 className="mb-2 text-2xl font-semibold text-primary">
