@@ -1,4 +1,17 @@
-Giới thiệu giao diện:
+# Description:
+Build a website to find IT jobs.
+
+Get ideas from ITviec, Topdev and TopCV.
+
+# Tech stack in use:
+Backend: Node.js (Express.js), JWT + OAuth2 (for login with social)
+
+Frontend: React, Redux, Tailwindcss
+
+Database: MongoDB
+
+
+# UI Website:
 
 
 ![image](https://github.com/user-attachments/assets/fae19c93-14f0-47a6-adfd-32a8662c8569)
@@ -20,7 +33,7 @@ Giới thiệu giao diện:
 
 ![image](https://github.com/user-attachments/assets/4f106961-fcca-422d-a3ad-b96433ebba84)
 
-Responsive:
+# Responsive UI Mobile & Tablet:
 
 
 ![image](https://github.com/user-attachments/assets/c92fc3ba-4d1a-4f4a-81e8-88b1aee35ba5)
