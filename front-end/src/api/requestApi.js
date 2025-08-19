@@ -4,29 +4,50 @@ function requestApi(endpoint, method, body, responseType = "json") {
   const headers = {
     Accept: "application/json",
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
   };
 
-  const instance = axios.create({ headers });
+  const instance = axios.create({
+    baseURL: import.meta.env.VITE_API_URL,
+    headers,
+    withCredentials: true,
+  });
 
   instance.interceptors.request.use(
     (config) => {
-      const token = localStorage.getItem("access_token");
-      if (token) {
-        config.headers["Authorization"] = `Bearer ${token}`;
-      }
       return config;
     },
-    (error) => {
+    (error) => Promise.reject(error),
+  );
+
+  instance.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    async (error) => {
+      const originalConfig = error.config;
+      if (error.response && error.response.status === 419) {
+        try {
+          // call api to take new access token
+          const result = await instance.get(
+            `${import.meta.env.VITE_API_URL}/user/refresh-token`,
+          );
+          const { access_token } = result.data;
+          originalConfig.headers["Authorization"] = `Bearer ${access_token}`;
+
+          return instance(originalConfig);
+        } catch (error) {
+          return Promise.reject(error);
+        }
+      }
       return Promise.reject(error);
     },
   );
 
   return instance.request({
-    method: method,
-    url: `${import.meta.env.VITE_API_URL}/${endpoint}`,
+    method,
+    url: endpoint,
     data: body,
-    responseType: responseType,
+    responseType,
   });
 }
 

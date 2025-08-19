@@ -46,6 +46,7 @@ function User() {
   useEffect(() => {
     preventScroll(isOpenProfileManage);
   }, [isOpenProfileManage]);
+
   const userMenu =
     user?.role === "candidate"
       ? [

@@ -1,20 +1,28 @@
-const admin = require("../config/firebaseAdmin");
+const jwt = require("jsonwebtoken");
 
 const authMiddleware = async (req, res, next) => {
-  const authHeader = req.headers.authorization;
+  const token = req.cookies?.access_token;
 
-  if (!authHeader) {
-    res.status(401).json({ message: "Authorization header missing" });
+  if (!token) {
+    return res.status(401).json({ message: "Unauthorized" });
   }
 
-  const token = authHeader.split(" ")[1];
-
   try {
-    const decodedToken = await admin.auth().verifyIdToken(token);
-    req.user = decodedToken;
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+    req.user = decoded;
     next();
   } catch (error) {
-    res.status(403).json({ message: "Authorized", error });
+    console.log("Auth middleware error: ", error);
+
+    if (error.name === "TokenExpiredError") {
+      return res.status(419).json({ message: "Access token expired" });
+    }
+
+    if (error.name === "JsonWebTokenError") {
+      return res.status(401).json({ message: "Invalid access token" });
+    }
+
+    return res.status(401).json({ message: "Authentication error" });
   }
 };
 

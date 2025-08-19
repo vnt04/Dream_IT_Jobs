@@ -21,7 +21,7 @@ const generateToken = async (payload) => {
       throw new Error("SECRET_KEY is not found in .env");
     }
     const access_token = jwt.sign(payload, secretKey, {
-      expiresIn: process.env.ACCESS_TOKEN_LIVE || "60",
+      expiresIn: process.env.ACCESS_TOKEN_LIVE || "1m",
     });
 
     const refresh_token = jwt.sign(payload, secretKey, {
@@ -32,8 +32,36 @@ const generateToken = async (payload) => {
 
     return { access_token, refresh_token };
   } catch (error) {
-    next(error);
+    console.log(error);
   }
 };
 
-module.exports = { hashPassword, comparePassword, generateToken };
+const setCookies = (res, accessToken, refreshToken) => {
+  // set tokens to http-only cookies
+  res.cookie("access_token", accessToken, {
+    httpOnly: true,
+    secure: false,
+    sameSite: "strict",
+    maxAge: 900000, // 15p
+  });
+  res.cookie("refresh_token", refreshToken, {
+    httpOnly: true,
+    secure: false,
+    sameSite: "strict",
+    maxAge: 604800000, // 7d
+  });
+};
+
+const getTokenAndRefreshToken = async (user) => {
+  const payload = { sub: user.id, role: user.role };
+  const data = await generateToken(payload);
+  return data;
+};
+
+module.exports = {
+  hashPassword,
+  comparePassword,
+  generateToken,
+  getTokenAndRefreshToken,
+  setCookies,
+};

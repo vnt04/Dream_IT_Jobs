@@ -6,9 +6,11 @@ class CompanyController {
       .then((company) => res.status(200).json(company))
       .catch((error) => next(error));
   }
+
   addCompany(req, res, next) {
     res.send("add Company");
   }
+
   detail(req, res, next) {
     const companyID = req.params.companyID;
     Company.findById(companyID)
@@ -19,6 +21,7 @@ class CompanyController {
       })
       .catch((error) => next(error));
   }
+
   search(req, res, next) {
     const { name, city } = req.query;
     let query = {};
@@ -28,6 +31,7 @@ class CompanyController {
     if (city !== "null") {
       query.location = new RegExp(city, "i");
     }
+    
     Company.find(query)
       .then((company) => res.status(200).json(company))
       .catch((error) =>

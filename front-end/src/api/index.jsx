@@ -9,6 +9,7 @@ const apiEndpoint = {
 
   //auth
   sign_up: `${base_url}/user/sign-up`,
+  google_login: `${base_url}/user/google-login`,
 
   //user
   all_user: `${base_url}/user`,

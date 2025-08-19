@@ -1,11 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
   loginRequest,
   loginWithGithub,
-  loginWithGoogle,
   resetState,
 } from "../../redux/actions/authActions";
 import useNotification from "../../hooks/useNotification";
@@ -14,6 +13,7 @@ import { FaGithub, FaGoogle } from "react-icons/fa6";
 import { ClipLoader } from "react-spinners";
 import EnterEmail from "../../components/EnterEmail";
 import EnterPassword from "../../components/EnterPassword";
+import apiEndpoint from "../../api";
 
 function Login() {
   const [formState, setFormState] = useState({
@@ -132,7 +132,7 @@ function Login() {
           <div className="mx-auto flex w-full items-center justify-center gap-4">
             <button
               className="focus:shadow-outline flex items-center gap-2 rounded bg-red-500 px-6 py-2 font-bold text-white hover:bg-red-600 focus:outline-none"
-              onClick={() => dispatch(loginWithGoogle())}
+              onClick={() => (window.location.href = apiEndpoint.google_login)}
               type="button"
             >
               <FaGoogle /> Google

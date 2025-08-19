@@ -12,9 +12,7 @@ import {
 } from "../actions/authActions";
 
 const initialState = {
-  user: localStorage.getItem("current-user")
-    ? JSON.parse(localStorage.getItem("current-user"))
-    : null,
+  user: null,
   loading: false,
   error: null,
   signUpSuccess: false,

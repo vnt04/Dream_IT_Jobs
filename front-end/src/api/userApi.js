@@ -22,10 +22,20 @@ const userApi = {
 
     return response.data.data;
   },
+  loginWithGoogle: async () => {
+    const response = await axios.get(`${preUrl}/google-login`);
+    console.log(response);
+    return response;
+  },
 
   getUserById: async (id) => {
     const response = await requestApi(`user?id=${id}`, "GET");
     return response.data;
+  },
+
+  getMe: async () => {
+    const response = await requestApi("user/me", "GET");
+    return response;
   },
 
   getUserByEmail: async (email) => {
@@ -46,9 +56,11 @@ const userApi = {
     return response.data;
   },
 
-  signOut: () => {
-    localStorage.removeItem("current-user");
-    localStorage.removeItem("access_token");
+  signOut: async () => {
+    // localStorage.removeItem("current-user");
+    // localStorage.removeItem("access_token");
+    const response = await requestApi("user/logout", "GET");
+    console.log(response);
   },
 };
 

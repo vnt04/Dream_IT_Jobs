@@ -77,6 +77,8 @@ function Navbar() {
         { path: "/login", title: t("login") },
       ];
 
+  console.log("user in Navbar", user);
+
   return (
     <header className="sticky top-0 z-[1000] bg-white shadow-2xl">
       <div className="mx-auto flex h-20 max-w-[1680px] items-center justify-between px-3 text-base md:px-6 lg:px-8 lg:font-semibold screen4K:max-w-[2048px]">
@@ -116,12 +118,7 @@ function Navbar() {
           {user ? (
             <div className="flex items-center gap-2">
               <FaBell />
-              <User
-              // displayName={user.displayName}
-              // url={user.avatar}
-              // role={user.role}
-              // uid={user.uid}
-              />
+              <User />
             </div>
           ) : (
             <div className="flex lg:gap-2">
