@@ -41,15 +41,16 @@ const setCookies = (res, accessToken, refreshToken) => {
   res.cookie("access_token", accessToken, {
     httpOnly: true,
     secure: false,
-    sameSite: "strict",
+    sameSite: "lax",
     maxAge: 900000, // 15p
   });
   res.cookie("refresh_token", refreshToken, {
     httpOnly: true,
     secure: false,
-    sameSite: "strict",
+    sameSite: "lax",
     maxAge: 604800000, // 7d
   });
+  console.log(">>> Cookies set successfully");
 };
 
 const getTokenAndRefreshToken = async (user) => {

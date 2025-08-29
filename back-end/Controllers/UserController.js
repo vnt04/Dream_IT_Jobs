@@ -86,10 +86,12 @@ class UserController {
         return res.status(401).json({ message: "Wrong Password." });
       }
 
-      const data = await getTokenAndRefreshToken(foundUser);
+      const tokens = await getTokenAndRefreshToken(foundUser);
+      setCookies(res, tokens.access_token, tokens.refresh_token);
 
-      return res.status(200).json({ message: "Login successfully.", data });
+      return res.status(200).json({ message: "Login successfully." });
     } catch (error) {
+      console.log(error);
       next(error);
     }
   }
@@ -229,7 +231,12 @@ class UserController {
     res.clearCookie("access_token", {
       httpOnly: true,
       secure: false,
-      sameSite: "strict",
+      sameSite: "lax",
+    });
+    res.clearCookie("refresh_token", {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
     });
     res.status(200).json({ message: "Logged out successfully" });
   }

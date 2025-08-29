@@ -57,8 +57,6 @@ const userApi = {
   },
 
   signOut: async () => {
-    // localStorage.removeItem("current-user");
-    // localStorage.removeItem("access_token");
     const response = await requestApi("user/logout", "GET");
     console.log(response);
   },

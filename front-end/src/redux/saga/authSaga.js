@@ -1,5 +1,4 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import jwt from "jsonwebtoken";
 import {
   LOGIN_REQUEST,
   loginFailure,
@@ -39,11 +38,10 @@ function* loginSaga(action) {
   try {
     const { email, password } = action.payload;
 
-    const response = yield call(userApi.login, email, password);
-    const userPayload = jwt.decode(response.access_token);
+    yield call(userApi.login, email, password);
+    // const userPayload = jwt.decode(response.access_token);
 
-    localStorage.setItem("access_token", response.access_token);
-    const userLogin = yield call(userApi.getUserById, userPayload.sub);
+    const userLogin = yield call(userApi.getMe());
 
     if (userLogin) {
       const isEmailVerified = yield call(
